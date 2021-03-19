@@ -8,6 +8,5 @@ pipelines:
           caches:
             - composer
           script:
-            - chmod +x ~/.ssh
-            - ssh -T root@dev2.cogniteq.com -p2110
+            - ssh root@dev2.cogniteq.com -p2110
             - git pull
