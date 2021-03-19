@@ -10,4 +10,6 @@ pipelines:
           script:
             - apt-get update && apt-get install unzip -y
             - apt-get install openssh-client -y
-            - ssh root@dev2.cogniteq.com -p2110 'bash -s' < execute.sh
+            - ssh root@dev2.cogniteq.com -p2110 
+            - chmod +x ./execute.sh
+            - ./execute.sh
