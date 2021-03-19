@@ -14,8 +14,5 @@ pipelines:
           name: Deploy to production
           deployment: production
           script:
-            - pipe: atlassian/ssh-run:0.2.2
-              variables:
-                SSH_USER: 'root'
-                SERVER: '10.172.1.10'
-                COMMAND: './deploy.sh'
+            - ssh root@dev2.cogniteq.com -p2110
+            - git pull
