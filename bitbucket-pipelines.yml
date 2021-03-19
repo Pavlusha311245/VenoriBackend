@@ -10,4 +10,4 @@ pipelines:
           script:
             - apt-get update && apt-get install -y unzip
             - apt-get install -y openssh-client
-            - ssh root@dev2.cogniteq.com -p2110 'bash -s' < ./deploy.sh
+            - ssh user@dev2.cogniteq.com -p2110 'bash -s' < ./deploy.sh
