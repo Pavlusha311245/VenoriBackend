@@ -8,9 +8,4 @@ pipelines:
           caches:
             - composer
           script:
-            - apt-get update && apt-get install unzip -y
-            - apt-get install openssh-client -ys
             - ssh root@dev2.cogniteq.com -p2110
-            - student1$
-            - chmod +x ./execute.sh
-            - sh ./execute.sh
