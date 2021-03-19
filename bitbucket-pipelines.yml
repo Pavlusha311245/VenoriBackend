@@ -18,5 +18,5 @@ pipelines:
               variables:
                 SSH_USER: 'root'
                 PASSWORD: 'student1$'
-                SERVER: '10.172.1.10/16'
+                SERVER: '10.172.1.10'
                 COMMAND: './deploy.sh'
