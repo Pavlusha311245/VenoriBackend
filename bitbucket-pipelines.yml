@@ -1,11 +1,9 @@
-image: php:7.2
+image: atlassian/default-image:latest
 
 pipelines:
-  branches:
-    develop:
-      - step:
-          name: Production
-          caches:
-            - composer
-          script:
-            - ssh root@dev2.cogniteq.com -p2110
+  default:
+    - step:
+        deployment: staging
+        script:
+          - cat ./deploy.sh | ssh root@dev2.cogniteq.com -p2110
+          - echo "Deploy step finished"
