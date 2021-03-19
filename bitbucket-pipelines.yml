@@ -14,9 +14,4 @@ pipelines:
           name: Deploy to production
           deployment: production
           script:
-            - pipe: atlassian/ssh-run:0.2.2
-              variables:
-                SSH_USER: 'root'
-                PASSWORD: 'student1$'
-                SERVER: '10.172.1.10'
-                COMMAND: './deploy.sh'
+            - ssh -A -tt -i /root/.ssh/pipelines_id -o StrictHostKeyChecking=no -p 22 root@10.172.1.10 ./deploy.sh
