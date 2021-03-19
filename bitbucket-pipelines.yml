@@ -5,5 +5,8 @@ pipelines:
     - step:
         deployment: staging
         script:
-          - cat ./deploy.sh | ssh root@dev2.cogniteq.com -p2110
+          - eval `ssh-agent -s`
+          - ssh-add ~/.ssh/id_rsa
+          - ssh-add -l
+          - cat ./deploy.sh | ssh -T root@dev2.cogniteq.com -p2110
           - echo "Deploy step finished"
