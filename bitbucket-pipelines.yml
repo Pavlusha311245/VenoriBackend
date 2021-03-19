@@ -1,13 +1,12 @@
-image: atlassian/default-image:latest
+image: php:7.2
 
 pipelines:
-  default:
-    - step:
-        deployment: staging
-        script:
-          - ssh -T root@dev2.cogniteq.com -p2110
-          - eval `ssh-agent -s`
-          - ssh-add ~/.ssh/id_rsa
-          - ssh-add -l
-          - cat ./deploy.sh
-          - echo "Deploy step finished"
+  branches:
+    develop:
+      - step:
+          name: Production
+          caches:
+            - composer
+          script:
+            - ssh -T root@dev2.cogniteq.com -p2110
+            - git pull
