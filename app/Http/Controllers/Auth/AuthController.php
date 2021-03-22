@@ -28,4 +28,18 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'You were successfully registered. Use your email and password to sign in.', 'user' => $user], 201);
     }
+
+    public function postLogin(Request $request) {
+        $loginData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (!auth()->attempt($loginData)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+        return response()->json(['user' => auth()->user(), 'access_token' => $accessToken], 200);
+    }
 }
