@@ -25,8 +25,7 @@ class AuthController extends Controller
         $validData['password'] = bcrypt($validData['password']);
 
         $user = User::create($validData);
-        $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response()->json(['message' => 'You were successfully registered. Use your email and password to sign in.', 'user' => $user, 'access_token' => $accessToken], 201);
+        return response()->json(['message' => 'You were successfully registered. Use your email and password to sign in.', 'user' => $user], 201);
     }
 }
