@@ -10,7 +10,7 @@ class SimpleFormatter
     {
         foreach ($logger->getHandlers() as $handler) {
             $handler->setFormatter(
-                new LineFormatter('[%datetime%]: %message% %context%')
+                new LineFormatter('[%datetime%] %channel%.%level_name%: %message% %context% %extra%')
             );
         }
     }
