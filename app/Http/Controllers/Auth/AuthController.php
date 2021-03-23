@@ -19,8 +19,8 @@ class AuthController extends Controller
         $validData = $request->validate([
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8'
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|min:8|confirmed'
         ]);
         $validData['password'] = bcrypt($validData['password']);
 
@@ -29,10 +29,15 @@ class AuthController extends Controller
         return response()->json(['message' => 'You were successfully registered. Use your email and password to sign in.', 'user' => $user], 201);
     }
 
-    public function postLogin(Request $request) {
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function postLogin(Request $request): JsonResponse
+    {
         $loginData = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:8'
         ]);
 
         if (!auth()->attempt($loginData)) {
