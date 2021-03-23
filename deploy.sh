@@ -11,7 +11,7 @@ echo "=====INSTALLED====="
 
 echo "=====MIGRATING====="
 php artisan down
-php artisan migrate
+php artisan migrate --force
 php artisan up
 echo "=====MIGRATED====="
 
