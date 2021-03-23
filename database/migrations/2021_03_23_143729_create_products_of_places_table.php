@@ -15,6 +15,10 @@ class CreateProductsOfPlacesTable extends Migration
     {
         Schema::create('products_of_places', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('place_id');
+            $table->foreign('place_id')->references('id')->on('places');
             $table->timestamps();
         });
     }
