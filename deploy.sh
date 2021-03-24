@@ -10,7 +10,9 @@ composer install --no-scripts
 echo "=====INSTALLED====="
 
 echo "=====MIGRATING====="
-php artisan migrate
+php artisan down
+php artisan migrate --force
+php artisan up
 echo "=====MIGRATED====="
 
 echo "Deploy script finished execution"
