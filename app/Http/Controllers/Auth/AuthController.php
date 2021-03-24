@@ -20,7 +20,7 @@ class AuthController extends Controller
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8'
         ]);
         $validData['password'] = bcrypt($validData['password']);
 
