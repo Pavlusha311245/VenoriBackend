@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fullplate.iml" filepath="$PROJECT_DIR$/.idea/fullplate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/_fullplate.iml" filepath="$PROJECT_DIR$/.idea/_fullplate.iml" />
     </modules>
   </component>
 </project>
