@@ -1,5 +1,5 @@
 echo "Deploy script started"
-cd /var/www/html
+cd /var/www/fullplate
 
 echo "=====PULLING====="
 git fetch --all
