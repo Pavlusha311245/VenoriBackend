@@ -13,9 +13,9 @@ class ApiRequestLogging
 {
     /** @var Monolog\Logger **/
     private $logger;
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->logger = $this->getLogger($request);
+        $this->logger = $this->getLogger();
     }
     /**
      * Handle an incoming request.
@@ -31,11 +31,10 @@ class ApiRequestLogging
         $request->hooksLogger = $this->logger;
         return $next($request);
     }
-    private function getLogger(Request $request): Logger
+    private function getLogger()
     {
         $dateString = now()->format('m_d_Y');
-        $requestName = str_replace("/","_",$request->path());
-        $filePath = $requestName . '_logging_' . $dateString . '.log';
+        $filePath = 'web_hooks_' . $dateString . '.log';
         $dateFormat = "m/d/Y H:i:s";
         $output = "[%datetime%] %channel%.%level_name%: %message%\n";
         $formatter = new LineFormatter($output, $dateFormat);
