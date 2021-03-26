@@ -11,11 +11,10 @@ use Illuminate\Support\Str;
 
 class ApiRequestLogging
 {
-    /** @var Monolog\Logger **/
     private $logger;
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->logger = $this->getLogger();
+        $this->logger = $this->getLogger($request);
     }
     /**
      * Handle an incoming request.
@@ -31,10 +30,10 @@ class ApiRequestLogging
         $request->hooksLogger = $this->logger;
         return $next($request);
     }
-    private function getLogger()
+    private function getLogger(Request $request): Logger
     {
-        $dateString = now()->format('m_d_Y');
-        $filePath = 'web_hooks_' . $dateString . '.log';
+        $requestName = str_replace("/","_",$request->path());
+        $filePath = $requestName . '_logging.log';
         $dateFormat = "m/d/Y H:i:s";
         $output = "[%datetime%] %channel%.%level_name%: %message%\n";
         $formatter = new LineFormatter($output, $dateFormat);
