@@ -24,8 +24,3 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('request.logging');
 Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegistration')->middleware('request.logging');
-
-/*
-Route::group(['middleware' => ['auth:api']], function () {
-});
-*/
