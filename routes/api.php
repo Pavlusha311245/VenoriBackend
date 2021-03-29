@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('categories', 'App\Http\Controllers\CategoryController');
+Route::group(['middleware' => ['auth:api']], function() {
+//    Route::resource('roles', RoleController::class);
+////   Route::resource('users', UserController::class);
+    Route::resource('categories', CategoryController::class);
+});
+
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('request.logging');
 Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegistration')->middleware('request.logging');
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
