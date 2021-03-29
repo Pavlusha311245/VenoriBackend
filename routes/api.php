@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin');
 Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegistration');
+Route::post('/forgot','App\Http\Controllers\Auth\AuthController@postForgotPassword');
+Route::post('/reset','App\Http\Controllers\Auth\AuthController@postResetPassword');
 
 Route::group(['middleware' => ['auth:api']], function () {
 
