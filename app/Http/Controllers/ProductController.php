@@ -49,16 +49,28 @@ class ProductController extends Controller
             if ($validator->fails()){
                 return response(['error' => $validator->errors(), 'Validation Error']);
             }
+        }
 
+        $this->create($rows);
+    }
+
+    /**
+     * Creates a resource in the storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create($rows){
+        foreach ($rows as $row) {
             $product = Product::create([
                 'name' => $row[0],
                 'weight' => $row[1],
                 'price' => $row[2],
                 'category_id' => $row[3],
             ]);
-
-            return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
         }
+
+        return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
     }
 
     /**
