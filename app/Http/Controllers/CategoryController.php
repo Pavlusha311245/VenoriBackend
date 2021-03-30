@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CategoryNotFoundException;
-use App\Http\Services\CategoryService;
 use App\Models\Category;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
 
 /**
  * Class CategoryController
@@ -27,14 +23,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|\Illuminate\Contracts\View\View|JsonResponse
+     * @return Application|Factory|View|JsonResponse
      */
     public function index()
     {
         $categories = Category::paginate(5);
 
-        return view('categories.show', ['categories' => $categories]);
-        //return response()->json($categories, 200);
+        //return view('categories.show', ['categories' => $categories]);
+        return response()->json($categories, 200);
     }
 
     /**
@@ -67,12 +63,10 @@ class CategoryController extends Controller
     public function show($id)
     {
         try {
-            $category = (new CategoryService())->findById($id);
-            $category->load(['products']);
-        } catch (CategoryNotFoundException $exception) {
-            return view('categories.notfound', ['error' => $exception->getMessage()]);
+            return Category::findOrFail($id);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['message' => 'Category is not found'], 201);
         }
-        return Category::all();
     }
 
     /**
@@ -113,10 +107,12 @@ class CategoryController extends Controller
         }
         else
         {
-            Category::findOrFail($id)->delete();
+            try {
+                Category::findOrFail($id)->delete();
+            } catch (ModelNotFoundException $exception) {
+                return response()->json(['message' => 'Category is not found'], 201);
+            }
         }
-
-        return redirect()->route('categories.index')
-            ->with('success','Category deleted successfully');
+        return response()->json(['message' => 'Category is deleted successfully'], 200);
     }
 }
