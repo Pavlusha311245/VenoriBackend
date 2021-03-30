@@ -7,6 +7,7 @@ use App\Mail\ForgotPassword;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -16,11 +17,6 @@ use Illuminate\Testing\Fluent\Concerns\Has;
 
 class AuthController extends Controller
 {
-    public function sendEmail()
-    {
-
-    }
-
     /**
      * @param Request $request
      * @return JsonResponse
@@ -31,8 +27,7 @@ class AuthController extends Controller
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:8',
-
+            'password' => 'required|min:8'
         ]);
 
         $validData['password'] = bcrypt($validData['password']);
@@ -63,20 +58,16 @@ class AuthController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Response
      */
     public function postForgotPassword(Request $request)
     {
         $request->validate([
             'email' => 'required|email|exists:users',
         ]);
-
         $email = $request->input('email');
-
         $user = User::whereEmail($email)->first();
-
         $token = Hash::make($user->email . now());
-
         $userToken = DB::table('password_resets')->where('email', $email)->first();
 
         if ($userToken == null)
@@ -84,16 +75,18 @@ class AuthController extends Controller
         else
             DB::table('password_resets')->update(['token' => $token]);
 
-//        $this->sendEmail();
-
         Mail::send('password.forgot', ['token' => $token],
             function (Message $message) use ($email) {
-            $message->to($email)->subject('Reset your password');
-        });
+                $message->to($email)->subject('Reset your password');
+            });
 
         return response(['message' => 'Check your email'], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
+     */
     public function postResetPassword(Request $request)
     {
         $request->validate([
