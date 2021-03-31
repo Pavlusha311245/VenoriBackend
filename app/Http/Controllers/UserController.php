@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * @param $id
      * @return JsonResponse
      */
     public function showProfile()
