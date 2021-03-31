@@ -20,7 +20,7 @@ Route::group(['middleware' => ['auth:api']], function() {
 //    Route::resource('roles', RoleController::class);
 ////   Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
-    Route::get('/user/{id}', 'App\Http\Controllers\UserController@showProfile');
+    Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
 });
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('request.logging');
