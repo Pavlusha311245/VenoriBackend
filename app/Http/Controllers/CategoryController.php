@@ -65,7 +65,7 @@ class CategoryController extends Controller
         try {
             return Category::findOrFail($id);
         } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'Category is not found'], 201);
+            return response()->json(['message' => 'Category Is Not Found'], 201);
         }
     }
 
@@ -74,18 +74,17 @@ class CategoryController extends Controller
      *
      * @param Request $request
      * @param Category $category
-     * @return Application|ResponseFactory|RedirectResponse|Response
+     * @return Application|ResponseFactory|JsonResponse|RedirectResponse|Response
      */
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:categories',
         ]);
 
         $category->update($request->all());
 
-        return redirect()->route('categories.index')
-            ->with('success','Category updated successfully');
+        return response()->json(['message' => 'Category Is Updated Successfully'], 200);
     }
 
     /**
@@ -96,23 +95,13 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        /*
-        $category = Category::find($id);
-        $category->products()->detach([$id]);
-        $category->delete();
-        */
-        if (is_array($id))
-        {
-            Category::destroy($id);
+        try {
+            $category = Category::findOrFail($id);
+            $category->products()->delete();
+            $category->delete();
+            return response()->json(['message' => 'Category is deleted successfully'], 200);
+        } catch (ModelNotFoundException $exception) {
+            return response()->json(['message' => 'Category Is Not Found'], 201);
         }
-        else
-        {
-            try {
-                Category::findOrFail($id)->delete();
-            } catch (ModelNotFoundException $exception) {
-                return response()->json(['message' => 'Category is not found'], 201);
-            }
-        }
-        return response()->json(['message' => 'Category is deleted successfully'], 200);
     }
 }
