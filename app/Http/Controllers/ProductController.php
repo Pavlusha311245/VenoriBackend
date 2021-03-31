@@ -51,7 +51,7 @@ class ProductController extends Controller
             }
         }
 
-        $this->create($rows);
+        $this->store($rows);
     }
 
     /**
