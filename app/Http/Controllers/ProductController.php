@@ -60,7 +60,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create($rows){
+    public function store($rows){
         foreach ($rows as $row) {
             $product = Product::create([
                 'name' => $row[0],
@@ -71,6 +71,17 @@ class ProductController extends Controller
         }
 
         return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        return response(['product' => new ProductResource($product), 'message' => 'Retrieved successfully'], 200);
     }
 
     /**
