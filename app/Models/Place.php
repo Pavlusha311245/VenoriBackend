@@ -26,6 +26,7 @@ class Place extends Model
         'work_end',
         'review_id',
         'capacity',
+        'description'
     ];
 
     public function orders(){

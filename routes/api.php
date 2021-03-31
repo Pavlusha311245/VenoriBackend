@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PlaceController as PlaceControllerAlias;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,7 @@ Route::group(['middleware' => ['auth:api']], function() {
 //   Route::resource('roles', RoleController::class);
 //   Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
+    Route::resource('places', PlaceControllerAlias::class);
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
 });
 
