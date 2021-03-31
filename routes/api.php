@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,13 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware' => ['auth:api']], function() {
+//   Route::resource('roles', RoleController::class);
+//   Route::resource('users', UserController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
+});
+
+Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('request.logging');
+Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegistration')->middleware('request.logging');
 Route::resource('categories', 'App\Http\Controllers\CategoryController');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin');
-Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegistration');
 Route::post('/forgot','App\Http\Controllers\Auth\AuthController@postForgotPassword');
 Route::post('/reset','App\Http\Controllers\Auth\AuthController@postResetPassword');
+

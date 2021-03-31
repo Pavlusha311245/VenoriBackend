@@ -19,7 +19,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function postRegistration(Request $request): JsonResponse
+    public function postRegistration(Request $request)
     {
         $validData = $request->validate([
             'first_name' => 'required|min:2',
@@ -39,7 +39,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function postLogin(Request $request): JsonResponse
+    public function postLogin(Request $request)
     {
         $loginData = $request->validate([
             'email' => 'required|email|max:255',
