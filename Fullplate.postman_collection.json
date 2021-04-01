@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "82a46853-0f08-4e2e-9195-7b364f96a90d",
+		"name": "MainApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Paul",
+									"type": "text"
+								},
+								{
+									"key": "second_name",
+									"value": "Zavadski",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "1234567890",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/registration",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/login",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/forgot",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"forgot"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@outlook.com",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "$2y$10$VqHQTTjkwGmeb1zsbfYhZ.HqXk0nq0UrSXJvn18EYSyf/b1Gs1aAa",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/reset",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzEzMTk2MC1jYjUyLTRlNDEtYjExYi03NjVkM2VmZmVmODAiLCJqdGkiOiJhMTZjYzJiNDNlMDA2Y2IwNjRkZGU3NzA1ZDQxYTBkYWU4MTJhMmU5OGRmN2JlNWQ5MDE3ZDg4ZWZiOTNkNGFjYzM1OTJiYzUxYmQyMmI2ZCIsImlhdCI6MTYxNzEwNDA1NS42OTcyOTQsIm5iZiI6MTYxNzEwNDA1NS42OTcyOTgsImV4cCI6MTY0ODY0MDA1NS42NTkzMDgsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.OTBBymJOUjmgwWwJFb4fake50WObb52tP2jXyLb8W07iO3cbRWf2qO6x4eFfNNOdH7eReoTTBrhbeIGLxWwWux0LEUe26ygISXfM26R5XKcHmODJckByr9wtyema_kp8wu95tmmgrqF632O6fE5Bip8DrGEztVN4zCzGy6UoTd_Z1__aiKe8vkJKm3LyqDMI_BpVqEQGYoyOyne_g1DRF17v6TKZlosW92sh8OvgxEQhcKNq3eA9Ze9Tk9lKo6cGDYKyzWlcrTuRngk3yY9v_nAw8U6lmfPkV0yk61XKOY5iWuY6kiQYJ0KOfcYvh-gwf9kiqLvFlfMTDqmYIsNKQxf273Ga3sC3TSzq2fc_Khf1nGlh7WyG4ImVglfo1izEaqh7A3VabkzRUhlOZ-UCM5snW7KHlWnaezW8lYW6CwBY94cgI70RfPkSWqhmnrio_Frd4pZJ-1ldkmz1FZm9LKRSrkAlI2PlioorcVp0bDa_7S1xLdfaQO3_ynObICo-c3KogiYwQo4k_zbOg8W6G94Aow4OezImzsiTlM1ymd4FZfm99RI0SGNCUMZQrFd0TS2YzZAClo_eyS0ecZwKV-em1oDaf_lMlz2QUQVXsHz7yqa9sU0VtAboePJ3ATd38igSkaHhVGzCOvjBob_0qOf8OIYHrqTclxx5GhOIKdY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/logout",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Places",
+			"item": [
+				{
+					"name": "All places",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/places",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{api}}/places/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create place",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Бургер кинг",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "фаст фуд",
+									"type": "text"
+								},
+								{
+									"key": "work_start",
+									"value": "8:00",
+									"type": "text"
+								},
+								{
+									"key": "work_end",
+									"value": "18:00",
+									"type": "text"
+								},
+								{
+									"key": "capacity",
+									"value": "500",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "+375296851452",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Very good fast food",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/places",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete place",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/places/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update place",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\" : \"+375297854697\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/places/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Searching places",
+			"item": [
+				{
+					"name": "Search by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get Booking History",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "http://localhost:8000/api"
+		}
+	]
+}

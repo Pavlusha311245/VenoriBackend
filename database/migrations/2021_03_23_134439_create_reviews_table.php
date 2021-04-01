@@ -18,7 +18,9 @@ class CreateReviewsTable extends Migration
             $table->string('title');
             $table->float('rating');
             $table->string('description');
-            $table->integer('like');
+            $table->integer('like')->default(0);
+            $table->unsignedBigInteger('place_id');
+            $table->foreign('place_id')->references('id')->on('places');
             $table->timestamps();
         });
     }
