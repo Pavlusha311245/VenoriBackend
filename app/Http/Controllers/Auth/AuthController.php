@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 
 class AuthController extends Controller
@@ -83,7 +87,7 @@ class AuthController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response
+     * @return Application|ResponseFactory|Response
      */
     public function postResetPassword(Request $request)
     {
@@ -103,5 +107,15 @@ class AuthController extends Controller
         return response([
             'message' => 'Success change password'
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function postLogout(Request $request)
+    {
+        $request->user()->token()->revoke();
+        return \response(['message' => 'Logout successful']);
     }
 }
