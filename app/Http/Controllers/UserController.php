@@ -40,5 +40,8 @@ class UserController extends Controller
             $user->save();
             return response($geoInfoJSON, 200);
         }
+        else {
+            return  response(['error' => 'Invalid request']);
+        }
     }
 }
