@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -20,11 +21,12 @@ Route::group(['middleware' => ['auth:api']], function() {
 //   Route::resource('roles', RoleController::class);
 //   Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
-
-
+    Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@postLogout');
+    Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
+    Route::resource('places', PlaceControllerAlias::class);
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
 //    Route::get('/users/{id}/booking_history', 'App\Http\Controllers\Auth\AuthController@getBookingHistoryById');
-    Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
+    Route::resource('places', PlaceControllerAlias::class);
 });
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('request.logging');
