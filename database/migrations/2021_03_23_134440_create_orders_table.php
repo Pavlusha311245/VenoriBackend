@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('status');
+            $table->enum('status', ['In progress', 'Rejected', 'Confirmed']);
             $table->decimal('price');
             $table->dateTime('datetime');
             $table->string('people');
