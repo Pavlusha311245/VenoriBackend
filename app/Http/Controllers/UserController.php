@@ -51,7 +51,7 @@ class UserController extends Controller
         try {
             return User::findOrFail(Auth::id());
         } catch (ModelNotFoundException $exception) {
-            return response(['message' => 'User Is Not Found'], 201);
+            return response()->json(['message' => 'User Is Not Found'], 201);
         }
     }
 
