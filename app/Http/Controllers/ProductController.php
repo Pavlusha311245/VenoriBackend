@@ -73,7 +73,8 @@ class ProductController extends Controller
                 [
                     'name' => $products['name'],
                     'weight' => $products['weight'],
-                    'price' => $products['price']
+                    'price' => $products['price'],
+                    'category_id' => $products['category_id']
                 ],
             );
         }
