@@ -4,15 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Request;
-=======
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
->>>>>>> 4b888b0443c86156c79f3b494144c34f7c824b44
 
 class UserController extends Controller
 {
@@ -24,11 +18,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::paginate(5);
-<<<<<<< HEAD
         return response()->json($users,200);
-=======
-        return response($users,200);
->>>>>>> 4b888b0443c86156c79f3b494144c34f7c824b44
     }
 
     /**
@@ -43,15 +33,11 @@ class UserController extends Controller
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
-<<<<<<< HEAD
             'address_address' => 'string',
             'address_latitude' => 'double',
             'address_longitude' => 'double',
             'avatar' => 'string',
             'password' => 'required|min:8',
-=======
-            'password' => 'required|min:8'
->>>>>>> 4b888b0443c86156c79f3b494144c34f7c824b44
         ]);
 
         $user = User::create($request->all());
@@ -83,7 +69,6 @@ class UserController extends Controller
             'first_name' => 'min:2',
             'second_name' => 'min:2',
             'email' => 'max:255|unique:users',
-<<<<<<< HEAD
             'address_address' => 'string',
             'address_latitude' => 'double',
             'address_longitude' => 'double',
@@ -93,13 +78,6 @@ class UserController extends Controller
 
         $user->update($request->all());
         return response()->json(['message' => 'User is updated successfully'], 201);
-=======
-            'password' => 'min:8'
-        ]);
-
-        $user->update($request->all());
-        return response(['message' => 'User is updated successfully'], 201);
->>>>>>> 4b888b0443c86156c79f3b494144c34f7c824b44
     }
 
     /**
@@ -113,7 +91,6 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
-<<<<<<< HEAD
             return response()->json(['message' => 'User is deleted successfully'], 200);
         } catch (ModelNotFoundException $ex) {
             return response()->json(['error' => 'User Is Not Found'], 404);
@@ -140,11 +117,6 @@ class UserController extends Controller
         }
         else {
             return  response(['error' => 'Invalid request']);
-=======
-            return response(['message' => 'User is deleted successfully'], 200);
-        } catch (ModelNotFoundException $ex) {
-            return response(['error' => 'User not found'], 404);
->>>>>>> 4b888b0443c86156c79f3b494144c34f7c824b44
         }
     }
 }
