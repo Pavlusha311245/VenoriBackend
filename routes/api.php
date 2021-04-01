@@ -27,6 +27,7 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
 //    Route::get('/users/{id}/booking_history', 'App\Http\Controllers\Auth\AuthController@getBookingHistoryById');
     Route::resource('places', PlaceController::class);
+    Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
 });
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('logging.request');
