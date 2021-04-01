@@ -22,7 +22,6 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::resource('categories', CategoryController::class);
 
 
-
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
 //    Route::get('/users/{id}/booking_history', 'App\Http\Controllers\Auth\AuthController@getBookingHistoryById');
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
