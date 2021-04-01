@@ -35,3 +35,4 @@ Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegist
 Route::post('/forgot','App\Http\Controllers\Auth\AuthController@postForgotPassword')->middleware('logging.request');
 Route::post('/reset','App\Http\Controllers\Auth\AuthController@postResetPassword')->middleware('logging.request');
 
+Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@AvailableTime');
