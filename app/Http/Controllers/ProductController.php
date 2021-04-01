@@ -42,13 +42,12 @@ class ProductController extends Controller
 
         $rows = array_map('str_getcsv', file($data));
         $header = array_shift($rows);
-        $csv = [];
 
         foreach ($rows as $row){
             $csv[] = array_combine($header, $row);
         }
 
-        foreach ($rows as $row) {
+        /*foreach ($rows as $row) {
             $validator = Validator::make($row[],[
                 'name' => 'required',
                 'weight' => 'required',
@@ -59,22 +58,24 @@ class ProductController extends Controller
             if ($validator->fails()){
                 return response(['error' => $validator->errors(), 'Validation Error']);
             }
-        }
+        }*/
 
         foreach ($rows as $row){
-            $products = Product::create([
+            $products = [
                 'name' => $row[0],
                 'weight' => $row[1],
                 'price' => $row[2],
                 'category_id' => $row[3]
-            ]);
+            ];
 
-            $checkProduct = Product::where("name", $products['name'])->first();
-
-            if ($checkProduct)
-                return response($products, 200);
-            else
-                $products->save();
+            $checkProduct = Product::updateOrCreate(
+                ['name' => $products['name']],
+                [
+                    'name' => $products['name'],
+                    'weight' => $products['weight'],
+                    'price' => $products['price']
+                ],
+            );
         }
     }
 
@@ -93,7 +94,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($request->all());
-        return response(['product' => new $product, 'message' => 'Created successfully'], 201);
+        return response(['message' => 'Created successfully'], 201);
     }
 
     /**
