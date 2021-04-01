@@ -61,8 +61,6 @@ class ProductController extends Controller
                 return response(['error' => $validator->errors(), 'Validation Error']);
             }
         }
-
-        $this->store($rows);
     }
 
     /**
@@ -71,16 +69,15 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($rows){
-        foreach ($rows as $row) {
-            $product = Product::create([
-                'name' => $row[0],
-                'weight' => $row[1],
-                'price' => $row[2],
-                'category_id' => $row[3],
-            ]);
-        }
+    public function store(Request $request){
+        $request->validate([
+                'name' => 'required',
+                'weight' => 'required',
+                'price' => 'required',
+                'category_id' => 'required'
+        ]);
 
+        $product = Product::create($request->all());
         return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
     }
 
@@ -130,7 +127,6 @@ class ProductController extends Controller
     {
         try {
             $product = Product::findOrFail($id);
-            $product->products()->delete();
             $product->delete();
             return response()->json(['message' => 'Product is deleted successfully'], 200);
         } catch (ModelNotFoundException $exception) {
