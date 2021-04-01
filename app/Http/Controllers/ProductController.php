@@ -60,6 +60,22 @@ class ProductController extends Controller
                 return response(['error' => $validator->errors(), 'Validation Error']);
             }
         }
+
+        foreach ($rows as $row){
+            $products = Product::create([
+                'name' => $row[0],
+                'weight' => $row[1],
+                'price' => $row[2],
+                'category_id' => $row[3]
+            ]);
+
+            $checkProduct = Product::where("name", $products['name'])->first();
+
+            if ($checkProduct)
+                return response($products, 200);
+            else
+                $products->save();
+        }
     }
 
     /**
