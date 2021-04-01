@@ -83,9 +83,7 @@ class PlaceController extends Controller
             'capacity' => 'string',
             'description' => 'string'
         ]);
-
         $place->update($request->all());
-
         return response(['message' => 'Place is updated successfully'], 201);
     }
 
