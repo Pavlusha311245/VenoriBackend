@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -78,7 +77,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($request->all());
-        return response(['product' => new ProductResource($product), 'message' => 'Created successfully'], 201);
+        return response(['product' => new $product, 'message' => 'Created successfully'], 201);
     }
 
     /**
