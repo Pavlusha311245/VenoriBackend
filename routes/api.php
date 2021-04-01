@@ -18,11 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:api']], function() {
 //   Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
 });
-
-Route::resource('users', UserController::class);
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('request.logging');
 Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegistration')->middleware('request.logging');
