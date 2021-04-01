@@ -25,7 +25,6 @@ class UserController extends Controller
     public function getUserLocation(Request $request, $id)
     {
         $userIp = \request()->ip();
-        $userIp = '82.209.210.134';
         $geoInfoJSON = json_decode(file_get_contents("http://ip-api.com/json/$userIp?lang=http://ip-api.com/json/$userIp?fields=countryCode"), true);
         if ($geoInfoJSON['status'] != 'fail') {
             try {
