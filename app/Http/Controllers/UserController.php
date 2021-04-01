@@ -43,10 +43,9 @@ class UserController extends Controller
     }
 
     /**
-     * @param int $id
-     * @return Application|ResponseFactory|Response
+     * @return JsonResponse
      */
-    public function show(int $id)
+    public function showProfile()
     {
         try {
             return User::findOrFail(Auth::id());
