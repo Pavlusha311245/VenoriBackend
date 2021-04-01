@@ -17,7 +17,7 @@ class CreatePlacesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('type');
-            $table->float('rating');
+            $table->float('rating')->default(0);
             //location
             $table->string('address_address')->nullable();
             $table->double('address_latitude')->nullable();
@@ -27,8 +27,6 @@ class CreatePlacesTable extends Migration
             $table->string('work_start');
             $table->string('work_end');
             $table->string('description');
-            $table->unsignedBigInteger('review_id');
-            $table->foreign('review_id')->references('id')->on('reviews');
             $table->string('capacity');
             $table->timestamps();
         });
