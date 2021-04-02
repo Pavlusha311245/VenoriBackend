@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Place;
-use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -20,11 +19,12 @@ class ReservationController extends Controller
      * @param $place_id
      * @return array
      */
-    public function GetTimes($place_id)
+    public function getTimes($place_id)
     {
         $place = Place::findOrFail($place_id); //PLACE 2
         $work_start = $place->work_start; //17:30
         $work_end = $place->work_end; //19:00
+
         $startTime = strtotime($work_start);
         $endTime = strtotime($work_end);
         $returnTimeFormat = ('12') ? 'g:i A' : 'G:i';
@@ -33,12 +33,13 @@ class ReservationController extends Controller
         $addTime = strtotime('+' . '30 mins', $current);
         $diff = $addTime - $current;
 
-        $times = array();
+        $times = [];
         while ($startTime < $endTime) {
             $times[] = date($returnTimeFormat, $startTime);
             $startTime += $diff;
         }
         $times[] = date($returnTimeFormat, $startTime);
+
         return $times;
     }
 
@@ -57,7 +58,8 @@ class ReservationController extends Controller
         ]);
 
         $times = $this->GetTimes($place_id); //18:00 - 21:00 / 30min
-        $result_times = $bad_times = array();
+        $result_times = [];
+        $bad_times = [];
 
         $datetime = $request->datetime;
 
@@ -69,20 +71,16 @@ class ReservationController extends Controller
         }
 
         $people = $request->people;
-
         if ($people == 0) {
             return response()->json(['message' => 'Incorrect people']);
-        }
-        else {
+        } else {
             $capacity_place = Place::findOrFail($place_id)->capacity;
             $special = $request->special;
 
             if ($special == 0) {
-
                 $staying = $request->staying;
 
-                if ($date = Order::where('place_id', $place_id)->where("datetime", "LIKE", "%" . $date . "%")) {
-
+                if ($date = Order::where('place_id', $place_id)->where("datetime", "LIKE", "%" . $date . "%")->get()) {
                     $k = $staying + 0.5;
                     $i = 0;
 
