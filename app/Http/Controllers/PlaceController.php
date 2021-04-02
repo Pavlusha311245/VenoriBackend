@@ -104,22 +104,22 @@ class PlaceController extends Controller
         }
     }
 
-    public function searchPlace(Request $request)
+    public function searchPlace(Request $request, Place $place)
     {
 
-        $places = Place::all();
+        $places = $place->all();
 
         if ($name = $request->get('name')) {
-            dd($places = $places->where('name', 'like', "$name"));
+            $places = Place::where('name', 'LIKE', "%" . $name . "%")->get();
         }
         if ($type = $request->get('type')) {
-            $places = $places->where('type', 'like', "$type");
+            $places = Place::where('type', 'LIKE', "%" . $type . "%")->get();
         }
         if ($capacity = $request->get('capacity')) {
-            $places = $places->where('capacity', '=>', $capacity);
+            $places = Place::where('capacity', 'LIKE', "%" . $capacity . "%")->get();
         }
         if ($rating = $request->get('rating')) {
-            $places = $places->where('rating', '>=', $rating)->where('rating', '<', $rating + 1);
+            $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
         }
 
         return \response($places, 200);
