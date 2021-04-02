@@ -21,13 +21,13 @@ Route::group(['middleware' => ['auth:api']], function() {
 //   Route::resource('roles', RoleController::class);
 //   Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
-
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@postLogout');
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::resource('places', PlaceController::class);
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
 //    Route::get('/users/{id}/booking_history', 'App\Http\Controllers\Auth\AuthController@getBookingHistoryById');
     Route::resource('places', PlaceController::class);
+    Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
     Route::get('/places','App\Http\Controllers\PlaceController@searchPlace');
 });
 
