@@ -68,7 +68,7 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'min:2',
             'second_name' => 'min:2',
-            'email' => 'max:255|unique:users',
+            'email' => 'max:255|email|unique:users',
             'address_address' => 'string',
             'address_latitude' => 'double',
             'address_longitude' => 'double',
