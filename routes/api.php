@@ -28,6 +28,9 @@ Route::group(['middleware' => ['auth:api']], function() {
 //    Route::get('/users/{id}/booking_history', 'App\Http\Controllers\Auth\AuthController@getBookingHistoryById');
     Route::resource('places', PlaceController::class);
     Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
+
+    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@AvailableTime');
+    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@TableReserve');
 });
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('logging.request');
@@ -35,4 +38,4 @@ Route::post('/registration','App\Http\Controllers\Auth\AuthController@postRegist
 Route::post('/forgot','App\Http\Controllers\Auth\AuthController@postForgotPassword')->middleware('logging.request');
 Route::post('/reset','App\Http\Controllers\Auth\AuthController@postResetPassword')->middleware('logging.request');
 
-Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@AvailableTime');
+

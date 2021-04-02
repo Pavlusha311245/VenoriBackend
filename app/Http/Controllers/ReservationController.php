@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Place;
-use DateTime;
-use Exception;
 use http\Env\Response;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use function Illuminate\Events\queueable;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class ReservationController
@@ -44,71 +43,110 @@ class ReservationController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param $place_id
      * @return array|false|JsonResponse|string
      */
-    public function AvailableTime($place_id)
+    public function AvailableTime(Request $request, $place_id)
     {
-        $times = $this->GetTimes($place_id); //19:00 - 21:00 / 30min
-        $result_times = array();
-        $bad_times = array();
+        $request->validate([
+            'datetime' => 'required',
+            'people' => 'required',
+            'special' => 'required',
+            'staying' => 'required',
+        ]);
 
-        $datetime = '2021-04-01 19:00:00'; //INPUT DATETIME
+        $times = $this->GetTimes($place_id); //18:00 - 21:00 / 30min
+        $result_times = $bad_times = array();
 
-        //19:00 - 20:00 / 3 cheloveka / !SPECIAL / 2 chasa
+        $datetime = $request->datetime;
 
+        $date = date("d-m-Y", strtotime($datetime));
         $time = date("g:i A", strtotime($datetime));
 
         if (!in_array($time, $times)) {
-            return response()->json(['message' => 'Incorrect Datetime']);
+            return response()->json(['message' => 'Incorrect time']);
         }
 
-        $people = 13;   //INPUT NUMBER OF ADULTS
-        $capacity = Place::findOrFail($place_id)->capacity;
+        $people = $request->people;
 
-        $special = 0;
-
-        if ($special == 1) {
-            return response()->json(['message' => 'It it special event']);
+        if ($people == 0) {
+            return response()->json(['message' => 'Incorrect people']);
         }
+        else {
+            $capacity_place = Place::findOrFail($place_id)->capacity;
+            $special = $request->special;
 
-        $staying = 1;
+            if ($special == 0) {
 
-        $k = $staying + 0.5;
-        $i = 0;
+                $staying = $request->staying;
 
-//vmesto count vernut people i poschitat
+                if ($date = Order::where('place_id', $place_id)->where("datetime", "LIKE", "%" . $date . "%")) {
 
-        while ($k != 0) {
-            $time = date('G:i', strtotime($times[$i]));
-            $capacity_on_date = Order::where('place_id', $place_id)->where("datetime", "LIKE", "%" . $time . "%")->count();
+                    $k = $staying + 0.5;
+                    $i = 0;
 
-            if (($capacity_on_date + $people) > $capacity) {
-                $bad_times[] = $times[array_search($times[$i], $times)];
-            }
+                    while ($k != 0) {
+                        $time = date('G:i', strtotime($times[$i]));
+                        $capacity_time = Order::where('place_id', $place_id)->where("datetime", "LIKE", "%" . $time . "%")->get('people');
+                        $capacity = array_sum(array_column(json_decode($capacity_time), 'people'));
 
-            $k -= 0.5;
-            $i++;
-        }
-        // $indexes = /0/1/2
-        // $times = 19:00 19:30 20:00 20:30 21:00 21:30 22:00
-        if (!empty($bad_times)) {
-            foreach ($bad_times as $bad) {
-                foreach ($times as $key => $time) {
-                    if ($bad == $time) {
-                        unset($times[$key]);
-                        $times = array_values($times);
+                        if (($capacity + $people) > $capacity_place) {
+                            $bad_times[] = $times[array_search($times[$i], $times)];
+                        }
+
+                        $k -= 0.5;
+                        $i++;
                     }
                 }
+
+                if (!empty($bad_times)) {
+                    foreach ($bad_times as $bad) {
+                        foreach ($times as $key => $time) {
+                            if ($bad == $time) {
+                                unset($times[$key]);
+                                $times = array_values($times);
+                            }
+                        }
+                    }
+                }
+
+                $result_times[] = $times;
+                return $result_times;
+            }
+            else {
+                return response()->json(['message' => 'It is a Special Event. Please, call by phone: +123456789']);
             }
         }
-        $result_times[] = $times;
-        return $result_times;
-
     }
 
-    public function Reserve()
+    /**
+     * @param Request $request
+     * @param $place_id
+     * @return JsonResponse
+     */
+    public function TableReserve(Request $request, $place_id)
     {
-        //
+        $request->validate([
+            'datetime' => 'required',
+            'people' => 'required',
+            'special' => 'required',
+            'staying' => 'required',
+        ]);
+
+        $price = 40;
+
+        $order = Order::create([
+            'status' => 'Confirmed',
+            'price' => $price,
+            'datetime' => $request['datetime'],
+            'people' => $request['people'],
+            'special' => $request['special'],
+            'staying' => $request['staying'],
+            'user_id' => auth()->user()->id,
+            'place_id' => $place_id,
+        ]);
+
+        return response()->json($order, 200);
     }
 }
