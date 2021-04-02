@@ -18,6 +18,6 @@ class AppInfo extends Model
         'about',
         'contact',
         'terms',
-        'privacy_policy',
+        'privacy_policy'
     ];
 }
