@@ -29,7 +29,7 @@ class PlaceController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|max:255|unique:places',
@@ -53,7 +53,7 @@ class PlaceController extends Controller
      * @param int $id
      * @return Application|ResponseFactory|Response
      */
-    public function show(int $id)
+    public function show($id)
     {
         try {
             return Place::findOrFail($id);
@@ -69,7 +69,7 @@ class PlaceController extends Controller
      * @param Place $place
      * @return Response
      */
-    public function update(Request $request, Place $place): Response
+    public function update(Request $request, Place $place)
     {
         $request->validate([
             'name' => 'max:255|unique:places',
@@ -93,7 +93,7 @@ class PlaceController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(int $id): Response
+    public function destroy($id)
     {
         try {
             $place = Place::findOrFail($id);
@@ -104,6 +104,11 @@ class PlaceController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @param Place $place
+     * @return Application|ResponseFactory|Response
+     */
     public function searchPlace(Request $request, Place $place)
     {
 
