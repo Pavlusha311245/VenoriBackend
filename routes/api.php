@@ -34,8 +34,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 });
 
 Route::group(['middleware' => 'logging.request'], function () {
-    Route::post('/login', 'App\Http\Controllers\Auth\AuthController@postLogin')->middleware('logging.request');
-    Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@postRegistration')->middleware('logging.request');
-    Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@postForgotPassword')->middleware('logging.request');
-    Route::post('/reset', 'App\Http\Controllers\Auth\AuthController@postResetPassword')->middleware('logging.request');
+    Route::post('/login', 'App\Http\Controllers\Auth\AuthController@login')->middleware('logging.request');
+    Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@registration')->middleware('logging.request');
+    Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@forgotPassword')->middleware('logging.request');
+    Route::post('/reset', 'App\Http\Controllers\Auth\AuthController@resetPassword')->middleware('logging.request');
 });

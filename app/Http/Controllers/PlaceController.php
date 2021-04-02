@@ -9,6 +9,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * Class PlaceController
+ * @package App\Http\Controllers
+ */
 class PlaceController extends Controller
 {
     /**
@@ -18,9 +22,7 @@ class PlaceController extends Controller
      */
     public function index()
     {
-        $places = Place::paginate(5);
-
-        return \response($places, 200);
+        return Place::paginate(5);
     }
 
     /**
@@ -55,11 +57,7 @@ class PlaceController extends Controller
      */
     public function show($id)
     {
-        try {
-            return Place::findOrFail($id);
-        } catch (ModelNotFoundException $ex) {
-            return response(['message' => 'Place not found'], 404);
-        }
+        return Place::findOrFail($id);
     }
 
     /**
@@ -84,7 +82,8 @@ class PlaceController extends Controller
             'description' => 'string'
         ]);
         $place->update($request->all());
-        return response(['message' => 'Place is updated successfully'], 201);
+
+        return response()->json($place, 200);
     }
 
     /**
@@ -95,13 +94,10 @@ class PlaceController extends Controller
      */
     public function destroy($id)
     {
-        try {
-            $place = Place::findOrFail($id);
-            $place->delete();
-            return \response(['message' => 'Place is deleted successfully'], 200);
-        } catch (ModelNotFoundException $ex) {
-            return \response(['error' => 'Place not fount'], 404);
-        }
+        $place = Place::findOrFail($id);
+        $place->delete();
+
+        return response()->json(['message' => 'Place is deleted successfully'], 200);
     }
 
     /**
@@ -111,18 +107,20 @@ class PlaceController extends Controller
      */
     public function searchPlace(Request $request, Place $place)
     {
-
         $places = $place->all();
 
         if ($name = $request->get('name')) {
             $places = Place::where('name', 'LIKE', "%" . $name . "%")->get();
         }
+
         if ($type = $request->get('type')) {
             $places = Place::where('type', 'LIKE', "%" . $type . "%")->get();
         }
+
         if ($capacity = $request->get('capacity')) {
             $places = Place::where('capacity', 'LIKE', "%" . $capacity . "%")->get();
         }
+
         if ($rating = $request->get('rating')) {
             $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
         }

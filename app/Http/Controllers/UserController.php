@@ -8,6 +8,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
     /**
@@ -17,8 +21,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(5);
-        return response()->json($users,200);
+        return User::paginate(5);
     }
 
     /**
@@ -27,7 +30,7 @@ class UserController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request)
     {
         $request->validate([
             'first_name' => 'required|min:2',
@@ -41,6 +44,7 @@ class UserController extends Controller
         ]);
 
         $user = User::create($request->all());
+
         return response($user, 201);
     }
 
@@ -49,11 +53,7 @@ class UserController extends Controller
      */
     public function showProfile()
     {
-        try {
-            return User::findOrFail(Auth::id());
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'User Is Not Found'], 201);
-        }
+        return User::findOrFail(auth()->user()->id);
     }
 
     /**
@@ -63,7 +63,7 @@ class UserController extends Controller
      * @param User $user
      * @return Response
      */
-    public function update(Request $request, User $user): Response
+    public function update(Request $request, User $user)
     {
         $request->validate([
             'first_name' => 'min:2',
@@ -77,7 +77,8 @@ class UserController extends Controller
         ]);
 
         $user->update($request->all());
-        return response()->json(['message' => 'User is updated successfully'], 201);
+
+        return response()->json($user, 200);
     }
 
     /**
@@ -86,20 +87,17 @@ class UserController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy(int $id): Response
+    public function destroy($id)
     {
-        try {
-            $user = User::findOrFail($id);
-            $user->delete();
-            return response()->json(['message' => 'User is deleted successfully'], 200);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(['error' => 'User Is Not Found'], 404);
-        }
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(['message' => 'User is deleted successfully'], 200);
     }
 
     public function getUserLocation(Request $request, $id)
     {
-        $userIp = \request()->ip();
+        $userIp = request()->ip();
         $geoInfoJSON = json_decode(file_get_contents("http://ip-api.com/json/$userIp?lang=http://ip-api.com/json/$userIp?fields=countryCode"), true);
         if ($geoInfoJSON['status'] != 'fail') {
             try {
@@ -114,9 +112,8 @@ class UserController extends Controller
             ]);
             $user->save();
             return response($geoInfoJSON, 200);
-        }
-        else {
-            return  response(['error' => 'Invalid request']);
+        } else {
+            return response(['error' => 'Invalid request']);
         }
     }
 }

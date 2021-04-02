@@ -58,6 +58,7 @@ class AuthController extends Controller
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
+
         return response()->json(['user' => auth()->user(), 'access_token' => $accessToken], 200);
     }
 
@@ -116,9 +117,9 @@ class AuthController extends Controller
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
-    public function Logout(Request $request)
+    public function logout(Request $request)
     {
         $request->user()->token()->revoke();
-        return \response(['message' => 'Logout successful']);
+        return response(['message' => 'Logout successful']);
     }
 }
