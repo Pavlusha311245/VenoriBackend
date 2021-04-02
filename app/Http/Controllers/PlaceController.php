@@ -20,7 +20,7 @@ class PlaceController extends Controller
     {
         $places = Place::paginate(5);
 
-        return \response($places,200);
+        return \response($places, 200);
     }
 
     /**
@@ -102,5 +102,26 @@ class PlaceController extends Controller
         } catch (ModelNotFoundException $ex) {
             return \response(['error' => 'Place not fount'], 404);
         }
+    }
+
+    public function searchPlace(Request $request, Place $place)
+    {
+
+        $places = $place->all();
+
+        if ($name = $request->get('name')) {
+            $places = Place::where('name', 'LIKE', "%" . $name . "%")->get();
+        }
+        if ($type = $request->get('type')) {
+            $places = Place::where('type', 'LIKE', "%" . $type . "%")->get();
+        }
+        if ($capacity = $request->get('capacity')) {
+            $places = Place::where('capacity', 'LIKE', "%" . $capacity . "%")->get();
+        }
+        if ($rating = $request->get('rating')) {
+            $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
+        }
+
+        return \response($places, 200);
     }
 }
