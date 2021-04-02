@@ -343,6 +343,17 @@
 					"response": []
 				},
 				{
+					"name": "Search by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Update place",
 					"request": {
 						"method": "PUT",
@@ -378,22 +389,6 @@
 			]
 		},
 		{
-			"name": "Searching places",
-			"item": [
-				{
-					"name": "Search by name",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Orders",
 			"item": [
 				{
@@ -408,6 +403,17 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "UserLocation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
