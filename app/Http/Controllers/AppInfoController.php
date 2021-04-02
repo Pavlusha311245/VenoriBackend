@@ -11,7 +11,7 @@ class AppInfoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getInfo(){;
+    public function getInfo(){
         $appInfo = AppInfo::all();
         return response()->json($appInfo);
     }
