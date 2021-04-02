@@ -13,6 +13,6 @@ class AppInfoController extends Controller
      */
     public function getInfo(){
         $appInfo = AppInfo::all();
-        return response()->json($appInfo);
+        return response()->json($appInfo,200);
     }
 }
