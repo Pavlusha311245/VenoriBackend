@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => ['auth:api']], function() {
 //   Route::resource('roles', RoleController::class);
-//   Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products',ProductController::class);
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@postLogout');
@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
     Route::resource('places', PlaceController::class);
     Route::get('/places','App\Http\Controllers\PlaceController@searchPlace');
+    Route::get('/get_info','App\Http\Controllers\AppInfoController@getInfo');
+
 });
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('logging.request');
