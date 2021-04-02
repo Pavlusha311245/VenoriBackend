@@ -16,14 +16,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
-
+/**
+ * Class AuthController
+ * @package App\Http\Controllers\Auth
+ */
 class AuthController extends Controller
 {
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function postRegistration(Request $request)
+    public function registration(Request $request)
     {
         $validData = $request->validate([
             'first_name' => 'required|min:2',
@@ -36,14 +39,14 @@ class AuthController extends Controller
 
         $user = User::create($validData);
 
-        return response()->json(['message' => 'You were successfully registered. Use your email and password to sign in.', 'user' => $user], 201);
+        return response()->json($user, 201);
     }
 
     /**
      * @param Request $request
      * @return JsonResponse
      */
-    public function postLogin(Request $request)
+    public function login(Request $request)
     {
         $loginData = $request->validate([
             'email' => 'required|email|max:255',
@@ -62,7 +65,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function postForgotPassword(Request $request)
+    public function forgotPassword(Request $request)
     {
         $request->validate([
             'email' => 'required|email|exists:users',
@@ -89,7 +92,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
-    public function postResetPassword(Request $request)
+    public function resetPassword(Request $request)
     {
         $request->validate([
             'token' => 'required'
@@ -113,7 +116,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
-    public function postLogout(Request $request)
+    public function Logout(Request $request)
     {
         $request->user()->token()->revoke();
         return \response(['message' => 'Logout successful']);
