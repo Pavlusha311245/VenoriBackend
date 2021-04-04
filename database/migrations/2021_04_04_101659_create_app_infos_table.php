@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAppInfoTable extends Migration
+class CreateAppInfosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -30,6 +30,6 @@ class CreateAppInfoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_info');
+        Schema::dropIfExists('app_infos');
     }
 }
