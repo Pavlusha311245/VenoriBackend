@@ -18,9 +18,9 @@ class CreateOrdersTable extends Migration
             $table->enum('status', ['In progress', 'Rejected', 'Confirmed']);
             $table->decimal('price');
             $table->dateTime('datetime');
-            $table->string('people');
+            $table->float('people');
             $table->string('special', 1);
-            $table->string('staying');
+            $table->float('staying');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('place_id');
             $table->foreign('place_id')->references('id')->on('places');
