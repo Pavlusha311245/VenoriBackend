@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
 class OrderController extends Controller
 {
     /**
+     * Get booking history of Orders
      * @return mixed
      */
     public function getBookingHistory()
@@ -22,6 +23,7 @@ class OrderController extends Controller
     }
 
     /**
+     * Get active orders
      * @return JsonResponse
      */
     public function getActiveOrders()
@@ -31,6 +33,7 @@ class OrderController extends Controller
     }
 
     /**
+     * Store of Orders
      * @param Request $request
      * @return Application|ResponseFactory|Response
      */
@@ -50,6 +53,7 @@ class OrderController extends Controller
     }
 
     /**
+     * Show of Orders
      * @param $id
      * @return JsonResponse
      */
@@ -63,6 +67,7 @@ class OrderController extends Controller
     }
 
     /**
+     * Update Orders
      * @param Request $request
      * @param Order $order
      * @return JsonResponse
@@ -79,6 +84,7 @@ class OrderController extends Controller
     }
 
     /**
+     * Destroy Orders
      * @param $id
      * @return JsonResponse
      */
