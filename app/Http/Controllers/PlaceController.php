@@ -10,14 +10,13 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * Class PlaceController
+ * Controller for adding, deleting, updating and viewing catering establishments
  * @package App\Http\Controllers
  */
 class PlaceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * The method returns a list of all establishments
      * @return Response
      */
     public function index()
@@ -26,8 +25,7 @@ class PlaceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * The method adds a new establishment
      * @param Request $request
      * @return Response
      */
@@ -52,6 +50,7 @@ class PlaceController extends Controller
     }
 
     /**
+     * The method returns information about 1 institution
      * @param int $id
      * @return Application|ResponseFactory|Response
      */
@@ -61,8 +60,7 @@ class PlaceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * The method updates the data of the establishment
      * @param Request $request
      * @param Place $place
      * @return Response
@@ -87,8 +85,7 @@ class PlaceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * The method removes establishments by id
      * @param int $id
      * @return Response
      */
@@ -101,6 +98,7 @@ class PlaceController extends Controller
     }
 
     /**
+     * The method finds establishments by the specified parameters
      * @param Request $request
      * @param Place $place
      * @return Application|ResponseFactory|Response
@@ -125,6 +123,6 @@ class PlaceController extends Controller
             $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
         }
 
-        return \response($places, 200);
+        return response($places, 200);
     }
 }
