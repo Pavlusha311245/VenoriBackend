@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@TableReserve');
     Route::resource('places', PlaceController::class);
     Route::get('/places','App\Http\Controllers\PlaceController@searchPlace');
+    Route::get('/get_info','App\Http\Controllers\AppInfoController@getInfo');
+
 });
 
 Route::post('/login','App\Http\Controllers\Auth\AuthController@postLogin')->middleware('logging.request');
