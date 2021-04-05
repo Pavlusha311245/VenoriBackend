@@ -26,7 +26,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
-    Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
+    Route::get('/user/location', 'App\Http\Controllers\UserController@location');
     Route::get('/places', 'App\Http\Controllers\PlaceController@searchPlace');
 
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
