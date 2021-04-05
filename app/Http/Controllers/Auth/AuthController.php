@@ -81,7 +81,7 @@ class AuthController extends Controller
                 $message->to($email)->subject('Reset your password');
             });
 
-        return response()->json(['message' => 'Check your email']);
+        return response()->json($email, 200);
     }
 
     /**

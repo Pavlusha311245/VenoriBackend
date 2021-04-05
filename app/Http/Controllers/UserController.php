@@ -104,10 +104,9 @@ class UserController extends Controller
     public function location(Request $request)
     {
         $userLocation = $request->validate([
-            'address_address' => 'required|string',
-            'address_latitude' => 'required|numeric',
-            'address_longitude' => 'required|numeric'
+            'location' => 'required|string',
         ]);
+
         $user = User::findOrFail(auth()->id());
         $user->update($userLocation);
         $user->save();
