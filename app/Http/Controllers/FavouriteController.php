@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favourite;
-use App\Models\Place;
-use App\Models\User;
 use http\Env\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * Controller used for add, delete, and show favorite places
