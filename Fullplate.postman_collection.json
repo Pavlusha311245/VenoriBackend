@@ -509,7 +509,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"123\"\n}",
+							"raw": "{\n    \"rating\": \"2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
