@@ -30,7 +30,7 @@ class Review extends Model
      * @return HasMany
      */
     public function places(){
-        return $this->hasMany(Pace::class);
+        return $this->hasMany(Place::class);
     }
 
     /**

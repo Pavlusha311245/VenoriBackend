@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoriesRequest;
 use App\Models\Order;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class OrderController for CRUD Orders

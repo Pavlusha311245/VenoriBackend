@@ -54,7 +54,7 @@ class ReservationController extends Controller
         Place::findOrFail($place_id);
 
         $order = Order::create([
-            'status' => 'Confirmed',
+            'status' => 'In Progress',
             'price' => $this->price,
             'datetime' => $request['datetime'],
             'people' => $request['people'],
