@@ -20,8 +20,8 @@ class Order extends Model
         'price',
         'datetime',
         'people',
-        'special',
         'staying',
+        'staying_end',
         'user_id',
         'place_id',
     ];

@@ -30,12 +30,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
-    Route::get('/orders', 'App\Http\Controllers\OrderController@getBookingHistory');
+    Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
     Route::get('/user/location', 'App\Http\Controllers\UserController@location');
     Route::get('/places', 'App\Http\Controllers\PlaceController@searchPlace');
 
     Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
     Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
 
 });
