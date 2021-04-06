@@ -6,6 +6,7 @@ use App\Http\Requests\ReservationTimeRequest;
 use App\Models\Order;
 use App\Models\Place;
 use App\Services\ReservationService;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -53,12 +54,15 @@ class ReservationController extends Controller
     {
         Place::findOrFail($place_id);
 
+        $staying_end = date('Y-m-d H:i:s', strtotime($request->datetime) + ($request->staying * 60));
+
         $order = Order::create([
             'status' => 'In Progress',
             'price' => $this->price,
             'datetime' => $request['datetime'],
             'people' => $request['people'],
             'staying' => $request['staying'],
+            'staying_end' => $staying_end,
             'user_id' => auth()->user()->id,
             'place_id' => $place_id,
         ]);
