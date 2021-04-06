@@ -4,50 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 
 /**
- * Class CategoryController
+ * Class CategoryController for CRUD Categories
  * @package App\Http\Controllers
  */
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a category
      *
      * @return Application|Factory|View|JsonResponse
      */
     public function index()
     {
-        $categories = Category::paginate(5);
-
-        //return view('categories.show', ['categories' => $categories]);
-        return response()->json($categories, 200);
+        return Category::paginate(5);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created category
      *
      * @param Request $request
      * @return Response
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:categories',
+        $request->validate([
+            'name' => 'string',
+            'image_url' => 'string'
         ]);
-
-        if ($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
-        }
 
         $category = Category::create($request->all());
 
@@ -55,53 +45,46 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a category by ID
      *
      * @param $id
      * @return Response|string
      */
     public function show($id)
     {
-        try {
-            return Category::findOrFail($id);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'Category Is Not Found'], 201);
-        }
+        return Category::findOrFail($id);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * Update category
      * @param Request $request
      * @param Category $category
-     * @return Application|ResponseFactory|JsonResponse|RedirectResponse|Response
+     * @return JsonResponse
      */
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'name' => 'required|unique:categories',
+            'name' => 'string',
+            'image_url' => 'string'
         ]);
 
         $category->update($request->all());
 
-        return response()->json(['message' => 'Category Is Updated Successfully'], 200);
+        return response()->json($category, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove category
      *
      * @param $id
      * @return string
      */
     public function destroy($id)
     {
-        try {
-            $category = Category::findOrFail($id);
-            $category->products()->delete();
-            $category->delete();
-            return response()->json(['message' => 'Category is deleted successfully'], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'Category Is Not Found'], 201);
-        }
+        $category = Category::findOrFail($id);
+        $category->products()->delete();
+        $category->delete();
+
+        return response()->json(['message' => 'Category is deleted successfully'], 200);
     }
 }

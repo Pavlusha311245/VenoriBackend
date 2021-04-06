@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Comment extends Model
 {
@@ -20,6 +21,11 @@ class Comment extends Model
         'review_id',
     ];
 
+    /**
+     * Relationship with Review
+     *
+     * @return HasOne
+     */
     public function review(){
         return $this->hasOne(Review::class);
     }

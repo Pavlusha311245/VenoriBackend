@@ -3,31 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
+/**
+ * Controller for adding, deleting, updating and showing users
+ *
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * The method returns a list of all users
      *
      * @return Response
      */
     public function index()
     {
-        $users = User::paginate(5);
-        return response()->json($users,200);
+        return User::paginate(5);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * The method adds a new user
      *
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request)
     {
         $request->validate([
             'first_name' => 'required|min:2',
@@ -41,29 +46,27 @@ class UserController extends Controller
         ]);
 
         $user = User::create($request->all());
+
         return response($user, 201);
     }
 
     /**
+     * The method returns information about user
      * @return JsonResponse
      */
     public function showProfile()
     {
-        try {
-            return User::findOrFail(Auth::id());
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'User Is Not Found'], 201);
-        }
+        return User::findOrFail(auth()->user()->id);
     }
 
     /**
-     * Update the specified resource in storage.
+     * The method updates the data of the user
      *
      * @param Request $request
      * @param User $user
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, User $user): Response
+    public function update(Request $request, User $user)
     {
         $request->validate([
             'first_name' => 'min:2',
@@ -77,46 +80,39 @@ class UserController extends Controller
         ]);
 
         $user->update($request->all());
-        return response()->json(['message' => 'User is updated successfully'], 201);
+
+        return response()->json($user, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * The method removes user
      *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(int $id): Response
+    public function destroy($id)
     {
-        try {
-            $user = User::findOrFail($id);
-            $user->delete();
-            return response()->json(['message' => 'User is deleted successfully'], 200);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json(['error' => 'User Is Not Found'], 404);
-        }
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return response()->json(['message' => 'User is deleted successfully'], 200);
     }
 
-    public function getUserLocation(Request $request, $id)
+    /**
+     * The method uses the search service to enter the user's location into the database
+     * @param Request $request
+     * @return Application|ResponseFactory|Response
+     */
+    public function location(Request $request)
     {
-        $userIp = \request()->ip();
-        $geoInfoJSON = json_decode(file_get_contents("http://ip-api.com/json/$userIp?lang=http://ip-api.com/json/$userIp?fields=countryCode"), true);
-        if ($geoInfoJSON['status'] != 'fail') {
-            try {
-                $user = User::findOrFail($id)->first();
-            } catch (ModelNotFoundException $ex) {
-                return response(['error' => 'User not found'], 404);
-            }
-            $user->update([
-                'address_latitude' => $geoInfoJSON['lat'],
-                'address_longitude' => $geoInfoJSON['lon'],
-                'address_address' => $geoInfoJSON['country'] . '\\' . $geoInfoJSON['regionName'] . '\\' . $geoInfoJSON['city']
-            ]);
-            $user->save();
-            return response($geoInfoJSON, 200);
-        }
-        else {
-            return  response(['error' => 'Invalid request']);
-        }
+        $userLocation = $request->validate([
+            'location' => 'required|string',
+        ]);
+
+        $user = User::findOrFail(auth()->id());
+        $user->update($userLocation);
+        $user->save();
+
+        return response($userLocation, 200);
     }
 }
