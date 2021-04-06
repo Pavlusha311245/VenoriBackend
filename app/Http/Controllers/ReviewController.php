@@ -70,7 +70,7 @@ class ReviewController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.l
+     * Remove the specified resource from storage.
      * @param  int  $id
      * @return JsonResponse
      */
