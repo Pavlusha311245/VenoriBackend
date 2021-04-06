@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -23,6 +24,7 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::resource('products',ProductController::class);
+    Route::resource('favourites',FavouriteController::class);
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@postLogout');
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
