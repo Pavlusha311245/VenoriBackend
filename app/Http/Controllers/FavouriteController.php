@@ -18,12 +18,11 @@ class FavouriteController extends Controller
     /**
      * The method returns a list of all favorite places
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function index()
     {
-        $favourites = Favourite::paginate(5);
-        return response()->json($favourites,200);
+        return Favourite::paginate(5);
     }
 
     /**
@@ -47,15 +46,11 @@ class FavouriteController extends Controller
     /**
      * The method returns favourite places for current authorization user
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function show()
     {
-        try {
-            return Favourite::where('user_id', auth()->user()->id);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'Favourites Are Not Found'], 201);
-        }
+        return Favourite::where('user_id', auth()->user()->id);
     }
 
     /**
