@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('products', ProductController::class);
     Route::resource('places', PlaceController::class);
     Route::resource('reviews', ReviewController::class);
+    Route::resource('favourites', FavouriteController::class);
 
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
@@ -39,7 +41,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 });
 
-Route::group(['middleware' => 'logging.request'], function () {
+Route::group(['middleware' => 'logging'], function () {
     Route::post('/login', 'App\Http\Controllers\Auth\AuthController@login');
     Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@registration');
     Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@forgotPassword');

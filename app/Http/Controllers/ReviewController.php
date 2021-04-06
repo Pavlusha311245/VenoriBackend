@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use App\Models\Review;
+use App\Services\Rating\PlaceRatingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -25,24 +27,29 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
+     * @param PlaceRatingService $placeRatingService
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, PlaceRatingService $placeRatingService)
     {
         $request->validate([
-           'title' => 'required|string',
-           'rating' => 'required|numeric|min:1|max:5',
-           'description' => 'required|string'
+            'title' => 'required|string',
+            'rating' => 'required|numeric|min:1|max:5',
+            'description' => 'required|string',
+            'place_id' => 'required',
+            'user_id' => 'required|unique:reviews'
         ]);
 
         $review = Review::create($request->all());
 
-        return response()->json($review,201);
+        $placeRatingService->countPlaceRating($review);
+
+        return response()->json($review, 201);
     }
 
     /**
      * Display the specified resource.
-     * @param  int  $id
+     * @param int $id
      * @return Response
      */
     public function show($id)
@@ -54,31 +61,37 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      * @param Request $request
      * @param Review $review
+     * @param PlaceRatingService $placeRatingService
      * @return JsonResponse
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Review $review, PlaceRatingService $placeRatingService)
     {
         $request->validate([
             'title' => 'string',
             'rating' => 'numeric|min:1|max:5',
-            'description' => 'string'
+            'description' => 'string',
         ]);
 
         $review->update($request->all());
 
-        return response()->json($review,200);
+        $placeRatingService->countPlaceRating($review);
+
+        return response()->json($review, 200);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param  int  $id
+     * @param int $id
+     * @param PlaceRatingService $placeRatingService
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy($id, PlaceRatingService $placeRatingService)
     {
         $review = Review::findOrFail($id);
         $review->delete();
 
-        return response()->json(['message' => 'Review is successfully deleted'],200);
+        $placeRatingService->countPlaceRating($review);
+
+        return response()->json(['message' => 'Review is successfully deleted'], 200);
     }
 }
