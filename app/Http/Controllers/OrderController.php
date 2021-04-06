@@ -20,8 +20,7 @@ class OrderController extends Controller
     {
         return Order::where('user_id', auth()->user()->id)->where('status', 'Rejected')->orderBy('updated_at', 'desc')->paginate(5);
     }
-    //otmena broni
-    //perenos active -> v history
+
     /**
      * Get active Orders
      * @return JsonResponse
