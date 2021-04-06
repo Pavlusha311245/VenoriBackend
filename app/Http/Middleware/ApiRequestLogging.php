@@ -10,7 +10,7 @@ use Monolog\Logger;
 use Illuminate\Support\Str;
 
 /**
- *  ApiRequestLogging class for create log files.
+ *  ApiRequestLogging class for creating log files.
  *
  *  @package App\Http\Middleware
  */
