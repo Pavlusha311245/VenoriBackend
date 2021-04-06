@@ -6,7 +6,6 @@ use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,16 +28,21 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('favourites', FavouriteController::class);
 
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
-    Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
-    Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
-    Route::get('/places', 'App\Http\Controllers\PlaceController@searchPlace');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
+    Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
+    Route::get('/orders', 'App\Http\Controllers\OrderController@getBookingHistory');
+    Route::get('/user/location', 'App\Http\Controllers\UserController@location');
+    Route::get('/places', 'App\Http\Controllers\PlaceController@searchPlace');
 
-    Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@postLogout');
+    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
+    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
+
 });
 
-Route::post('/login', 'App\Http\Controllers\Auth\AuthController@postLogin')->middleware('logging.request');
-Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@postRegistration')->middleware('logging.request');
-Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@postForgotPassword')->middleware('logging.request');
-Route::post('/reset', 'App\Http\Controllers\Auth\AuthController@postResetPassword')->middleware('logging.request');
-
+Route::group(['middleware' => 'logging.request'], function () {
+    Route::post('/login', 'App\Http\Controllers\Auth\AuthController@login');
+    Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@registration');
+    Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@forgotPassword');
+    Route::post('/reset', 'App\Http\Controllers\Auth\AuthController@resetPassword');
+});

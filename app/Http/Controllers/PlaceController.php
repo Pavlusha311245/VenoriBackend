@@ -6,26 +6,27 @@ use App\Models\Place;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * Controller for adding, deleting, updating and viewing catering establishments
+ * @package App\Http\Controllers
+ */
 class PlaceController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * The method returns a list of all establishments
      * @return Response
      */
     public function index()
     {
-        $places = Place::paginate(5);
-
-        return \response($places, 200);
+        return Place::paginate(5);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
+     * The method adds a new establishment
      * @param Request $request
      * @return Response
      */
@@ -50,24 +51,20 @@ class PlaceController extends Controller
     }
 
     /**
+     * The method returns information about 1 institution
      * @param int $id
      * @return Application|ResponseFactory|Response
      */
     public function show($id)
     {
-        try {
-            return Place::findOrFail($id);
-        } catch (ModelNotFoundException $ex) {
-            return response(['message' => 'Place not found'], 404);
-        }
+        return Place::findOrFail($id);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * The method updates the data of the establishment
      * @param Request $request
      * @param Place $place
-     * @return Response
+     * @return JsonResponse
      */
     public function update(Request $request, Place $place)
     {
@@ -82,49 +79,49 @@ class PlaceController extends Controller
             'description' => 'string'
         ]);
         $place->update($request->all());
-        return response(['message' => 'Place is updated successfully'], 201);
+
+        return response()->json($place, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * The method removes establishments by id
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
-        try {
-            $place = Place::findOrFail($id);
-            $place->delete();
-            return \response(['message' => 'Place is deleted successfully'], 200);
-        } catch (ModelNotFoundException $ex) {
-            return \response(['error' => 'Place not fount'], 404);
-        }
+        $place = Place::findOrFail($id);
+        $place->delete();
+
+        return response()->json(['message' => 'Place is deleted successfully'], 200);
     }
 
     /**
+     * The method finds establishments by the specified parameters
      * @param Request $request
      * @param Place $place
      * @return Application|ResponseFactory|Response
      */
     public function searchPlace(Request $request, Place $place)
     {
-
         $places = $place->all();
 
         if ($name = $request->get('name')) {
             $places = Place::where('name', 'LIKE', "%" . $name . "%")->get();
         }
+
         if ($type = $request->get('type')) {
             $places = Place::where('type', 'LIKE', "%" . $type . "%")->get();
         }
+
         if ($capacity = $request->get('capacity')) {
             $places = Place::where('capacity', 'LIKE', "%" . $capacity . "%")->get();
         }
+
         if ($rating = $request->get('rating')) {
             $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
         }
 
-        return \response($places, 200);
+        return response($places, 200);
     }
 }

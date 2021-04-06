@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -24,7 +25,7 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -52,8 +53,8 @@ class ReviewController extends Controller
     /**
      * Update the specified resource in storage.
      * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @param Review $review
+     * @return JsonResponse
      */
     public function update(Request $request, Review $review)
     {
@@ -62,15 +63,16 @@ class ReviewController extends Controller
             'rating' => 'numeric|min:1|max:5',
             'description' => 'string'
         ]);
+
         $review->update($request->all());
 
         return response()->json($review,200);
     }
 
     /**
-     * Remove the specified resource from storage.l
+     * Remove the specified resource from storage.
      * @param  int  $id
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {

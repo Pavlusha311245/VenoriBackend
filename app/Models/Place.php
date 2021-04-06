@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Place extends Model
 {
@@ -18,9 +20,7 @@ class Place extends Model
         'name',
         'type',
         'rating',
-        'address_address',
-        'address_latitude',
-        'address_longitude',
+        'location',
         'phone',
         'work_start',
         'work_end',
@@ -29,18 +29,38 @@ class Place extends Model
         'description'
     ];
 
+    /**
+     * Relationship with Order
+     *
+     * @return HasMany
+     */
     public function orders(){
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * Relationship with Favourite
+     *
+     * @return HasMany
+     */
     public function favourites(){
         return $this->hasMany(Favourite::class);
     }
 
+    /**
+     * Relationship with productsOfPlace
+     *
+     * @return HasMany
+     */
     public function productsOfPlace(){
         return $this->hasMany(ProductsOfPlace::class);
     }
 
+    /**
+     * Relationship with Review
+     *
+     * @return HasOne
+     */
     public function review(){
         return $this->hasOne(Review::class);
     }
