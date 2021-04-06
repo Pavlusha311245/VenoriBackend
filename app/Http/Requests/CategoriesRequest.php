@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ReservationTimeRequest
+ * Class CategoriesRequest
  * @package App\Http\Requests
  */
-class ReservationTimeRequest extends FormRequest
+class CategoriesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,9 +28,7 @@ class ReservationTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'datetime' => 'required|date_format:Y-m-d G:i:s',
-            'people' => 'required|min:1',
-            'staying' => 'required|min:0.5',
+            'name' => 'required|unique:categories',
         ];
     }
 }

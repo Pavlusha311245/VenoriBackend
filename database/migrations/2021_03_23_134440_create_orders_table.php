@@ -15,11 +15,10 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['In progress', 'Rejected', 'Confirmed']);
+            $table->enum('status', ['In Progress', 'Rejected', 'Confirmed']);
             $table->decimal('price');
             $table->dateTime('datetime');
             $table->float('people');
-            $table->string('special', 1);
             $table->float('staying');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('place_id');

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
+| Here is where you can register API routes for your applic ation. These
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
@@ -25,10 +25,11 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@postLogout');
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
+    Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
     Route::get('/users/{id}/booking_history', 'App\Http\Controllers\Auth\AuthController@getBookingHistoryById');
     Route::get('/users/{id}/location', 'App\Http\Controllers\UserController@getUserLocation');
-    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@AvailableTime');
-    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@TableReserve');
+    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
+    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
     Route::resource('places', PlaceController::class);
     Route::get('/places','App\Http\Controllers\PlaceController@searchPlace');
     Route::get('/get_info','App\Http\Controllers\AppInfoController@getInfo');
