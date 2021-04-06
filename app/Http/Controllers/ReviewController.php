@@ -35,6 +35,7 @@ class ReviewController extends Controller
         ]);
 
         $review = Review::create($request->all());
+
         return response()->json($review,201);
     }
 
@@ -54,15 +55,15 @@ class ReviewController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Review $review)
     {
         $request->validate([
             'title' => 'string',
             'rating' => 'numeric|min:1|max:5',
             'description' => 'string'
         ]);
-        $review = Review::findOrFail($id);
         $review->update($request->all());
+
         return response()->json($review,200);
     }
 
@@ -75,6 +76,7 @@ class ReviewController extends Controller
     {
         $review = Review::findOrFail($id);
         $review->delete();
-        return response()->json(['message' => 'Succesfull deleted'],200);
+
+        return response()->json(['message' => 'Review is succesfully deleted'],200);
     }
 }
