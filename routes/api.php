@@ -38,7 +38,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 });
 
-Route::group(['middleware' => 'logging.request'], function () {
+Route::group(['middleware' => 'logging'], function () {
     Route::post('/login', 'App\Http\Controllers\Auth\AuthController@login');
     Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@registration');
     Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@forgotPassword');
