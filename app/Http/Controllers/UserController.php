@@ -10,13 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * Class UserController
+ * Controller for adding, deleting, updating and showing users
+ *
  * @package App\Http\Controllers
  */
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * The method returns a list of all users
      *
      * @return Response
      */
@@ -26,7 +27,7 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * The method adds a new user
      *
      * @param Request $request
      * @return Response
@@ -50,6 +51,8 @@ class UserController extends Controller
     }
 
     /**
+     * The method returns information about user
+     *
      * @return JsonResponse
      */
     public function showProfile()
@@ -58,7 +61,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * The method updates the data of the user
      *
      * @param Request $request
      * @param User $user
@@ -83,7 +86,7 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * The method removes user
      *
      * @param int $id
      * @return Response
