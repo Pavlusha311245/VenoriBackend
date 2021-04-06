@@ -21,6 +21,8 @@ class CreateReviewsTable extends Migration
             $table->integer('like')->default(0);
             $table->unsignedBigInteger('place_id');
             $table->foreign('place_id')->references('id')->on('places');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

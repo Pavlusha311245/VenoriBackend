@@ -74,9 +74,7 @@ class PlaceController extends Controller
         $request->validate([
             'name' => 'max:255|unique:places',
             'type' => 'max:255',
-            'address_address' => 'string',
-            'address_latitude' => 'float',
-            'address_longitude' => 'float',
+            'location' => 'string',
             'phone' => 'max:15',
             'work_start' => 'string',
             'work_end' => 'string',

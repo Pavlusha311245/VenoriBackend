@@ -19,7 +19,8 @@ class Review extends Model
         'rating',
         'description',
         'like',
-
+        'place_id',
+        'user_id'
     ];
 
     public function places(){
