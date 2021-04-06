@@ -77,6 +77,6 @@ class ReviewController extends Controller
         $review = Review::findOrFail($id);
         $review->delete();
 
-        return response()->json(['message' => 'Review is succesfully deleted'],200);
+        return response()->json(['message' => 'Review is successfully deleted'],200);
     }
 }
