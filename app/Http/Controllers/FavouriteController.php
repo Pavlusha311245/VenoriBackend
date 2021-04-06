@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Favourite;
 use http\Env\Response;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
