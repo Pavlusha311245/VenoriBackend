@@ -82,7 +82,7 @@
 								},
 								{
 									"key": "password",
-									"value": "12345678",
+									"value": "1234567890",
 									"type": "text"
 								}
 							]
@@ -146,6 +146,16 @@
 				{
 					"name": "Reset password",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiI0ZTRjODY5NTZlZDQwODZjNjI2NGE1MWEyNTYwMjk3ZDRhNGRmZDllNDIxZjQ5MDE3MDY1NDdhYTQwNzdhODk1ZjAyNjE1N2RmZGE2YWY0NCIsImlhdCI6MTYxNzYxODQyNi41MTQ3OTIsIm5iZiI6MTYxNzYxODQyNi41MTQ4MDQsImV4cCI6MTY0OTE1NDQyNi4yODQ0NTksInN1YiI6IjEiLCJzY29wZXMiOltdfQ.lYj4i-h_FRS2KYWCFg5BtQbuiX8CexoR55K0s5j5GeggSMLofmNhuT3A-X1p-juojmHTFsal7SQr3tmUP07WXOLV3zWwYZ1YZkhAnhtQ7EdF1_I8y-2WKYWasIiccViN6eX_kEzA25d62gZuOuyzbojnbWpqLQ-L59u3sZpEzSyGdUFXur57BCgC-vjC2If-2TRXz4D3zkh6rumyMuU0QWaLybbbbV-NwqGmz_Z9gkAydkK-0ru_SdJ-4Lc0fDhqGm_Z9ygkKqwzAWJW6A-Y-ssy7ls5cih71ApsINGWytSMCTTNiG6cBjbzha_AmRaty7zdqTYRSuGoADiStO1Iqrw1UYksGVyeKpnwojCK1PB5NZLu18zS2sSnQC7BprSipH6x9ouJ74_IF4ksjtmNYOvMlUi6fHEwFIGkxp0eUzhp_FBfRAROQlf--WiKAfCEFtGH8I_ASYJbySMDFFQd7W0yD6U4fN5rvjEPPdkyG_372Wi8nEJIsRCsgH4DMlQ1F4Q4CXJOo_wbTvMdQB5I-csu6-Eu9KxlJ7Spgy4oFUtys4sKI_8Ma_QxTZsshIvMdXRD238X00eVVdYfhlHUCMeFcwH9TTr3exWcl_t7_Tfg6DzVnhetCGOMlGAfAAeBBsX-PE_24ET5jiVixZCY2LFBNRi9cwFjH7eJVO2Gcy0",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -159,7 +169,7 @@
 							"formdata": [
 								{
 									"key": "token",
-									"value": "$2y$10$VqHQTTjkwGmeb1zsbfYhZ.HqXk0nq0UrSXJvn18EYSyf/b1Gs1aAa",
+									"value": "$2y$10$7yQ4ihTOXYprEutdqKGjP.vsu1OLtCHovO.qzaMU3kdbPhRcTXmY.",
 									"type": "text"
 								},
 								{
@@ -249,13 +259,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{api}}/places/1",
+							"raw": "{{api}}/places/2",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
 								"places",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -394,10 +404,145 @@
 				{
 					"name": "Get Booking History",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiIxNjJkMzVmNGE1NThlNjE3ODljNjY0Y2FkMGYyYWQxZjFjNTA4NDA5YzVkNTU2ZjFmZDE2MTNlYjE0NGUwMDllYjQ0ZDQ3YTQzNmRlZDBlZiIsImlhdCI6MTYxNzIwMjI3MC4xNDgwNTYsIm5iZiI6MTYxNzIwMjI3MC4xNDgwNTksImV4cCI6MTY0ODczODI3MC4xMDk3NjksInN1YiI6IjEiLCJzY29wZXMiOltdfQ.aoHFYm26A8mDHzWAEk7yqmdXC56PzPvVpKt801eIPaJeoVTqeyTbBMMnpyHiACYg_JVUHYBSW6gnHnT9IzBN-W5h5egqxCg9F8mYMKT41hs7ikXslFCBR-L3wtNKlzsVq7pzDJZHw31JM9iqt2EMJXI-Jot55LLVXkeeJdHsvS9Lrz27nY_LWKPJ6hXoV-nlor0eFPTeD5S8oQzaY9xbt21E-784CDtwUrv1qTDfg0aa6KQw2R0eyD0M6-_GlE_L8C-S6-exgOnEOqqZuYEX7XCjd35Q5K18CXd9LvYXo1i7LZsTzEfHL3DpCBPRg_SZkSSc4-Accl-5GreOhqdMw9SHRosTOI-gZF3spIHXM968H8r0Ru5MbS-72Q-2B561Ckl3EHUNWBkR5qEpiO0T5Byk90OgZk6ywyGxzJojbyswbwDQ8RnSsmTnkz_Hsq8CYQbv4-rx-P5NObqV9LC2ubd_RNKAqwYTL7ct-0bFMcc-dFIzCiPb59k7qaMQ-pHXjnicutmMRkoqlxVAfZUqo8coJ7Ilv4hAL9qL0sr6I_tQUVnT1lM0RXmIqYfsZw0f8uDE6ksML2JJIJRTIi79C8zzQyyNy2Iqbb57O7lAjjRfMTmjzoqTFrOXJJ-y1jbP7cMSywF4T2D6r_2MYHC8iZSKGn-ru12uOK88jIgD1Kw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/booking_history",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"booking_history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Show all",
+					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add review",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "gsfzg",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "frgxtcyj",
+									"type": "text"
+								},
+								{
+									"key": "place_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "user_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/reviews",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update review",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/reviews/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete review",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/reviews/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
 						}
 					},
 					"response": []
@@ -406,11 +551,40 @@
 		},
 		{
 			"name": "UserLocation",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiIwYWQ3MDdjNjg3OTg3MjhjMWQ0MWI0ZGY2MjFhZTMwZWUwMmI5ZDBiZmZlZDZlZjcxYmQwNWJiODRmOGNjNzNiYWFiMjA3NjczYTFjYjg5OSIsImlhdCI6MTYxNzYyMTgxOC4wMzE3NDYsIm5iZiI6MTYxNzYyMTgxOC4wMzE3NTIsImV4cCI6MTY0OTE1NzgxNy45NzU2OTQsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.mATJXEQ1k2z1XUx5enTj7kpEOAKiC3x5KEp_R97CouA_8PaJffnTS4cHK1pZFVPkaj1jztg45xAtiyVQr732lDHEs2QdFNwIImU5f9vmFlRnhPahKGB0mJKV6cwKjfLFzWRg4o3pFV-dinyQ6KGZUOj35dqFc1ip2TjdXAJwy41pjJB8UHHXZnwiUuUL5r_9rslvz0CYAQ8XcURxxS0Xg5k6RSX6r6v-snCI4fbWT_3aoCOTjqp-p6wD8fuMLghkNWmNybCPbvrq5yPDgefWA5rUwKliqrPe5MtM9fNpNYW3NBWEDaKpv3yWChRFfNFBFhx-7AFBQUksNh-NjR8_9TccUBUOsf5pL4PTfLwT0P4RuGJjUbg2W42eNKLXqrDnqwFOrlzmPFg-h0633rEN68V-aKpqwG5ZyuYZS923MhcrVhJgRwpVuUAnl__DxsFkobQ3hrkkM0XEmWfWcdTy0HTD9Qvq-cJwiXcduVKY9b79J9OctALKUQHds49K5gK4mLZDEM8xpF6djKnM2B1Xcd6AsN-Gy6RuVLQ06p6u36WMkcH7sIM7zA7wXowkJTcIylfTWNHIjoIKIOd_0PWkcygPlB0gOqc3XQES5PiAt-LkIG2dFKEuBGfVqQo2b6p1X3gvX8fFpJyYjh79T33YsADtx-AXYYZ7nzqGXy_JhQc",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"location\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": ""
+					"raw": "{{api}}/user/location",
+					"host": [
+						"{{api}}"
+					],
+					"path": [
+						"user",
+						"location"
+					]
 				}
 			},
 			"response": []
