@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class ReservationTimeRequest
+ *
  * @package App\Http\Requests
  */
 class ReservationTimeRequest extends FormRequest

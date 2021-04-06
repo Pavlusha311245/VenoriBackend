@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationTimeRequest;
 use App\Models\Order;
+use App\Models\Place;
 use App\Services\ReservationService;
 use Illuminate\Http\JsonResponse;
 
 /**
- * Class ReservationController
+ * Class ReservationController for Reservation logic
+ *
  * @package App\Http\Controllers
  */
 class ReservationController extends Controller
@@ -18,6 +20,7 @@ class ReservationController extends Controller
 
     /**
      * ReservationService constructor.
+     *
      * @param ReservationService $reservation_service
      */
     public function __construct(ReservationService $reservation_service)
@@ -27,6 +30,7 @@ class ReservationController extends Controller
 
     /**
      * Get array of Available Times
+     *
      * @param ReservationTimeRequest $request
      * @param $place_id
      * @return mixed
@@ -40,18 +44,20 @@ class ReservationController extends Controller
 
     /**
      * Reserve a Table
+     *
      * @param ReservationTimeRequest $request
      * @param $place_id
      * @return JsonResponse
      */
     public function tableReserve(ReservationTimeRequest $request, $place_id)
     {
+        Place::findOrFail($place_id);
+
         $order = Order::create([
             'status' => 'Confirmed',
             'price' => $this->price,
             'datetime' => $request['datetime'],
             'people' => $request['people'],
-            'special' => $request['special'],
             'staying' => $request['staying'],
             'user_id' => auth()->user()->id,
             'place_id' => $place_id,

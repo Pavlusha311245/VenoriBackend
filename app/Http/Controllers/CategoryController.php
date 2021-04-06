@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoriesRequest;
 use App\Models\Category;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * Class CategoryController
+ * Class CategoryController for CRUD Categories
  * @package App\Http\Controllers
  */
 class CategoryController extends Controller
@@ -30,11 +29,16 @@ class CategoryController extends Controller
     /**
      * Store a newly created category
      *
-     * @param CategoriesRequest $request
+     * @param Request $request
      * @return Response
      */
-    public function store(CategoriesRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'string',
+            'image_url' => 'string'
+        ]);
+
         $category = Category::create($request->all());
 
         return response($category, 201);
@@ -53,12 +57,17 @@ class CategoryController extends Controller
 
     /**
      * Update category
-     * @param CategoriesRequest $request
+     * @param Request $request
      * @param Category $category
      * @return JsonResponse
      */
-    public function update(CategoriesRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
+        $request->validate([
+            'name' => 'string',
+            'image_url' => 'string'
+        ]);
+
         $category->update($request->all());
 
         return response()->json($category, 200);
@@ -75,6 +84,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->products()->delete();
         $category->delete();
+
         return response()->json(['message' => 'Category is deleted successfully'], 200);
     }
 }

@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user/location', 'App\Http\Controllers\UserController@location');
     Route::get('/places', 'App\Http\Controllers\PlaceController@searchPlace');
 
+    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
+    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
 
 });

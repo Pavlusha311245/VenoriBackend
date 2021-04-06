@@ -6,13 +6,14 @@ use App\Models\Order;
 use App\Models\Place;
 
 /**
- * Class ReservationService
+ * Class ReservationService for Reservation logic
  * @package App\Http\Services
  */
 class ReservationService
 {
     /**
      * Get array of Times
+     *
      * @param $place_id
      * @return array
      */
@@ -42,6 +43,7 @@ class ReservationService
 
     /**
      * Get Bad Times
+     *
      * @param $staying
      * @param $place_id
      * @param $people
@@ -53,13 +55,17 @@ class ReservationService
         $half = 0.5;
         $capacity_place = Place::findOrFail($place_id)->capacity;
         $index = 0;
-        $qt_of_cycles = $staying;
+        $qt_of_cycles = $staying + $half;
         $bad_times = [];
 
         while ($qt_of_cycles != 0)
         {
-            $time = date('G:i', strtotime($times[$index]));
-            $capacity_time = Order::findOrFail($place_id)->where('datetime', 'LIKE', '%' . $time . '%')->get('people');
+            $time = date('G:i', strtotime($times[$index])); //0
+            $capacity_time =
+                Order::where('place_id', $place_id)
+                ->where('datetime', 'LIKE', '%' . $time . '%')
+                ->get('people');
+
             $capacity = array_sum(array_column(json_decode($capacity_time), 'people'));
 
             if (($capacity + $people) > $capacity_place) {
@@ -75,6 +81,7 @@ class ReservationService
 
     /**
      * Get Available Times
+     *
      * @param $bad_times
      * @param $times
      * @return mixed
