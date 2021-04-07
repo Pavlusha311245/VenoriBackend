@@ -12,6 +12,10 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
+/**
+ * Class ProductController for CRUD Products
+ * @package App\Http\Controllers
+ */
 class ProductController extends Controller
 {
     /**
@@ -110,9 +114,9 @@ class ProductController extends Controller
      * @param $id
      * @return Response|string
      */
-    public function show($name)
+    public function show($id)
     {
-        return Product::findOrFail($name);
+        return Product::findOrFail($id);
     }
 
     /**
