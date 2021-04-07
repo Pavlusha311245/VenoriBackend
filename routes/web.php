@@ -19,3 +19,13 @@ Route::get('/', function () {
         'user_id' => 1
     ]);
 });
+
+Route::group(['middleware' => 'role:admin'], function() {
+    Route::get('/admin', function() {
+        return 'Добро пожаловать, Админ';
+    });
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
