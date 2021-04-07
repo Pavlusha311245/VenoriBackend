@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
  * Controller for create, remove, update and show schedules
+ *
  * @package App\Http\Controllers
  */
 class ScheduleController extends Controller
@@ -24,7 +26,7 @@ class ScheduleController extends Controller
     /**
      * Method create new schedule
      * @param Request $request
-     * @return Response
+     * @return JsonResponse|Response
      */
     public function store(Request $request)
     {
@@ -50,8 +52,8 @@ class ScheduleController extends Controller
     /**
      * Method update schedule
      * @param Request $request
-     * @param \App\Models\Schedule $schedule
-     * @return Response
+     * @param Schedule $schedule
+     * @return JsonResponse|Response
      */
     public function update(Request $request, Schedule $schedule)
     {

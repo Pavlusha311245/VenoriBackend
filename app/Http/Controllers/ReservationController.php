@@ -39,7 +39,10 @@ class ReservationController extends Controller
     public function availableTime(ReservationTimeRequest $request, $place_id)
     {
         $times = $this->reservation_service->getTimes($place_id);
-        $bad_times = $this->reservation_service->getBadTimes($place_id, $request->people, $request->staying, $times);
+        $bad_times = $this
+            ->reservation_service
+            ->getBadTimes($place_id, $request->people, $request->staying, $times);
+
         return $this->reservation_service->getAvailableTimes($bad_times, $times);
     }
 
