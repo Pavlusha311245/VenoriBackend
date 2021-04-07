@@ -25,7 +25,3 @@ Route::group(['middleware' => 'role:admin'], function() {
         return 'Добро пожаловать, Админ';
     });
 });
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
