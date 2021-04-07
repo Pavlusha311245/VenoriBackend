@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favourite;
-use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 /**
  * Controller used for add, delete, and show favorite places
@@ -28,7 +28,7 @@ class FavouriteController extends Controller
      * The method adds a new favourite place
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse|Response
      */
     public function store(Request $request)
     {
@@ -39,7 +39,7 @@ class FavouriteController extends Controller
 
         $user = Favourite::create($request->all());
 
-        return response($user, 201);
+        return response()->json($user, 201);
     }
 
     /**
@@ -58,7 +58,7 @@ class FavouriteController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         $favourite = Favourite::findOrFail($id);
         $favourite->delete();

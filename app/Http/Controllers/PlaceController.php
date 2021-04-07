@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Place;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -29,7 +28,7 @@ class PlaceController extends Controller
     /**
      * The method adds a new establishment
      * @param Request $request
-     * @return Response
+     * @return JsonResponse|Response
      */
     public function store(Request $request)
     {
@@ -46,7 +45,7 @@ class PlaceController extends Controller
 
         $place = Place::create($request->all());
 
-        return response($place, 201);
+        return response()->json($place, 201);
     }
 
     /**
@@ -98,7 +97,7 @@ class PlaceController extends Controller
      * The method finds establishments by the specified parameters
      * @param Request $request
      * @param Place $place
-     * @return Application|ResponseFactory|Response
+     * @return Application|ResponseFactory|JsonResponse|Response
      */
     public function searchPlace(Request $request, Place $place)
     {
@@ -120,6 +119,6 @@ class PlaceController extends Controller
             $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
         }
 
-        return response($places, 200);
+        return response()->json($places, 200);
     }
 }

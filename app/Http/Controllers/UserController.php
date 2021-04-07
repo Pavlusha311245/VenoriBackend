@@ -30,7 +30,7 @@ class UserController extends Controller
      * The method adds a new user
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse|Response
      */
     public function store(Request $request)
     {
@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
-        return response($user, 201);
+        return response()->json($user, 201);
     }
 
     /**
@@ -101,7 +101,7 @@ class UserController extends Controller
     /**
      * The method uses the search service to enter the user's location into the database
      * @param Request $request
-     * @return Application|ResponseFactory|Response
+     * @return Application|ResponseFactory|JsonResponse|Response
      */
     public function location(Request $request)
     {
@@ -113,6 +113,6 @@ class UserController extends Controller
         $user->update($userLocation);
         $user->save();
 
-        return response($userLocation, 200);
+        return response()->json($userLocation, 200);
     }
 }

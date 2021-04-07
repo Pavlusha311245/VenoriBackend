@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 
 /**
  * Controller for adding, removing, viewing and updating reviews
+ *
  * @package App\Http\Controllers
  */
 class ReviewController extends Controller
