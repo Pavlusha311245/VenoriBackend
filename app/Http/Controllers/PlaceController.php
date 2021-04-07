@@ -39,10 +39,9 @@ class PlaceController extends Controller
             'address_latitude' => 'float',
             'address_longitude' => 'float',
             'phone' => 'required|max:15',
-            'work_start' => 'required|string',
-            'work_end' => 'required|string',
             'capacity' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'schedule' => 'required|json',
         ]);
 
         $place = Place::create($request->all());
@@ -73,10 +72,9 @@ class PlaceController extends Controller
             'type' => 'max:255',
             'location' => 'string',
             'phone' => 'max:15',
-            'work_start' => 'string',
-            'work_end' => 'string',
             'capacity' => 'string',
-            'description' => 'string'
+            'description' => 'string',
+            'schedule' => 'required|json',
         ]);
         $place->update($request->all());
 

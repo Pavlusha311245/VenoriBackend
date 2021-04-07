@@ -20,10 +20,9 @@ class CreatePlacesTable extends Migration
             $table->float('rating')->default(0);
             $table->string('location')->default('Current Location');
             $table->string('phone');
-            $table->string('work_start');
-            $table->string('work_end');
             $table->string('description');
             $table->string('capacity');
+            $table->json('schedule');
             $table->timestamps();
         });
     }
