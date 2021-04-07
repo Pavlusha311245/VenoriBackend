@@ -69,7 +69,7 @@ class ProductController extends Controller
                 'category_id' => $row[3]
             ];
 
-            $checkproducts = Product::updateOrCreate(
+            Product::updateOrCreate(
                 ['name' => $products['name']],
                 [
                     'name' => $products['name'],
