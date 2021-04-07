@@ -6,7 +6,6 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -22,9 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(5);
-
-        return response()->json($products, 200);
+        Product::paginate(5);
     }
 
     /**
@@ -68,7 +65,7 @@ class ProductController extends Controller
                 'category_id' => $row[3]
             ];
 
-            $checkProduct = Product::updateOrCreate(
+            $checkproducts = Product::updateOrCreate(
                 ['name' => $products['name']],
                 [
                     'name' => $products['name'],
@@ -95,7 +92,16 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($request->all());
-        return response(['message' => 'Created successfully'], 201);
+        return response($product, 201);
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return Application|Factory|View|JsonResponse
+     * @return
+     */
+    public function get_product($name){
+        return response()->json(Product::findOrFail($name), 200);
     }
 
     /**
@@ -104,13 +110,9 @@ class ProductController extends Controller
      * @param $id
      * @return Response|string
      */
-    public function show($id)
+    public function show($name)
     {
-        try {
-            return Product::findOrFail($id);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'Product Is Not Found'], 201);
-        }
+        return Product::findOrFail($name);
     }
 
     /**
@@ -131,7 +133,7 @@ class ProductController extends Controller
 
         $product->update($request->all());
 
-        return response()->json(['message' => 'Product Is Updated Successfully'], 200);
+        return response()->json($product, 200);
     }
 
     /**
@@ -142,12 +144,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        try {
             $product = Product::findOrFail($id);
             $product->delete();
+
             return response()->json(['message' => 'Product is deleted successfully'], 200);
-        } catch (ModelNotFoundException $exception) {
-            return response()->json(['message' => 'Product Is Not Found'], 201);
-        }
     }
+
+
 }
