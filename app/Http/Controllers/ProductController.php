@@ -9,57 +9,44 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 /**
  * Class ProductController for CRUD Products
+ *
  * @package App\Http\Controllers
  */
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @return Application|Factory|View|JsonResponse
-     * @return
+     *
+     * @return void
      */
     public function index()
     {
-        Product::paginate(5);
+        return Product::paginate(5);
     }
 
     /**
      * Import a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return void
      */
     public function import(Request $request){
-        $data = $request->file('csv_file');
+        $data = $request->file('products');
 
         $request->validate([
-            'csv_file' => 'required|file',
+            'products' => 'required|file',
         ]);
 
-        $rows = array_map('str_getcsv', file($data));
+        $rows = array_map('str_products', file($data));
         $header = array_shift($rows);
 
         foreach ($rows as $row){
-            $csv[] = array_combine($header, $row);
+            $products_file[] = array_combine($header, $row);
         }
-
-        /*foreach ($rows as $row) {
-            $validator = Validator::make($row[],[
-                'name' => 'required',
-                'weight' => 'required',
-                'price' => 'required',
-                'category_id' => 'required'
-            ]);
-
-            if ($validator->fails()){
-                return response(['error' => $validator->errors(), 'Validation Error']);
-            }
-        }*/
 
         foreach ($rows as $row){
             $products = [
@@ -76,18 +63,18 @@ class ProductController extends Controller
                     'weight' => $products['weight'],
                     'price' => $products['price'],
                     'category_id' => $products['category_id']
-                ],
-            );
+                ]);
         }
     }
 
     /**
      * Creates a resource in the storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
                 'name' => 'required',
                 'weight' => 'required',
@@ -101,10 +88,11 @@ class ProductController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param $name
      * @return Application|Factory|View|JsonResponse
-     * @return
      */
-    public function get_product($name){
+    public function getProduct($name)
+    {
         return response()->json(Product::findOrFail($name), 200);
     }
 
@@ -124,7 +112,7 @@ class ProductController extends Controller
      *
      * @param Request $request
      * @param Product $product
-     * @return Application|ResponseFactory|JsonResponse|RedirectResponse|Response
+     * @return Application|JsonResponse|RedirectResponse|Response
      */
     public function update(Request $request, Product $product)
     {
@@ -148,11 +136,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-            $product = Product::findOrFail($id);
-            $product->delete();
+        $product = Product::findOrFail($id);
+        $product->delete();
 
-            return response()->json(['message' => 'Product is deleted successfully'], 200);
+        return response()->json(['message' => 'Product is deleted successfully'], 200);
     }
-
-
 }
