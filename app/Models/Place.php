@@ -22,8 +22,6 @@ class Place extends Model
         'rating',
         'location',
         'phone',
-        'work_start',
-        'work_end',
         'review_id',
         'capacity',
         'description'

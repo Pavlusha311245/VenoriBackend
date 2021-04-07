@@ -5,6 +5,7 @@ use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('places', PlaceController::class);
     Route::resource('reviews', ReviewController::class);
     Route::resource('favourites', FavouriteController::class);
+    Route::resource('schedules', ScheduleController::class);
 
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
@@ -38,7 +40,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
-
 });
 
 Route::group(['middleware' => 'logging'], function () {

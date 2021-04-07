@@ -226,6 +226,16 @@
 				{
 					"name": "All places",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -246,6 +256,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -259,13 +279,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{api}}/places/2",
+							"raw": "{{api}}/places/1",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
 								"places",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -274,6 +294,16 @@
 				{
 					"name": "Create place",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -296,16 +326,6 @@
 									"type": "text"
 								},
 								{
-									"key": "work_start",
-									"value": "8:00",
-									"type": "text"
-								},
-								{
-									"key": "work_end",
-									"value": "18:00",
-									"type": "text"
-								},
-								{
 									"key": "capacity",
 									"value": "500",
 									"type": "text"
@@ -319,8 +339,18 @@
 									"key": "description",
 									"value": "Very good fast food",
 									"type": "text"
+								},
+								{
+									"key": "schedule",
+									"value": "{\n  \"monday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"tuesday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"wednesday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"thursday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"friday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"saturday\": {\n    \"start\": \"10:00\",\n    \"end\": \"18:00\"\n  },\n  \"sunday\": {\n    \"start\": \"\",\n    \"end\": \"\"\n  }\n}",
+									"type": "text"
 								}
-							]
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{api}}/places",
@@ -436,10 +466,26 @@
 				{
 					"name": "Show all",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{api}}/reviews",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"reviews"
+							]
 						}
 					},
 					"response": []
@@ -450,7 +496,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{api}}/reviews/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
 						}
 					},
 					"response": []
@@ -458,6 +511,16 @@
 				{
 					"name": "Add review",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIxMmE5My0xYzE1LTRjZDktYWMyMC04YjMyNDMyZWUyNmIiLCJqdGkiOiIxNDMwNTMxMTVmZTQwNzE3NGVkNjA0Y2NkZTUzZGQwOTI4NzM5ZjYxMGJkZGYzNzMzMTE3NzdiMGRlZTU3N2EwZjU2NjE4MGUzNjU4M2I3NCIsImlhdCI6MTYxNzcxNjEwMy44NjI5NjgsIm5iZiI6MTYxNzcxNjEwMy44NjI5NzIsImV4cCI6MTY0OTI1MjEwMy44MTc5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.kWVTgqkOKkZla_0j63HzaxJiR2tQFMVpAPQct2rB5buhTHYuIICkj9f7x1qblUZMKLVaTSll8cK-qqWIhR3hiD_uE8GCF5dSqtZjgccdSwy1v1mxKPWgUAEy67pnTZUcSQaDf8JetWW8F8MAbodVl2IGx9joh43eQHMZRp3vMibn-XOBvKrTe3Vs6Me3WoJZ6JyNmOTWL8JZGBF9zI-fIwok8MNQB6Z6V0JTy6TPzbh5Fxs63f4iX4tBiWsMMrs7zxYKajkQQoPUvsIJXo8H9JDY-bty-NXt_dQfU_tcKGIBEBkTDFv7b_PZtD8Ht2RtNaZl4vuraAoiVfxl0PTvQZVUHj703bqVX_KMb7DYyEr51eCzvQsgsLJmw4x1tWdyuTtEJVz3mBHMDQYzGvLunPz88IsxCyXQuy9Cp9BlQp6TTf8PZ_tdp6_tMEU3WGh6QO5eDhKu3VxTIgAWw_HQ8Lo6V75JnwFk7DSVvmd28H6Uj4gjWQzXIYRtTG4HqhZVrJZfMc-3uvv-WcxkTqnFDpPQ9WAn6gWsAyMpve0saZIUAs8WK5puEym5EozAq0gSQLr2-tBYk4DkNcO0IF9uWcBwWHr0SmKgIJxjjVMd96muZKuAPpU95--CMw8TOuUyRIe9AJDgEpz0eP22eoK2DNDVO_8NXG_UEAXatBmR1EU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -470,7 +533,7 @@
 								},
 								{
 									"key": "rating",
-									"value": "2",
+									"value": "5",
 									"type": "text"
 								},
 								{
@@ -485,7 +548,7 @@
 								},
 								{
 									"key": "user_id",
-									"value": "1",
+									"value": "3",
 									"type": "text"
 								}
 							]
@@ -505,11 +568,21 @@
 				{
 					"name": "Update review",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIxMmE5My0xYzE1LTRjZDktYWMyMC04YjMyNDMyZWUyNmIiLCJqdGkiOiIxNDMwNTMxMTVmZTQwNzE3NGVkNjA0Y2NkZTUzZGQwOTI4NzM5ZjYxMGJkZGYzNzMzMTE3NzdiMGRlZTU3N2EwZjU2NjE4MGUzNjU4M2I3NCIsImlhdCI6MTYxNzcxNjEwMy44NjI5NjgsIm5iZiI6MTYxNzcxNjEwMy44NjI5NzIsImV4cCI6MTY0OTI1MjEwMy44MTc5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.kWVTgqkOKkZla_0j63HzaxJiR2tQFMVpAPQct2rB5buhTHYuIICkj9f7x1qblUZMKLVaTSll8cK-qqWIhR3hiD_uE8GCF5dSqtZjgccdSwy1v1mxKPWgUAEy67pnTZUcSQaDf8JetWW8F8MAbodVl2IGx9joh43eQHMZRp3vMibn-XOBvKrTe3Vs6Me3WoJZ6JyNmOTWL8JZGBF9zI-fIwok8MNQB6Z6V0JTy6TPzbh5Fxs63f4iX4tBiWsMMrs7zxYKajkQQoPUvsIJXo8H9JDY-bty-NXt_dQfU_tcKGIBEBkTDFv7b_PZtD8Ht2RtNaZl4vuraAoiVfxl0PTvQZVUHj703bqVX_KMb7DYyEr51eCzvQsgsLJmw4x1tWdyuTtEJVz3mBHMDQYzGvLunPz88IsxCyXQuy9Cp9BlQp6TTf8PZ_tdp6_tMEU3WGh6QO5eDhKu3VxTIgAWw_HQ8Lo6V75JnwFk7DSVvmd28H6Uj4gjWQzXIYRtTG4HqhZVrJZfMc-3uvv-WcxkTqnFDpPQ9WAn6gWsAyMpve0saZIUAs8WK5puEym5EozAq0gSQLr2-tBYk4DkNcO0IF9uWcBwWHr0SmKgIJxjjVMd96muZKuAPpU95--CMw8TOuUyRIe9AJDgEpz0eP22eoK2DNDVO_8NXG_UEAXatBmR1EU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"rating\": \"2\"\n}",
+							"raw": "{\n    \"rating\": \"4\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -517,13 +590,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/reviews/1",
+							"raw": "{{api}}/reviews/12",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
 								"reviews",
-								"1"
+								"12"
 							]
 						}
 					},
@@ -532,15 +605,185 @@
 				{
 					"name": "Delete review",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIxMmE5My0xYzE1LTRjZDktYWMyMC04YjMyNDMyZWUyNmIiLCJqdGkiOiIxNDMwNTMxMTVmZTQwNzE3NGVkNjA0Y2NkZTUzZGQwOTI4NzM5ZjYxMGJkZGYzNzMzMTE3NzdiMGRlZTU3N2EwZjU2NjE4MGUzNjU4M2I3NCIsImlhdCI6MTYxNzcxNjEwMy44NjI5NjgsIm5iZiI6MTYxNzcxNjEwMy44NjI5NzIsImV4cCI6MTY0OTI1MjEwMy44MTc5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.kWVTgqkOKkZla_0j63HzaxJiR2tQFMVpAPQct2rB5buhTHYuIICkj9f7x1qblUZMKLVaTSll8cK-qqWIhR3hiD_uE8GCF5dSqtZjgccdSwy1v1mxKPWgUAEy67pnTZUcSQaDf8JetWW8F8MAbodVl2IGx9joh43eQHMZRp3vMibn-XOBvKrTe3Vs6Me3WoJZ6JyNmOTWL8JZGBF9zI-fIwok8MNQB6Z6V0JTy6TPzbh5Fxs63f4iX4tBiWsMMrs7zxYKajkQQoPUvsIJXo8H9JDY-bty-NXt_dQfU_tcKGIBEBkTDFv7b_PZtD8Ht2RtNaZl4vuraAoiVfxl0PTvQZVUHj703bqVX_KMb7DYyEr51eCzvQsgsLJmw4x1tWdyuTtEJVz3mBHMDQYzGvLunPz88IsxCyXQuy9Cp9BlQp6TTf8PZ_tdp6_tMEU3WGh6QO5eDhKu3VxTIgAWw_HQ8Lo6V75JnwFk7DSVvmd28H6Uj4gjWQzXIYRtTG4HqhZVrJZfMc-3uvv-WcxkTqnFDpPQ9WAn6gWsAyMpve0saZIUAs8WK5puEym5EozAq0gSQLr2-tBYk4DkNcO0IF9uWcBwWHr0SmKgIJxjjVMd96muZKuAPpU95--CMw8TOuUyRIe9AJDgEpz0eP22eoK2DNDVO_8NXG_UEAXatBmR1EU",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/reviews/1",
+							"raw": "{{api}}/reviews/15",
 							"host": [
 								"{{api}}"
 							],
 							"path": [
 								"reviews",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedules",
+			"item": [
+				{
+					"name": "Show all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzNDM1MS0zNzRiLTQ4MGYtOTFmNi01MmU2ZDYxNmVjODYiLCJqdGkiOiIxZTJhNGE2YzVkZWVkN2U1MTQzMDFhMTEzZmE0NzE4NWJkNDY0YjEyMjE4MjdjMTFjODQ1ODI5Yzc0MTVhOGNjMTU3MGJhZWU2NDZhNGNhNCIsImlhdCI6MTYxNzc5NjY0NS41NjM0NCwibmJmIjoxNjE3Nzk2NjQ1LjU2MzQ0NCwiZXhwIjoxNjQ5MzMyNjQ1LjUxODkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.feAKML6RaaeLy786drb20p1uH7amyX7bpYvmPM9ZmLguLG-Vp5BXhfxI1rPvLzEIh4vriX4fs8aOAIjDiC7aWGb7BI9SfWeanaRhfpL47DKVD20Lu_sgiSvoFzs2ryYA_sjvtKNiB50puyU_y7oEhvBjalg5X3G2BwjCPoayfs43jCNo32sfEIzCw6EEcXLFw9WCe2-UC_7C7GcXrvF5eqEXVMZYynbxzkwbTEg4IXC2sKUuPZgDtV5hTpFx-t1Ehk5rVD3qJrVijcN6w4s2_MTBlp7QM2swN-hWNqxOTqDhh5JzwHVLCHVZWsixm0j8Tmz84kEVu2lMbul1Edt2cF_JnVehRpTnfz6591CY_0CbyBxUFWZ3ydC9CDcvRICgD7x-icKr1zT-YrMlX7ZyjTNRYgb7Y7r7VCx3iErzzrqhd0Qt2ocbdWm4jwH_BXfaNWylR30iudTSdu9dDLaWDNdKWGQDInWKUIS2mcvqncYRLObmlBJSVEP_FOP4e2ySE3Ebjbvk5SdapQU5UNOkvZXZy_aVN5qRBKucI2e-9tCe5yyvxT-f7507fqBtZ8Gget6qV64tGtuaUOJoxdg2G8FWA5BgPMhi2VfjdPbotXm18WOmulMDZSp-TkJt1EkqNFbRxaYJUfFue57aqEc-KU9FzsTmJwx0mZdr31Myuys",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/schedules",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzM2ZjOS01Yjc5LTQ2NGEtYWZmMS0xNDdkYzU1ZWE1NDgiLCJqdGkiOiI4MGZhMTdjMWMxYzhmZWI2YjEyZmQ2NjU4MzUxZTIzZjE0NTdjNWFiYzIyMTcwMjk3Mjg4NzliYjJkMDk2MGRmMWRmYWM0MDdlNzk3YjIzNiIsImlhdCI6MTYxNzc5NjA0MS45Nzk4NjgsIm5iZiI6MTYxNzc5NjA0MS45Nzk4NzIsImV4cCI6MTY0OTMzMjA0MS45MzI0MDEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.jYIYg9sW1GJv82Y_AMdvbaV3Fo-S8zFDkS6YucfFtaw8kXGYm2vHha5-fbX0Hj9EtTWPcWG0VJ7k1kbCDNp0kJnhE1XDMOy2IsvdY4T6fYhHiOcZEdxFwZPXqh9FaqwdzG7m-f20JixjTNHbngQ46y7itvqp2HCVkRbvAxuJBP1Vlv0ZVCfcSIqnpPAc0qnkKxmDPz1ifx_ZIhPhpUW4J3JvCkQXKX6dJjq4n4UCV-ZBf8kYSUvWBYG6Q4tBRW79M8Q6sbqVH70ce42P9vYBpMdvTzyGWDIH_gORgtH3KrmlrDNtXC-8wCXywycKXlQ35IXTlYZC0cPYqJamefQ__M1EMyZEXs-0aPmG3ni3Y8rUNmJo9P5v4hyE8c0bHG1QHmQxOCj9AtbafacGZ49jWfmChrosH1igwNdHXRxuLr2Nc8u0MyHouxY-5oNNirHDC_owJQMPKKegMcHRrqHO2lr8ZRTWPfMEvcBShbkMuluRYc2zYKI_Z_VhCcIjQrDs2oYKXUluYFHiOjqOowIy8uUxWTK-pPdV3G9T6YZuEEcktPMKOQ_MXTgt5TOwnBMKBiWxbrEQEWdotsoewqP1ppSD9AtSR1qanQOZEn1pbOQ9uRKKfL1eQJgm3GZQh_5YkvQoaPqBq5GArltTrjOuSV-0ZfhRVNt6M6oXiL239dQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/schedules/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"schedules",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzNDM1MS0zNzRiLTQ4MGYtOTFmNi01MmU2ZDYxNmVjODYiLCJqdGkiOiIxZTJhNGE2YzVkZWVkN2U1MTQzMDFhMTEzZmE0NzE4NWJkNDY0YjEyMjE4MjdjMTFjODQ1ODI5Yzc0MTVhOGNjMTU3MGJhZWU2NDZhNGNhNCIsImlhdCI6MTYxNzc5NjY0NS41NjM0NCwibmJmIjoxNjE3Nzk2NjQ1LjU2MzQ0NCwiZXhwIjoxNjQ5MzMyNjQ1LjUxODkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.feAKML6RaaeLy786drb20p1uH7amyX7bpYvmPM9ZmLguLG-Vp5BXhfxI1rPvLzEIh4vriX4fs8aOAIjDiC7aWGb7BI9SfWeanaRhfpL47DKVD20Lu_sgiSvoFzs2ryYA_sjvtKNiB50puyU_y7oEhvBjalg5X3G2BwjCPoayfs43jCNo32sfEIzCw6EEcXLFw9WCe2-UC_7C7GcXrvF5eqEXVMZYynbxzkwbTEg4IXC2sKUuPZgDtV5hTpFx-t1Ehk5rVD3qJrVijcN6w4s2_MTBlp7QM2swN-hWNqxOTqDhh5JzwHVLCHVZWsixm0j8Tmz84kEVu2lMbul1Edt2cF_JnVehRpTnfz6591CY_0CbyBxUFWZ3ydC9CDcvRICgD7x-icKr1zT-YrMlX7ZyjTNRYgb7Y7r7VCx3iErzzrqhd0Qt2ocbdWm4jwH_BXfaNWylR30iudTSdu9dDLaWDNdKWGQDInWKUIS2mcvqncYRLObmlBJSVEP_FOP4e2ySE3Ebjbvk5SdapQU5UNOkvZXZy_aVN5qRBKucI2e-9tCe5yyvxT-f7507fqBtZ8Gget6qV64tGtuaUOJoxdg2G8FWA5BgPMhi2VfjdPbotXm18WOmulMDZSp-TkJt1EkqNFbRxaYJUfFue57aqEc-KU9FzsTmJwx0mZdr31Myuys",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "place_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "work_start",
+									"value": "10:00",
+									"type": "text"
+								},
+								{
+									"key": "work_end",
+									"value": "16:00",
+									"type": "text"
+								},
+								{
+									"key": "lunch_start",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "lunch_end",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api}}/schedules",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update schedule",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzNDM1MS0zNzRiLTQ4MGYtOTFmNi01MmU2ZDYxNmVjODYiLCJqdGkiOiIxZTJhNGE2YzVkZWVkN2U1MTQzMDFhMTEzZmE0NzE4NWJkNDY0YjEyMjE4MjdjMTFjODQ1ODI5Yzc0MTVhOGNjMTU3MGJhZWU2NDZhNGNhNCIsImlhdCI6MTYxNzc5NjY0NS41NjM0NCwibmJmIjoxNjE3Nzk2NjQ1LjU2MzQ0NCwiZXhwIjoxNjQ5MzMyNjQ1LjUxODkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.feAKML6RaaeLy786drb20p1uH7amyX7bpYvmPM9ZmLguLG-Vp5BXhfxI1rPvLzEIh4vriX4fs8aOAIjDiC7aWGb7BI9SfWeanaRhfpL47DKVD20Lu_sgiSvoFzs2ryYA_sjvtKNiB50puyU_y7oEhvBjalg5X3G2BwjCPoayfs43jCNo32sfEIzCw6EEcXLFw9WCe2-UC_7C7GcXrvF5eqEXVMZYynbxzkwbTEg4IXC2sKUuPZgDtV5hTpFx-t1Ehk5rVD3qJrVijcN6w4s2_MTBlp7QM2swN-hWNqxOTqDhh5JzwHVLCHVZWsixm0j8Tmz84kEVu2lMbul1Edt2cF_JnVehRpTnfz6591CY_0CbyBxUFWZ3ydC9CDcvRICgD7x-icKr1zT-YrMlX7ZyjTNRYgb7Y7r7VCx3iErzzrqhd0Qt2ocbdWm4jwH_BXfaNWylR30iudTSdu9dDLaWDNdKWGQDInWKUIS2mcvqncYRLObmlBJSVEP_FOP4e2ySE3Ebjbvk5SdapQU5UNOkvZXZy_aVN5qRBKucI2e-9tCe5yyvxT-f7507fqBtZ8Gget6qV64tGtuaUOJoxdg2G8FWA5BgPMhi2VfjdPbotXm18WOmulMDZSp-TkJt1EkqNFbRxaYJUfFue57aqEc-KU9FzsTmJwx0mZdr31Myuys",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"work_start\": \"8:00\",\n    \"work_end\": \"18:00\",\n    \"lunch_start\": \"12:00\",\n    \"lunch_end\": \"13:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/schedules/1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"schedules",
 								"1"
 							]
 						}
