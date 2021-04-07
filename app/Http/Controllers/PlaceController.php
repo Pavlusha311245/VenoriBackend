@@ -39,8 +39,6 @@ class PlaceController extends Controller
             'address_latitude' => 'float',
             'address_longitude' => 'float',
             'phone' => 'required|max:15',
-            'work_start' => 'required|string',
-            'work_end' => 'required|string',
             'capacity' => 'required|string',
             'description' => 'required|string'
         ]);
@@ -73,8 +71,6 @@ class PlaceController extends Controller
             'type' => 'max:255',
             'location' => 'string',
             'phone' => 'max:15',
-            'work_start' => 'string',
-            'work_end' => 'string',
             'capacity' => 'string',
             'description' => 'string'
         ]);
@@ -91,6 +87,7 @@ class PlaceController extends Controller
     public function destroy($id)
     {
         $place = Place::findOrFail($id);
+        $place->schedules()->delete();
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully'], 200);

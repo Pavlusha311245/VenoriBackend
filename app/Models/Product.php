@@ -21,11 +21,18 @@ class Product extends Model
         'category_id',
     ];
 
-    public function category(){
+    public function category()
+    {
         return $this->hasOne(Category::class);
     }
 
-    public function productsOfPlace(){
+    public function productsOfPlace()
+    {
         return $this->hasMany(ProductsOfPlace::class);
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
     }
 }

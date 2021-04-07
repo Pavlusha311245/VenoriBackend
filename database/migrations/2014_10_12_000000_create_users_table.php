@@ -19,7 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('second_name');
             $table->string('email')->unique();
 
-            $table->string('location')->default('Current location');
+            $table->string('address_full');
+            $table->string('address_lat');
+            $table->string('address_lon');
             $table->string('avatar')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
