@@ -18,7 +18,8 @@ class PlaceController extends Controller
 {
     /**
      * The method returns a list of all establishments
-     * @return Response
+     *
+     * @return mixed
      */
     public function index()
     {
