@@ -24,8 +24,7 @@ class Place extends Model
         'phone',
         'review_id',
         'capacity',
-        'description',
-        'schedule'
+        'description'
     ];
 
     /**

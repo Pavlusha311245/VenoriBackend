@@ -22,7 +22,6 @@ class CreatePlacesTable extends Migration
             $table->string('phone');
             $table->string('description');
             $table->string('capacity');
-            $table->json('schedule');
             $table->timestamps();
         });
     }
