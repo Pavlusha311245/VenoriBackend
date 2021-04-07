@@ -19,7 +19,8 @@ class CreateOrdersTable extends Migration
             $table->decimal('price');
             $table->dateTime('datetime');
             $table->unsignedInteger('people');
-            $table->unsignedFloat('staying');
+            $table->unsignedInteger('staying');
+            $table->dateTime('staying_end')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('place_id');
             $table->foreign('place_id')->references('id')->on('places');
