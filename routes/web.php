@@ -20,8 +20,8 @@ Route::get('/', function () {
     ]);
 });
 
-Route::group(['middleware' => 'role:admin'], function() {
-    Route::get('/admin', function() {
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/dashboard', function() {
         return 'Добро пожаловать, Админ';
     });
 });
