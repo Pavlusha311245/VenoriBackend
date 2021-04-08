@@ -32,7 +32,8 @@ class Place extends Model
      *
      * @return HasMany
      */
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
@@ -41,7 +42,8 @@ class Place extends Model
      *
      * @return HasMany
      */
-    public function favourites(){
+    public function favourites()
+    {
         return $this->hasMany(Favourite::class);
     }
 
@@ -50,7 +52,8 @@ class Place extends Model
      *
      * @return HasMany
      */
-    public function productsOfPlace(){
+    public function productsOfPlace()
+    {
         return $this->hasMany(ProductsOfPlace::class);
     }
 
@@ -59,7 +62,8 @@ class Place extends Model
      *
      * @return HasOne
      */
-    public function review(){
+    public function review()
+    {
         return $this->hasOne(Review::class);
     }
 }

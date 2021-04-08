@@ -50,7 +50,8 @@ class OrderController extends Controller
      */
     public function cancelOrder($order_id)
     {
-        return Order::where('user_id', auth()->user()->id)
+        return Order::findOrFail($order_id)
+            ->where('user_id', auth()->user()->id)
             ->where('id', $order_id)
             ->update(['status' => 'Rejected']);
     }
