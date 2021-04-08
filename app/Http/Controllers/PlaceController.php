@@ -9,7 +9,6 @@ use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use function GuzzleHttp\Promise\all;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -46,7 +45,6 @@ class PlaceController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255|unique:places',
-            'image_url' => 'required|string',
             'type' => 'required|max:255',
             'address_address' => 'string',
             'address_latitude' => 'float',
@@ -54,7 +52,8 @@ class PlaceController extends Controller
             'phone' => 'required|max:15',
             'capacity' => 'required|string',
             'table_price' => 'required|string',
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'image_url' => 'required|string'
         ]);
 
         $place = Place::create($request->all());
@@ -82,13 +81,13 @@ class PlaceController extends Controller
     {
         $request->validate([
             'name' => 'max:255|unique:places',
-            'image_url' => 'string',
             'type' => 'max:255',
             'location' => 'string',
             'phone' => 'max:15',
             'capacity' => 'string',
             'table_price' => 'string',
-            'description' => 'string'
+            'description' => 'string',
+            'image_url' => 'string'
         ]);
 
         $place->update($request->all());

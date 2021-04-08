@@ -51,20 +51,20 @@ class ProductController extends Controller
         foreach ($rows as $row){
             $products = [
                 'name' => $row[0],
-                'image_url' => $row[1],
-                'weight' => $row[2],
-                'price' => $row[3],
-                'category_id' => $row[4]
+                'weight' => $row[1],
+                'price' => $row[2],
+                'category_id' => $row[3],
+                'image_url' => $row[4]
             ];
 
             Product::updateOrCreate(
                 ['name' => $products['name']],
                 [
                     'name' => $products['name'],
-                    'image_url' => $products['image_url'],
                     'weight' => $products['weight'],
                     'price' => $products['price'],
-                    'category_id' => $products['category_id']
+                    'category_id' => $products['category_id'],
+                    'image_url' => $products['image_url']
                 ]);
         }
     }
@@ -79,10 +79,10 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image_url' => 'required',
             'weight' => 'required',
             'price' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'image_url' => 'required'
         ]);
 
         $product = Product::create($request->all());
@@ -121,10 +121,10 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'image_url' => 'required',
             'weight' => 'required',
             'price' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'image_url' => 'required'
         ]);
 
         $product->update($request->all());

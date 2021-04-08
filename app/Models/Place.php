@@ -18,7 +18,6 @@ class Place extends Model
      */
     protected $fillable = [
         'name',
-        'image_url',
         'type',
         'rating',
         'phone',
@@ -28,7 +27,8 @@ class Place extends Model
         'description',
         'address_full',
         'address_lat',
-        'address_lon'
+        'address_lon',
+        'image_url'
     ];
 
     /**
