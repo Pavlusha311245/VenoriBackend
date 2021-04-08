@@ -23,13 +23,15 @@ class PlaceController extends Controller
      */
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
-        if ($dist = $request->get('distance')) {
+        if ($request->has('distance')) {
+            $dist = $request->get('distance');
             $coordiantes = $radiusAroundLocationService->coordinates(auth()->user()->address_lat, auth()->user()->address_lon, $dist);
             return Place::where('address_lon', '<=', $coordiantes['lon_end'])
                         ->where('address_lon', '>=', $coordiantes['lon_start'])
                         ->where('address_lat', '<=', $coordiantes['lat_end'])
                         ->where('address_lat', '>=', $coordiantes['lat_start'])->get();
         }
+
         return Place::paginate(5);
     }
 
@@ -107,12 +109,12 @@ class PlaceController extends Controller
      * @param Place $place
      * @return Application|ResponseFactory|JsonResponse|Response
      */
-    public function searchPlace(Request $request, Place $place)
+    public function searchPlace(Request $request)
     {
-        $places = $place->all();
+        $places = Place::all();
 
         if ($name = $request->get('name')) {
-            $places = Place::where('name', 'LIKE', "%" . $name . "%")->get();
+            $places = $places->where('name', 'LIKE', "%" . $name . "%")->first;
         }
 
         if ($type = $request->get('type')) {

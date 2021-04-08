@@ -19,8 +19,8 @@ class CreatePlacesTable extends Migration
             $table->string('type');
             $table->float('rating')->default(0);
             $table->string('address_full');
-            $table->float('address_lat');
-            $table->float('address_lon');
+            $table->double('address_lat');
+            $table->double('address_lon');
             $table->string('phone');
             $table->string('description');
             $table->string('capacity');
