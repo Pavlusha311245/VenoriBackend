@@ -28,7 +28,7 @@ class CommentController extends Controller
      * The method adds a new comment
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -40,7 +40,7 @@ class CommentController extends Controller
 
         $comment = Comment::create($request->all());
 
-        return response($comment, 201);
+        return response()->json($comment, 201);
     }
 
     /**
