@@ -20,8 +20,19 @@ Route::get('/', function () {
     ]);
 });
 
-Route::group(['middleware' => 'auth:api'], function() {
-    Route::get('/dashboard', function() {
-        return 'Добро пожаловать, Админ';
-    });
+//Route::group(['middleware' => 'auth:api'], function() {
+Route::get('/dashboard', function () {
+    return view('home');
+});
+
+Route::get('/products', function () {
+    return view('products');
+});
+
+Route::get('/users', function () {
+    return view('users');
+});
+
+Route::get('/places', function () {
+    return view('places');
 });
