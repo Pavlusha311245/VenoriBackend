@@ -17,17 +17,20 @@ class RoleMiddleware
      * @param Request $request
      * @param Closure $next
      * @param $role
-     * @param null $permission
      * @return mixed
-     */
-    public function handle($request, Closure $next, $role, $permission = null)
+     2*/
+    public function handle($request, Closure $next, $role)
     {
-        if(!auth()->user()->hasRole($role)) {
-            abort(404);
+        if(!auth()->check())
+        {
+            return response()->json(['message' => 'You are not logged in.']);
         }
-        if($permission !== null && !auth()->user()->can($permission)) {
-            abort(404);
+
+        if(!auth()->user()->hasRole($role))
+        {
+            return response()->json(['message' => 'You are have not access.']);
         }
+
         return $next($request);
     }
 }
