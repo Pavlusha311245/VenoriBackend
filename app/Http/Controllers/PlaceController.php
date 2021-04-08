@@ -46,12 +46,14 @@ class PlaceController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255|unique:places',
+            'image_url' => 'required|string',
             'type' => 'required|max:255',
             'address_address' => 'string',
             'address_latitude' => 'float',
             'address_longitude' => 'float',
             'phone' => 'required|max:15',
             'capacity' => 'required|string',
+            'table_price' => 'required|string',
             'description' => 'required|string'
         ]);
 
@@ -80,10 +82,12 @@ class PlaceController extends Controller
     {
         $request->validate([
             'name' => 'max:255|unique:places',
+            'image_url' => 'string',
             'type' => 'max:255',
             'location' => 'string',
             'phone' => 'max:15',
             'capacity' => 'string',
+            'table_price' => 'string',
             'description' => 'string'
         ]);
 
