@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,8 +21,15 @@ class PlaceController extends Controller
      * The method returns a list of all establishments
      * @return Response
      */
-    public function index()
+    public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
+        if ($dist = $request->get('distance')) {
+            $coordiantes = $radiusAroundLocationService->coordinates(auth()->user()->address_lat, auth()->user()->address_lon, $dist);
+            return Place::where('address_lon', '<=', $coordiantes['lon_end'])
+                        ->where('address_lon', '>=', $coordiantes['lon_start'])
+                        ->where('address_lat', '<=', $coordiantes['lat_end'])
+                        ->where('address_lat', '>=', $coordiantes['lat_start'])->get();
+        }
         return Place::paginate(5);
     }
 

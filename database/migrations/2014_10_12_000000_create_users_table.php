@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
 
             $table->string('address_full');
-            $table->string('address_lat');
-            $table->string('address_lon');
+            $table->float('address_lat');
+            $table->float('address_lon');
             $table->string('avatar')->nullable();
 
             $table->timestamp('email_verified_at')->nullable();
