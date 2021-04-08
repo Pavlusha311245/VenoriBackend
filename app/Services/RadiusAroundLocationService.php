@@ -9,6 +9,12 @@ namespace App\Services;
  */
 class RadiusAroundLocationService
 {
+    /**
+     * @param $lat
+     * @param $lon
+     * @param $distance
+     * @return array
+     */
     public function coordinates($lat, $lon, $distance)
     {
         $lon_start = $lon - $distance / abs(cos(deg2rad($lat)) * 110.0);
