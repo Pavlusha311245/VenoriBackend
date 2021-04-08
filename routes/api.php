@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('reviews', ReviewController::class);
     Route::resource('favourites', FavouriteController::class);
     Route::resource('schedules', ScheduleController::class);
+    Route::resource('comments', CommentController::class);
 
     Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
