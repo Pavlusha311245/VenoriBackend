@@ -53,9 +53,9 @@ class CommentController extends Controller
     public function update(Request $request, Comment $comment)
     {
         $request->validate([
-            'title' => 'min:1',
-            'description' => 'min:1',
-            'review_id' => 'required',
+            'title' => 'string|min:1',
+            'description' => 'string|min:1',
+            'review_id' => 'numeric',
         ]);
 
         $comment->update($request->all());
