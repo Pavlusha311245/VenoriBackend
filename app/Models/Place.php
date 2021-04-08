@@ -20,11 +20,13 @@ class Place extends Model
         'name',
         'type',
         'rating',
-        'location',
         'phone',
         'review_id',
         'capacity',
-        'description'
+        'description',
+        'address_full',
+        'address_lat',
+        'address_lon'
     ];
 
     /**
