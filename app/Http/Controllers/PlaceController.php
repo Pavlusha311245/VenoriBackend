@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Place;
+use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use function GuzzleHttp\Promise\all;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -17,18 +19,28 @@ class PlaceController extends Controller
 {
     /**
      * The method returns a list of all establishments
-     *
      * @return mixed
      */
-    public function index()
+    public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
+        if ($request->has('distance')) {
+            $dist = $request->get('distance');
+            $coordiantes = $radiusAroundLocationService->coordinates(auth()->user()->address_lat, auth()->user()->address_lon, $dist);
+            return Place::whereBetween('address_lon', [$coordiantes['lon_start'], $coordiantes['lon_end']])
+                ->whereBetween('address_lat', [$coordiantes['lat_start'], $coordiantes['lat_end']])
+                ->get();
+        }
+
+        if ($request->has('name'))
+            return Place::where('name', 'LIKE', "%".$request->name."%")->get();
+
         return Place::paginate(5);
     }
 
     /**
      * The method adds a new establishment
      * @param Request $request
-     * @return JsonResponse|Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -74,6 +86,7 @@ class PlaceController extends Controller
             'capacity' => 'string',
             'description' => 'string'
         ]);
+
         $place->update($request->all());
 
         return response()->json($place, 200);
@@ -91,34 +104,5 @@ class PlaceController extends Controller
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully'], 200);
-    }
-
-    /**
-     * The method finds establishments by the specified parameters
-     * @param Request $request
-     * @param Place $place
-     * @return Application|ResponseFactory|JsonResponse|Response
-     */
-    public function searchPlace(Request $request, Place $place)
-    {
-        $places = $place->all();
-
-        if ($name = $request->get('name')) {
-            $places = Place::where('name', 'LIKE', "%" . $name . "%")->get();
-        }
-
-        if ($type = $request->get('type')) {
-            $places = Place::where('type', 'LIKE', "%" . $type . "%")->get();
-        }
-
-        if ($capacity = $request->get('capacity')) {
-            $places = Place::where('capacity', 'LIKE', "%" . $capacity . "%")->get();
-        }
-
-        if ($rating = $request->get('rating')) {
-            $places = Place::where('rating', '>=', $rating)->where('rating', '<', $rating + 1)->get();
-        }
-
-        return response()->json($places, 200);
     }
 }

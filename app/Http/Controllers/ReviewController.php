@@ -89,6 +89,7 @@ class ReviewController extends Controller
     public function destroy($id, PlaceRatingService $placeRatingService)
     {
         $review = Review::findOrFail($id);
+        $review->comments()->delete();
         $review->delete();
 
         $placeRatingService->countPlaceRating($review);
