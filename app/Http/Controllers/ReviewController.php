@@ -96,4 +96,13 @@ class ReviewController extends Controller
 
         return response()->json(['message' => 'Review is successfully deleted'], 200);
     }
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function reviewsCount($id)
+    {
+        return count(Review::where('place_id',$id)->get());
+    }
 }
