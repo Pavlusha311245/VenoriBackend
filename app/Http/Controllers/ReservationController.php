@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservationTimeRequest;
 use App\Models\Order;
 use App\Models\Place;
+use App\Models\Schedule;
 use App\Services\ReservationService;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\JsonResponse;
 
@@ -38,10 +40,35 @@ class ReservationController extends Controller
      */
     public function availableTime(ReservationTimeRequest $request, $place_id)
     {
-        $times = $this->reservation_service->getTimes($place_id);
-        $bad_times = $this
-            ->reservation_service
-            ->getBadTimes($place_id, $request->people, $request->staying, $times);
+        $date = Carbon::parse($request->date);
+        $dayOfTheWeek = $date->dayOfWeekIso;
+
+        $work_start = Schedule::findOrFail($place_id)
+            ->where('id', $dayOfTheWeek % 7)
+            ->value('work_start');
+
+        $work_end = Schedule::findOrFail($place_id)
+            ->where('id', $dayOfTheWeek % 7)
+            ->value('work_end');
+
+        if ($work_start == null)
+            return response()->json(['message' => 'It\'s Day off']);
+
+        $timeOfTable = $request->time;
+        if ($date->isToday() && $timeOfTable != null) {
+            $work_start = 0;
+        } else {
+            $work_start = $timeOfTable;
+        }
+
+        $capacityOnPlace = Place::findOrFail($place_id)->capacity;
+        if ($request->people > $capacityOnPlace)
+            return response()->json(['message' => 'Bad People']);
+
+        $times = $this->reservation_service
+            ->getTimes($work_start, $work_end);
+        $bad_times = $this->reservation_service
+            ->getBadTimes($place_id, $request->people, $times, $capacityOnPlace, $request->date);
 
         return $this->reservation_service->getAvailableTimes($bad_times, $times);
     }
@@ -57,13 +84,14 @@ class ReservationController extends Controller
     {
         Place::findOrFail($place_id);
 
-        $staying_end = date('Y-m-d H:i:s', strtotime($request->datetime) + ($request->staying * 60));
+        $staying_end = date('H:i', (strtotime($request->time) + ($request->staying * 3600)));
 
         $order = Order::create([
             'status' => 'In Progress',
             'price' => $this->price,
-            'datetime' => $request['datetime'],
+            'date' => $request['date'],
             'people' => $request['people'],
+            'time' => $request['time'],
             'staying' => $request['staying'],
             'staying_end' => $staying_end,
             'user_id' => auth()->user()->id,
