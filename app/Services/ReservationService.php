@@ -57,10 +57,10 @@ class ReservationService
         $index = 0;
         $qt_of_cycles = $staying + $half;
         $bad_times = [];
-
+        dd($times);
         while ($qt_of_cycles != 0)
         {
-            $time = date('G:i', strtotime($times[$index])); //0
+            $time = date('G:i', strtotime($times[$index]));
             $capacity_time =
                 Order::where('place_id', $place_id)
                 ->where('datetime', 'LIKE', '%' . $time . '%')

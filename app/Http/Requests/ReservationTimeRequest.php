@@ -29,7 +29,7 @@ class ReservationTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'datetime' => 'required|date_format:Y-m-d G:i:s',
+            'datetime' => 'required|date_format:Y-m-d G:i:s|after:today',
             'people' => 'required|min:1',
             'staying' => 'required|min:0.5',
         ];

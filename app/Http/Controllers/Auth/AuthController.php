@@ -25,7 +25,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function registration(Request $request)
+    public function register(Request $request)
     {
         $validData = $request->validate([
             'first_name' => 'required|min:2',
