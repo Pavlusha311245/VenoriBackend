@@ -47,7 +47,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 Route::group(['middleware' => 'logging'], function () {
     Route::post('/login', 'App\Http\Controllers\Auth\AuthController@login');
-    Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@registration');
+    Route::post('/register', 'App\Http\Controllers\Auth\AuthController@register');
     Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@forgotPassword');
     Route::post('/reset', 'App\Http\Controllers\Auth\AuthController@resetPassword');
 });
