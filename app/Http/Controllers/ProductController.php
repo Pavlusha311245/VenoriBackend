@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use App\Models\Product;
+use App\Models\ProductsOfPlace;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -97,6 +99,18 @@ class ProductController extends Controller
     public function getProduct($name)
     {
         return response()->json(Product::findOrFail($name), 200);
+    }
+
+    /**
+     * The method returns menu for place
+     * @param int $id
+     * @return Response
+     */
+    public function showMenu($id)
+    {
+        $place = Place::findOrFail($id);
+
+        $products = ProductsOfPlace::where('place_id', $place);
     }
 
     /**
