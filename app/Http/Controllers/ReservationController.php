@@ -8,7 +8,6 @@ use App\Models\Place;
 use App\Models\Schedule;
 use App\Services\ReservationService;
 use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\JsonResponse;
 
 /**
