@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -79,7 +80,10 @@ class UserController extends Controller
             'password' => 'min:8',
         ]);
 
-        $user->update($request->all());
+        $service = new ImageService;
+        $url = $service->upload($request);
+
+        $user->update($request->all(), ['avatar' => $url]);
 
         return response()->json($user, 200);
     }
