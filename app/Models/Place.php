@@ -23,10 +23,12 @@ class Place extends Model
         'phone',
         'review_id',
         'capacity',
+        'table_price',
         'description',
         'address_full',
         'address_lat',
-        'address_lon'
+        'address_lon',
+        'image_url'
     ];
 
     /**

@@ -16,6 +16,7 @@ class CreatePlacesTable extends Migration
         Schema::create('places', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('image_url');
             $table->string('type');
             $table->float('rating')->default(0);
             $table->string('address_full');
@@ -24,6 +25,7 @@ class CreatePlacesTable extends Migration
             $table->string('phone');
             $table->string('description');
             $table->string('capacity');
+            $table->string('table_price');
             $table->timestamps();
         });
     }
