@@ -55,17 +55,17 @@ class ReservationService
         while ($index < count($times)) {
             $peoples = Order::where('place_id', $place_id)
                 ->where('date', $date)
-                ->where('time', '<=', date('G:i:s', strtotime($times[$index])))
-                ->where('staying_end', '>=', date('G:i:s', strtotime($times[$index])))
+                ->where('time', '<', date('G:i:s', strtotime($times[$index])))
+                ->where('staying_end', '>', date('G:i:s', strtotime($times[$index])))
                 ->get('people');
             $capacity = $peoples->sum('people');
 
-            if (($capacity + $people) > $capacityOnPlace) {
+            if (($capacity + $people) > $capacityOnPlace)
                 $bad_times[] = $times[array_search($times[$index], $times)];
-            }
 
             $index++;
         }
+
         return $bad_times;
     }
 
@@ -78,16 +78,14 @@ class ReservationService
      */
     public function getAvailableTimes($bad_times, $times)
     {
-        if (!empty($bad_times)) {
-            foreach ($bad_times as $bad) {
-                foreach ($times as $key => $time) {
-                    if ($bad == $time) {
+        if (!empty($bad_times))
+            foreach ($bad_times as $bad)
+                foreach ($times as $key => $time)
+                    if ($bad == $time)
+                    {
                         unset($times[$key]);
                         $times = array_values($times);
                     }
-                }
-            }
-        };
 
         $result_times[] = $times;
 
