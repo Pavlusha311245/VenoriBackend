@@ -55,11 +55,10 @@ class ReservationService
         while ($index < count($times)) {
             $peoples = Order::where('place_id', $place_id)
                 ->where('date', $date)
-                ->where('time', '<', date('G:i:s', strtotime($times[$index])))
+                ->where('time', '<=', date('G:i:s', strtotime($times[$index])))
                 ->where('staying_end', '>', date('G:i:s', strtotime($times[$index])))
                 ->get('people');
             $capacity = $peoples->sum('people');
-
             if (($capacity + $people) > $capacityOnPlace)
                 $bad_times[] = $times[array_search($times[$index], $times)];
 
