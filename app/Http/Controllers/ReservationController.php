@@ -84,9 +84,9 @@ class ReservationController extends Controller
     public function tableReserve(ReservationTimeRequest $request, $place_id)
     {
         $staying_end = date('H:i', (strtotime($request->time) + ($request->staying * 3600)));
-        $tablePrice = Place::findOrFail($place_id)->get('table_price');
-        $price = $request->people * $tablePrice;
+        $tablePrice = Place::findOrFail($place_id)->value('table_price');
 
+        $price = (int)($request->people * $tablePrice);
         $order = Order::create([
             'status' => 'In Progress',
             'price' => $price,

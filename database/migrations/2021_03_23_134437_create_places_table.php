@@ -25,7 +25,7 @@ class CreatePlacesTable extends Migration
             $table->string('phone');
             $table->string('description');
             $table->string('capacity');
-            $table->string('table_price');
+            $table->decimal('table_price');
             $table->timestamps();
         });
     }
