@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Place;
 use App\Models\Product;
 use App\Models\ProductsOfPlace;
@@ -104,13 +105,23 @@ class ProductController extends Controller
     /**
      * The method returns menu for place
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function showMenu($id)
+    public function menu($id)
     {
         $place = Place::findOrFail($id);
 
-        $products = ProductsOfPlace::where('place_id', $place);
+        $products = ProductsOfPlace::where('place_id', $place->id)->get();
+
+        foreach ($products as $product)
+        {
+            $menuItem = Product::where('id', $product->product_id)->first();
+            $category = Category::where('id', $menuItem->category_id)->first();
+
+            //$menu[$category->name][] = Product::where('id', $product->place_id)->get();
+        }
+
+        return response()->json($menu);
     }
 
     /**
