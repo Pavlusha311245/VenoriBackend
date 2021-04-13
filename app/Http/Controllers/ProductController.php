@@ -110,7 +110,6 @@ class ProductController extends Controller
     public function menu($id)
     {
         $place = Place::findOrFail($id);
-
         $products = ProductsOfPlace::where('place_id', $place->id)->get();
 
         foreach ($products as $product)
@@ -118,7 +117,7 @@ class ProductController extends Controller
             $menuItem = Product::where('id', $product->product_id)->first();
             $category = Category::where('id', $menuItem->category_id)->first();
 
-            //$menu[$category->name][] = Product::where('id', $product->place_id)->get();
+            $menu[$category->name][] = $menuItem;
         }
 
         return response()->json($menu);
