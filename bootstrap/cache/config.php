@@ -391,6 +391,92 @@
       'time' => 2,
     ),
   ),
+  'l5-swagger' => 
+  array (
+    'default' => 'default',
+    'documentations' => 
+    array (
+      'default' => 
+      array (
+        'api' => 
+        array (
+          'title' => 'L5 Swagger UI',
+        ),
+        'routes' => 
+        array (
+          'api' => 'api/documentation',
+        ),
+        'paths' => 
+        array (
+          'docs_json' => 'api-docs.json',
+          'docs_yaml' => 'api-docs.yaml',
+          'format_to_use_for_docs' => 'json',
+          'annotations' => 
+          array (
+            0 => '/home/anton/fullplate/app',
+          ),
+        ),
+      ),
+    ),
+    'defaults' => 
+    array (
+      'routes' => 
+      array (
+        'docs' => 'docs',
+        'oauth2_callback' => 'api/oauth2-callback',
+        'middleware' => 
+        array (
+          'api' => 
+          array (
+          ),
+          'asset' => 
+          array (
+          ),
+          'docs' => 
+          array (
+          ),
+          'oauth2_callback' => 
+          array (
+          ),
+        ),
+        'group_options' => 
+        array (
+        ),
+      ),
+      'paths' => 
+      array (
+        'docs' => '/home/anton/fullplate/storage/api-docs',
+        'views' => '/home/anton/fullplate/resources/views/vendor/l5-swagger',
+        'base' => NULL,
+        'swagger_ui_assets_path' => 'vendor/swagger-api/swagger-ui/dist/',
+        'excludes' => 
+        array (
+        ),
+      ),
+      'securityDefinitions' => 
+      array (
+        'securitySchemes' => 
+        array (
+        ),
+        'security' => 
+        array (
+          0 => 
+          array (
+          ),
+        ),
+      ),
+      'generate_always' => false,
+      'generate_yaml_copy' => false,
+      'proxy' => false,
+      'additional_config_url' => NULL,
+      'operations_sort' => NULL,
+      'validator_url' => NULL,
+      'constants' => 
+      array (
+        'L5_SWAGGER_CONST_HOST' => 'http://localhost/api/v1',
+      ),
+    ),
+  ),
   'logging' => 
   array (
     'default' => 'stack',

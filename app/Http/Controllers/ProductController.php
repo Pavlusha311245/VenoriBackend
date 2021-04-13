@@ -103,27 +103,6 @@ class ProductController extends Controller
     }
 
     /**
-     * The method returns menu for place
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function menu($id)
-    {
-        $place = Place::findOrFail($id);
-        $products = ProductsOfPlace::where('place_id', $place->id)->get();
-
-        foreach ($products as $product)
-        {
-            $menuItem = Product::where('id', $product->product_id)->first();
-            $category = Category::where('id', $menuItem->category_id)->first();
-
-            $menu[$category->name][] = $menuItem;
-        }
-
-        return response()->json($menu);
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param $id
