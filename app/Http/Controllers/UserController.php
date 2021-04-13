@@ -80,12 +80,27 @@ class UserController extends Controller
             'password' => 'min:8',
         ]);
 
-        $service = new ImageService;
-        $url = $service->upload($request);
-
-        $user->update($request->all(), ['avatar' => $url]);
+        $user->update($request->all());
 
         return response()->json($user, 200);
+    }
+
+    /**
+     * The method upload the avatar of the user
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     */
+    public function uploadAvatar(Request $request, $id)
+    {
+        $service = new ImageService;
+
+        $url = $service->upload($request->file('image'));
+
+        $user = User::findOrFail($id);
+
+        $user->update(['avatar' => $url]);
     }
 
     /**

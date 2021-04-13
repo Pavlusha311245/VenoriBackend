@@ -6,25 +6,24 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Class ImageService
+ * Class ImageService uploading image it in storage
  * @package App\Services
  */
-class ImageService{
-
-    public function upload($image){
-        $image->file('avatar');
-
-        $image->validate([
-            'image' => 'required|image|mimes:jpg,png'
-        ]);
-
+class ImageService
+{
+    /**
+     * The method return path to image
+     * @param $image
+     * @return string
+     *
+     */
+    public function upload($image)
+    {
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
 
-        $image->move(public_path('storage/images'), $new_name);
+        $image->move(public_path('storage/UserAvatars'), $new_name);
 
-        $pathImage = 'public/storage/images/' . $new_name;
-
-        return $pathImage;
+        return 'storage/UserAvatars/' . $new_name;
     }
 }
 ?>
