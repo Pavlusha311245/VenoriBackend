@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Place;
+use App\Models\Product;
+use App\Models\ProductsOfPlace;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -69,6 +72,27 @@ class PlaceController extends Controller
     public function show($id)
     {
         return Place::findOrFail($id);
+    }
+
+    /**
+     * The method returns menu for place
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function menu($id)
+    {
+        $place = Place::findOrFail($id);
+        $products = ProductsOfPlace::where('place_id', $place->id)->get();
+
+        foreach ($products as $product)
+        {
+            $menuItem = Product::where('id', $product->product_id)->first();
+            $category = Category::where('id', $menuItem->category_id)->first();
+
+            $menu[$category->name][] = $menuItem;
+        }
+
+        return response()->json($menu);
     }
 
     /**
