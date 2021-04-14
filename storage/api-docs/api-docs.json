@@ -133,302 +133,26 @@
     },
     "components": {
         "schemas": {
-            "AppInfo": {
+            "ProductsOfPlace": {
+                "required": [
+                    "product_id",
+                    "place_id"
+                ],
                 "properties": {
                     "id": {
                         "type": "integer",
                         "readOnly": "true",
                         "example": "1"
                     },
-                    "about": {
-                        "description": "About application",
-                        "type": "text",
-                        "example": "Very larg text..."
-                    },
-                    "contact": {
-                        "description": "Application contacts (Phones, Addresses)",
-                        "type": "text",
-                        "example": "Very larg text..."
-                    },
-                    "terms": {
-                        "description": "Terms",
-                        "type": "text",
-                        "example": "Very larg text..."
-                    },
-                    "privacy_policy": {
-                        "description": "Privacy policy",
-                        "type": "text",
-                        "example": "Very larg text..."
-                    },
-                    "created_at": {
-                        "description": "Initial creation timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "description": "Last update timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "AppInfo"
-                }
-            },
-            "Category": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
-                    },
-                    "name": {
-                        "description": "Category name",
-                        "type": "string",
-                        "example": "Coffe"
-                    },
-                    "image_url": {
-                        "description": "On creation and update, accepts a file, but stores and returns a link to the file on the server",
-                        "type": "string",
-                        "example": "storage/category"
-                    },
-                    "created_at": {
-                        "description": "Initial creation timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "description": "Last update timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "Category"
-                }
-            },
-            "Comment": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
-                    },
-                    "title": {
-                        "description": "Comment title",
-                        "type": "string",
-                        "example": "It lie!!"
-                    },
-                    "description": {
-                        "description": "The main text of the comment",
-                        "type": "string",
-                        "example": "All food in this place was bad! -_-"
-                    },
-                    "review_id": {
-                        "description": "ID of the review to which the comment applies",
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "created_at": {
-                        "description": "Initial creation timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "description": "Last update timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "Comment"
-                }
-            },
-            "Favourite": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
-                    },
-                    "user_id": {
-                        "description": "user ID",
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "place_id": {
-                        "description": "go to the place that the user likes",
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "created_at": {
-                        "description": "Initial creation timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "description": "Last update timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "Favourite"
-                }
-            },
-            "Product": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
-                    },
-                    "name": {
-                        "description": "Product name",
-                        "type": "string",
-                        "example": "Americano"
-                    },
-                    "weight": {
-                        "description": "Product weight",
-                        "type": "string",
-                        "example": "200ml"
-                    },
-                    "price": {
-                        "description": "Product price",
-                        "type": "decimal",
-                        "example": "4.00"
-                    },
-                    "image_url": {
-                        "description": "On creation and update, accepts a file, but stores and returns a link to the file on the server",
-                        "type": "string",
-                        "example": "storage/products/coffe_americano.png"
-                    },
-                    "category_id": {
-                        "description": "ID of the category the product belongs to",
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "created_at": {
-                        "description": "Initial creation timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "description": "Last update timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "Product"
-                }
-            },
-            "Review": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
-                    },
-                    "title": {
-                        "description": "Review title",
-                        "type": "string",
-                        "example": "Gread place!!!"
-                    },
-                    "rating": {
-                        "description": "User rating",
-                        "type": "float",
-                        "example": "5"
-                    },
-                    "description": {
-                        "description": "The main text of the review",
-                        "type": "string",
-                        "example": "Very cool restaurant, I liked everything"
-                    },
-                    "like": {
-                        "description": "The number of likes under the review from other users",
-                        "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
-                    },
-                    "user_id": {
-                        "description": "User ID of the user who left the review",
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "place_id": {
-                        "description": "Id of the place for which the review is left",
-                        "type": "integer",
-                        "example": "1"
-                    },
-                    "created_at": {
-                        "description": "Initial creation timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    },
-                    "updated_at": {
-                        "description": "Last update timestamp",
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": "true"
-                    }
-                },
-                "type": "object",
-                "xml": {
-                    "name": "Review"
-                }
-            },
-            "Schedule": {
-                "properties": {
-                    "id": {
+                    "product_id": {
                         "type": "integer",
                         "readOnly": "true",
                         "example": "1"
                     },
                     "place_id": {
-                        "description": "Id of the place to which the schedule belongs",
                         "type": "integer",
+                        "readOnly": "true",
                         "example": "1"
-                    },
-                    "work_start": {
-                        "description": "Start time",
-                        "type": "string",
-                        "format": "time",
-                        "example": "8:00"
-                    },
-                    "work_end": {
-                        "description": "End time",
-                        "type": "string",
-                        "format": "time",
-                        "example": "19:00"
-                    },
-                    "lunch_start": {
-                        "description": "lunch start timee",
-                        "type": "string",
-                        "format": "time",
-                        "example": "12:00"
-                    },
-                    "lunch_end": {
-                        "description": "lunch end time",
-                        "type": "string",
-                        "format": "time",
-                        "example": "13:00"
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
@@ -445,7 +169,79 @@
                 },
                 "type": "object",
                 "xml": {
-                    "name": "Schedule"
+                    "name": "ProductsOfPlace"
+                }
+            },
+            "User": {
+                "required": [
+                    "first_name",
+                    "second_name",
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "John"
+                    },
+                    "second_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "description": "User unique email address",
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@gmail.com"
+                    },
+                    "address_full": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "John"
+                    },
+                    "address_lat": {
+                        "type": "double",
+                        "example": "34.22"
+                    },
+                    "address_lon": {
+                        "type": "double",
+                        "example": "34.32"
+                    },
+                    "email_verified_at": {
+                        "description": "Datetime marker of verification status",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true",
+                        "example": "2019-02-25 12:59:20"
+                    },
+                    "password": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Passwo424hg"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
                 }
             }
         },
