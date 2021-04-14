@@ -24,7 +24,7 @@ class CreatePlacesTable extends Migration
             $table->double('address_lon');
             $table->string('phone');
             $table->string('description');
-            $table->string('capacity');
+            $table->unsignedInteger('capacity');
             $table->decimal('table_price');
             $table->timestamps();
         });

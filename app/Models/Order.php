@@ -8,17 +8,16 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @OA\Schema(
- * required={"status","price", "date", "people", "staying", "time", "staying_end", "user_id","place_id"},
+ * required={"status","price","date","people","staying","time","staying_end","user_id","place_id"},
  * @OA\Xml(name="Order"),
  * @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- * @OA\Property(property="status", type="string", example="Confirmed"),
- * @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
- * @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
- * @OA\Property(property="address_full", type="string", maxLength=255, example="John"),
- * @OA\Property(property="address_lat", type="double", example="34.22"),
- * @OA\Property(property="address_lon", type="double", example="34.32"),
- * @OA\Property(property="email_verified_at", type="string", readOnly="true", format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
- * @OA\Property(property="password", type="string", maxLength=255, example="Passwo424hg"),
+ * @OA\Property(property="status", type="enum", example={"In Progress","Rejected","Confirmed"}),
+ * @OA\Property(property="price", type="decimal", example="20.99"),
+ * @OA\Property(property="staying", type="integer", example="2"),
+ * @OA\Property(property="time", type="time", example="17:30"),
+ * @OA\Property(property="staying_end", type="time", example="19:30"),
+ * @OA\Property(property="user_id", type="integer", readOnly="true", example="1"),
+ * @OA\Property(property="place_id", type="integer", readOnly="true", example="1"),
  * @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly="true"),
  * @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly="true")
  * )

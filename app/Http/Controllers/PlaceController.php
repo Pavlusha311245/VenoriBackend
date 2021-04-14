@@ -50,7 +50,7 @@ class PlaceController extends Controller
             'address_latitude' => 'float',
             'address_longitude' => 'float',
             'phone' => 'required|max:15',
-            'capacity' => 'required|string',
+            'capacity' => 'required|integer',
             'table_price' => 'required|string',
             'description' => 'required|string',
             'image_url' => 'required|string'
@@ -84,7 +84,7 @@ class PlaceController extends Controller
             'type' => 'max:255',
             'location' => 'string',
             'phone' => 'max:15',
-            'capacity' => 'string',
+            'capacity' => 'integer',
             'table_price' => 'string',
             'description' => 'string',
             'image_url' => 'string'
