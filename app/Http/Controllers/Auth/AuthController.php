@@ -40,15 +40,72 @@ use Illuminate\Support\Facades\Mail;
  *     @OA\Response(
  *          response=201,
  *          description="Success registration a new user",
- *          @OA\Items(
+ *          @OA\JsonContent(
  *              type="object",
- *              @OA\Property(property="first_name", type="string", example="The second name field is required"),
- *          )
+ *              @OA\Property(
+ *                  property="first_name",
+ *                  type="string",
+ *                  example="Jack"
+ *              ),
+ *              @OA\Property(
+ *                  property="second_name",
+ *                  type="string",
+ *                  example="Smith"
+ *              ),
+ *              @OA\Property(
+ *                  property="email",
+ *                  type="string",
+ *                  format="email",
+ *                  example="user1@mail.com"
+ *              ),
+ *              @OA\Property(
+ *                  property="created_at",
+ *                  type="string",
+ *                  format="date-time",
+ *                  example="2019-02-25 12:59:20"
+ *              ),
+ *              @OA\Property(
+ *                  property="updated_at",
+ *                  type="string",
+ *                  format="date-time",
+ *                  example="2019-02-25 12:59:20"
+ *              ),
+ *              @OA\Property(
+ *                  property="id",
+ *                  type="integer",
+ *                  example="1"
+ *              ),
+ *          ),
  *     ),
  *     @OA\Response(
  *          response=422,
- *          description="Wrong data to register a new user",
- *     )
+ *          description="Validation error",
+ *          @OA\JsonContent(
+ *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+ *              @OA\Property(
+ *                  property="errors",
+ *                  type="object",
+ *                  @OA\Property(
+ *                      property="first_name",
+ *                      type="array",
+ *                      collectionFormat="multi",
+ *                      @OA\Items(
+ *                          type="string",
+ *                          example="The first name field is required.",
+ *                      )
+ *                  ),
+ *                  @OA\Property(
+ *                      property="email",
+ *                      type="array",
+ *                      collectionFormat="multi",
+ *                      @OA\Items(
+ *                          type="string",
+ *                          example="The email has already been taken.",
+ *                      )
+ *                  )
+ *              )
+ *          )
+ *      )
  * )
  */
 class AuthController extends Controller
