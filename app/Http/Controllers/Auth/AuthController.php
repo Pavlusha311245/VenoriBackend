@@ -15,15 +15,109 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 /**
- * Controller used methods for registration, login and password recovery of a user
- * @package App\Http\Controllers\Auth
+ * @OA\SecurityScheme(
+ *     securityScheme="bearer",
+ *     type="http",
+ *     scheme="bearer"
+ * )
+ * @OA\Post(
+ *     path="/api/register",
+ *     summary="Registration",
+ *     description="Registration of a new user by first_name, second_name, email, password",
+ *     operationId="registration",
+ *     tags={"auth"},
+ *     @OA\RequestBody(
+ *          required=true,
+ *          description="Pass data to register a new user",
+ *          @OA\JsonContent(
+ *              required={"first_name","second_name","email","password"},
+ *              @OA\Property(property="first_name", type="string", example="Jack"),
+ *              @OA\Property(property="second_name", type="string", example="Smith"),
+ *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+ *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+ *          )
+ *     ),
+ *     @OA\Response(
+ *          response=201,
+ *          description="Success registration a new user",
+ *          @OA\JsonContent(
+ *              type="object",
+ *              @OA\Property(
+ *                  property="first_name",
+ *                  type="string",
+ *                  example="Jack"
+ *              ),
+ *              @OA\Property(
+ *                  property="second_name",
+ *                  type="string",
+ *                  example="Smith"
+ *              ),
+ *              @OA\Property(
+ *                  property="email",
+ *                  type="string",
+ *                  format="email",
+ *                  example="user1@mail.com"
+ *              ),
+ *              @OA\Property(
+ *                  property="created_at",
+ *                  type="string",
+ *                  format="date-time",
+ *                  example="2019-02-25 12:59:20"
+ *              ),
+ *              @OA\Property(
+ *                  property="updated_at",
+ *                  type="string",
+ *                  format="date-time",
+ *                  example="2019-02-25 12:59:20"
+ *              ),
+ *              @OA\Property(
+ *                  property="id",
+ *                  type="integer",
+ *                  example="1"
+ *              ),
+ *          ),
+ *     ),
+ *     @OA\Response(
+ *          response=422,
+ *          description="Validation error",
+ *          @OA\JsonContent(
+ *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+ *              @OA\Property(
+ *                  property="errors",
+ *                  type="object",
+ *                  @OA\Property(
+ *                      property="first_name",
+ *                      type="array",
+ *                      collectionFormat="multi",
+ *                      @OA\Items(
+ *                          type="string",
+ *                          example="The first name field is required.",
+ *                      )
+ *                  ),
+ *                  @OA\Property(
+ *                      property="email",
+ *                      type="array",
+ *                      collectionFormat="multi",
+ *                      @OA\Items(
+ *                          type="string",
+ *                          example="The email has already been taken.",
+ *                      )
+ *                  )
+ *              )
+ *          )
+ *      )
+ * )
  */
 class AuthController extends Controller
 {
     /**
      * Method for user registration
-     * @param Request $request
-     * @return JsonResponse
+     *
+     * @param  [string] first_name
+     * @param  [string] second_name
+     * @param  [string] email
+     * @param  [string] password
+     * @return [json] user object
      */
     public function register(Request $request)
     {
