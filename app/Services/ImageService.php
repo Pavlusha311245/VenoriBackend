@@ -17,13 +17,13 @@ class ImageService
      * @return string
      *
      */
-    public function upload($image)
+    public function upload($image, $collection)
     {
         $new_name = rand() . '.' . $image->getClientOriginalExtension();
 
-        $image->move(public_path('storage/UserAvatars'), $new_name);
+        $image->move(public_path('storage/' . $collection), $new_name);
 
-        return 'storage/UserAvatars/' . $new_name;
+        return 'storage/' . $collection . '/' . $new_name;
     }
 }
 ?>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Services\ImageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -34,12 +35,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $imageService = new ImageService;
+
+        $url = $imageService->upload($request->file('image'), 'CategoryImages');
+
         $request->validate([
             'name' => 'string',
-            'image_url' => 'string'
+            'image_url' => $url
         ]);
 
-        $category = Category::create($request->all());
+        $category = Category::create([
+            'image_url' => $url,
+            'name' => $request->name
+        ]);
 
         return response($category, 201);
     }
@@ -71,6 +79,26 @@ class CategoryController extends Controller
         $category->update($request->all());
 
         return response()->json($category, 200);
+    }
+
+    /**
+     * The method upload the category of the user
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     */
+    public function uploadImage(Request $request, $id)
+    {
+        $imageService = new ImageService;
+
+        $url = $imageService->upload($request->file('image'), 'CategoryImages');
+
+        $category = Category::findOrFail($id);
+
+        $category->update(['image_url' => $url]);
+
+        return response()->json($url, 200);
     }
 
     /**

@@ -76,13 +76,13 @@ class UserController extends Controller
             'address_address' => 'string',
             'address_latitude' => 'double',
             'address_longitude' => 'double',
-            'avatar' => 'string',
+            'avatar' => 'file',
             'password' => 'min:8',
         ]);
 
         $user->update($request->all());
 
-        return response()->json($user, 200);
+        return response()->json($user,200);
     }
 
     /**
@@ -94,13 +94,15 @@ class UserController extends Controller
      */
     public function uploadAvatar(Request $request, $id)
     {
-        $service = new ImageService;
+        $imageService = new ImageService;
 
-        $url = $service->upload($request->file('image'));
+        $url = $imageService->upload($request->file('image'), 'UserAvatars');
 
         $user = User::findOrFail($id);
 
         $user->update(['avatar' => $url]);
+
+        return response()->json($url, 200);
     }
 
     /**

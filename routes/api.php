@@ -43,7 +43,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
-    Route::post('/users/uploadAvatar/{id}', 'App\Http\Controllers\UserController@uploadAvatar');
+    Route::post('/user/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
+    Route::post('/category/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
 
 });
 
