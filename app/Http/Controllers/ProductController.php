@@ -53,7 +53,8 @@ class ProductController extends Controller
                 'name' => $row[0],
                 'weight' => $row[1],
                 'price' => $row[2],
-                'category_id' => $row[3]
+                'category_id' => $row[3],
+                'image_url' => $row[4]
             ];
 
             Product::updateOrCreate(
@@ -62,7 +63,8 @@ class ProductController extends Controller
                     'name' => $products['name'],
                     'weight' => $products['weight'],
                     'price' => $products['price'],
-                    'category_id' => $products['category_id']
+                    'category_id' => $products['category_id'],
+                    'image_url' => $products['image_url']
                 ]);
         }
     }
@@ -76,10 +78,11 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-                'name' => 'required',
-                'weight' => 'required',
-                'price' => 'required',
-                'category_id' => 'required'
+            'name' => 'required',
+            'weight' => 'required',
+            'price' => 'required',
+            'category_id' => 'required',
+            'image_url' => 'required'
         ]);
 
         $product = Product::create($request->all());
@@ -120,7 +123,8 @@ class ProductController extends Controller
             'name' => 'required',
             'weight' => 'required',
             'price' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'image_url' => 'required'
         ]);
 
         $product->update($request->all());

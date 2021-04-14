@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservationTimeRequest;
 use App\Models\Order;
 use App\Models\Place;
+use App\Models\Schedule;
 use App\Services\ReservationService;
-use DateTime;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -17,7 +18,6 @@ use Illuminate\Http\JsonResponse;
 class ReservationController extends Controller
 {
     protected $reservation_service;
-    protected $price = 40;
 
     /**
      * ReservationService constructor.
@@ -38,10 +38,37 @@ class ReservationController extends Controller
      */
     public function availableTime(ReservationTimeRequest $request, $place_id)
     {
-        $times = $this->reservation_service->getTimes($place_id);
-        $bad_times = $this
-            ->reservation_service
-            ->getBadTimes($place_id, $request->people, $request->staying, $times);
+        $date = Carbon::parse($request->date);
+        $dayOfTheWeek = $date->dayOfWeekIso;
+
+        $work_start = Schedule::findOrFail($place_id)->where('id', $dayOfTheWeek % 7)->value('work_start');
+        $work_end = Schedule::findOrFail($place_id)->where('id', $dayOfTheWeek % 7)->value('work_end');
+        if ($work_start == null)
+            return response()->json(['message' => 'It\'s Day off']);
+
+        $capacityOnPlace = Place::findOrFail($place_id)->capacity;
+        if ($request->people > $capacityOnPlace)
+            return response()->json(['message' => 'Bad value of people']);
+
+        $times = $this->reservation_service->getTimes($work_start, $work_end);
+
+        if ($date->isToday())
+        {
+            $current_time = date(('12') ? 'g:i A' : 'G:i', strtotime(Carbon::now()->toDateTimeString()));
+            foreach ($times as $time)
+                if ($current_time <= $time)
+                {
+                    $work_start = $time;
+                    $times = $this->reservation_service->getTimes($work_start, $work_end);
+                    break;
+                }
+        }
+
+        if ($request->staying > (array_key_last($times) / 2))
+                return response()->json(['message' => 'Bad value of staying']);
+
+        $bad_times = $this->reservation_service
+            ->getBadTimes($place_id, $request->people, $times, $capacityOnPlace, $request->date);
 
         return $this->reservation_service->getAvailableTimes($bad_times, $times);
     }
@@ -55,15 +82,16 @@ class ReservationController extends Controller
      */
     public function tableReserve(ReservationTimeRequest $request, $place_id)
     {
-        Place::findOrFail($place_id);
+        $staying_end = date('H:i', (strtotime($request->time) + ($request->staying * 3600)));
+        $tablePrice = Place::findOrFail($place_id)->value('table_price');
 
-        $staying_end = date('Y-m-d H:i:s', strtotime($request->datetime) + ($request->staying * 60));
-
+        $price = (int)($request->people * $tablePrice);
         $order = Order::create([
             'status' => 'In Progress',
-            'price' => $this->price,
-            'datetime' => $request['datetime'],
+            'price' => $price,
+            'date' => $request['date'],
             'people' => $request['people'],
+            'time' => $request['time'],
             'staying' => $request['staying'],
             'staying_end' => $staying_end,
             'user_id' => auth()->user()->id,

@@ -18,8 +18,9 @@ class Order extends Model
     protected $fillable = [
         'status',
         'price',
-        'datetime',
+        'date',
         'people',
+        'time',
         'staying',
         'staying_end',
         'user_id',
