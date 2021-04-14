@@ -37,6 +37,10 @@ class CategoryController extends Controller
     {
         $imageService = new ImageService;
 
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,png'
+        ]);
+
         $url = $imageService->upload($request->file('image'), 'CategoryImages');
 
         $request->validate([
@@ -91,6 +95,10 @@ class CategoryController extends Controller
     public function uploadImage(Request $request, $id)
     {
         $imageService = new ImageService;
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,png'
+        ]);
 
         $url = $imageService->upload($request->file('image'), 'CategoryImages');
 

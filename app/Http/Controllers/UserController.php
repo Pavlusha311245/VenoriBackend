@@ -96,6 +96,10 @@ class UserController extends Controller
     {
         $imageService = new ImageService;
 
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,png'
+        ]);
+
         $url = $imageService->upload($request->file('image'), 'UserAvatars');
 
         $user = User::findOrFail($id);
