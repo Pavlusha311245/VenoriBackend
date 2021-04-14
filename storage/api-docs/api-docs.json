@@ -133,6 +133,82 @@
     },
     "components": {
         "schemas": {
+            "Order": {
+                "required": [
+                    "status",
+                    "price",
+                    "date",
+                    "people",
+                    "staying",
+                    "time",
+                    "staying_end",
+                    "user_id",
+                    "place_id"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "Confirmed"
+                    },
+                    "second_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Doe"
+                    },
+                    "email": {
+                        "description": "User unique email address",
+                        "type": "string",
+                        "format": "email",
+                        "example": "user@gmail.com"
+                    },
+                    "address_full": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "John"
+                    },
+                    "address_lat": {
+                        "type": "double",
+                        "example": "34.22"
+                    },
+                    "address_lon": {
+                        "type": "double",
+                        "example": "34.32"
+                    },
+                    "email_verified_at": {
+                        "description": "Datetime marker of verification status",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true",
+                        "example": "2019-02-25 12:59:20"
+                    },
+                    "password": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Passwo424hg"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Order"
+                }
+            },
             "ProductsOfPlace": {
                 "required": [
                     "product_id",

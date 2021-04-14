@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * required={"status","price", "date", "people", "staying", "time", "staying_end", "user_id","place_id"},
  * @OA\Xml(name="Order"),
  * @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- * @OA\Property(property="status", type="enum", example="Confirmed");
+ * @OA\Property(property="status", type="string", example="Confirmed"),
  * @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
  * @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
  * @OA\Property(property="address_full", type="string", maxLength=255, example="John"),
