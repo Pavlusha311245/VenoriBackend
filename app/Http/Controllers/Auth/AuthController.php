@@ -48,30 +48,6 @@ use Illuminate\Support\Facades\Mail;
  *     @OA\Response(
  *          response=422,
  *          description="Wrong data to register a new user",
- *     @OA\JsonContent(
- *          @OA\Property(property="message", type="string", example="The given data was invalid."),
- *          @OA\MediaType(
- *              mediaType="application/json",
- *              @OA\Schema(
- *                  type="array",
- *                  @OA\Items(
- *                      type="object",
- *                      @OA\Property(
- *                          property="first_name",
- *                          type="string",
- *                          example="The second name field is required."
- *                      ),
- *                      @OA\Property(
- *                      property="first_name",
- *                      type="string",
- *                      example="The second name field is required."
- *                  ),
- *                  @OA\Property(
- *                      property="first_name",
- *                      type="string",
- *                      example="The second name field is required."
- *                  ),
- *          )
  *     )
  * )
  */

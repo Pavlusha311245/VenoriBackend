@@ -55,35 +55,330 @@
                         "description": "Success registration a new user"
                     },
                     "422": {
-                        "description": "Wrong data to register a new user",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "The given data was invalid."
-                                        }
-                                    },
-                                    "type": "object",
-                                    "items": {
-                                        "properties": {
-                                            "first_name": {
-                                                "type": "string",
-                                                "example": "The second name field is required."
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
+                        "description": "Wrong data to register a new user"
                     }
                 }
             }
         }
     },
     "components": {
+        "schemas": {
+            "AppInfo": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "about": {
+                        "description": "About application",
+                        "type": "text",
+                        "example": "Very larg text..."
+                    },
+                    "contact": {
+                        "description": "Application contacts (Phones, Addresses)",
+                        "type": "text",
+                        "example": "Very larg text..."
+                    },
+                    "terms": {
+                        "description": "Terms",
+                        "type": "text",
+                        "example": "Very larg text..."
+                    },
+                    "privacy_policy": {
+                        "description": "Privacy policy",
+                        "type": "text",
+                        "example": "Very larg text..."
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "AppInfo"
+                }
+            },
+            "Category": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "description": "Category name",
+                        "type": "string",
+                        "example": "Coffe"
+                    },
+                    "image_url": {
+                        "description": "On creation and update, accepts a file, but stores and returns a link to the file on the server",
+                        "type": "string",
+                        "example": "storage/category"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Category"
+                }
+            },
+            "Comment": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "title": {
+                        "description": "Comment title",
+                        "type": "string",
+                        "example": "It lie!!"
+                    },
+                    "description": {
+                        "description": "The main text of the comment",
+                        "type": "string",
+                        "example": "All food in this place was bad! -_-"
+                    },
+                    "review_id": {
+                        "description": "ID of the review to which the comment applies",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Comment"
+                }
+            },
+            "Favourite": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "description": "user ID",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "place_id": {
+                        "description": "go to the place that the user likes",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Favourite"
+                }
+            },
+            "Product": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "name": {
+                        "description": "Product name",
+                        "type": "string",
+                        "example": "Americano"
+                    },
+                    "weight": {
+                        "description": "Product weight",
+                        "type": "string",
+                        "example": "200ml"
+                    },
+                    "price": {
+                        "description": "Product price",
+                        "type": "decimal",
+                        "example": "4.00"
+                    },
+                    "image_url": {
+                        "description": "On creation and update, accepts a file, but stores and returns a link to the file on the server",
+                        "type": "string",
+                        "example": "storage/products/coffe_americano.png"
+                    },
+                    "category_id": {
+                        "description": "ID of the category the product belongs to",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Product"
+                }
+            },
+            "Review": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "title": {
+                        "description": "Review title",
+                        "type": "string",
+                        "example": "Gread place!!!"
+                    },
+                    "rating": {
+                        "description": "User rating",
+                        "type": "float",
+                        "example": "5"
+                    },
+                    "description": {
+                        "description": "The main text of the review",
+                        "type": "string",
+                        "example": "Very cool restaurant, I liked everything"
+                    },
+                    "like": {
+                        "description": "The number of likes under the review from other users",
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "user_id": {
+                        "description": "User ID of the user who left the review",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "place_id": {
+                        "description": "Id of the place for which the review is left",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Review"
+                }
+            },
+            "Schedule": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "readOnly": "true",
+                        "example": "1"
+                    },
+                    "place_id": {
+                        "description": "Id of the place to which the schedule belongs",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "work_start": {
+                        "description": "Start time",
+                        "type": "string",
+                        "format": "time",
+                        "example": "8:00"
+                    },
+                    "work_end": {
+                        "description": "End time",
+                        "type": "string",
+                        "format": "time",
+                        "example": "19:00"
+                    },
+                    "lunch_start": {
+                        "description": "lunch start timee",
+                        "type": "string",
+                        "format": "time",
+                        "example": "12:00"
+                    },
+                    "lunch_end": {
+                        "description": "lunch end time",
+                        "type": "string",
+                        "format": "time",
+                        "example": "13:00"
+                    },
+                    "created_at": {
+                        "description": "Initial creation timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    },
+                    "updated_at": {
+                        "description": "Last update timestamp",
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Schedule"
+                }
+            }
+        },
         "securitySchemes": {
             "bearer": {
                 "type": "http",
