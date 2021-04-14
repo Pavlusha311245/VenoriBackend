@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Place;
+use App\Models\Product;
+use App\Models\ProductsOfPlace;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use function GuzzleHttp\Promise\all;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -52,7 +54,9 @@ class PlaceController extends Controller
             'address_longitude' => 'float',
             'phone' => 'required|max:15',
             'capacity' => 'required|string',
-            'description' => 'required|string'
+            'table_price' => 'required|string',
+            'description' => 'required|string',
+            'image_url' => 'required|string'
         ]);
 
         $place = Place::create($request->all());
@@ -71,6 +75,27 @@ class PlaceController extends Controller
     }
 
     /**
+     * The method returns menu for place
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function menu($id)
+    {
+        $place = Place::findOrFail($id);
+        $products = ProductsOfPlace::where('place_id', $place->id)->get();
+
+        foreach ($products as $product)
+        {
+            $menuItem = Product::where('id', $product->product_id)->first();
+            $category = Category::where('id', $menuItem->category_id)->first();
+
+            $menu[$category->name][] = $menuItem;
+        }
+
+        return response()->json($menu);
+    }
+
+    /**
      * The method updates the data of the establishment
      * @param Request $request
      * @param Place $place
@@ -84,7 +109,9 @@ class PlaceController extends Controller
             'location' => 'string',
             'phone' => 'max:15',
             'capacity' => 'string',
-            'description' => 'string'
+            'table_price' => 'string',
+            'description' => 'string',
+            'image_url' => 'string'
         ]);
 
         $place->update($request->all());

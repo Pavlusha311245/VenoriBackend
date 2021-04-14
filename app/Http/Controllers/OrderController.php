@@ -20,9 +20,7 @@ class OrderController extends Controller
      */
     public function getBookingHistory()
     {
-        Order::where('staying_end', '<', date('Y-m-d H:i:s', strtotime(Carbon::now())))
-            ->where('status', 'In Progress')
-            ->update(['status' => 'Confirmed']);
+        $this->updateOrders();
 
         return Order::where('user_id', auth()->user()->id)
             ->whereIn('status', ['Rejected', 'Confirmed'])
@@ -37,6 +35,8 @@ class OrderController extends Controller
      */
     public function getActiveOrders()
     {
+        $this->updateOrders();
+
         return Order::where('user_id', auth()->user()->id)
             ->where('status', 'In Progress')
             ->paginate(5);
@@ -54,5 +54,12 @@ class OrderController extends Controller
             ->where('user_id', auth()->user()->id)
             ->where('id', $order_id)
             ->update(['status' => 'Rejected']);
+    }
+
+    public function updateOrders()
+    {
+        return Order::where('staying_end', '<', date('Y-m-d H:i:s', strtotime(Carbon::now())))
+            ->where('status', 'In Progress')
+            ->update(['status' => 'Confirmed']);
     }
 }
