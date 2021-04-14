@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('address_full')->nullable();
             $table->double('address_lat')->nullable();
             $table->double('address_lon')->nullable();
-            $table->string('avatar')->nullable();
+            $table->string('avatar')->default('storage/userAvatars/defaulAvatar.png');
 
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

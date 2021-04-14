@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Mail\Message;
@@ -57,6 +58,25 @@ class AuthController extends Controller
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
         return response()->json(['access_token' => $accessToken, 'user' => auth()->user()]);
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function loginAdmin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:8'
+        ]);
+
+        if (auth()->attempt($request->only(['email', 'password'])))
+            return redirect('/admin/dashboard')->with('success', 'Success login');
+
+        return redirect('/login')->withErrors([
+            'error' => 'Invalid login or password'
+        ]);
     }
 
     /**
