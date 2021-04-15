@@ -109,9 +109,9 @@ class UserController extends Controller
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
-            'address_address' => 'string',
-            'address_latitude' => 'double',
-            'address_longitude' => 'double',
+            'address_full' => 'string',
+            'address_lat' => 'double',
+            'address_lon' => 'double',
             'avatar' => 'string',
             'password' => 'required|min:8',
         ]);
@@ -143,9 +143,9 @@ class UserController extends Controller
             'first_name' => 'min:2',
             'second_name' => 'min:2',
             'email' => 'max:255|email|unique:users',
-            'address_address' => 'string',
-            'address_latitude' => 'double',
-            'address_longitude' => 'double',
+            'address_full' => 'string',
+            'address_lat' => 'double',
+            'address_lon' => 'double',
             'avatar' => 'string',
             'password' => 'min:8',
         ]);
@@ -177,7 +177,9 @@ class UserController extends Controller
     public function location(Request $request)
     {
         $userLocation = $request->validate([
-            'location' => 'required|string',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
         ]);
 
         $user = User::findOrFail(auth()->id());

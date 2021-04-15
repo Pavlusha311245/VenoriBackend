@@ -34,7 +34,7 @@ class PlaceController extends Controller
         }
 
         if ($request->has('name'))
-            return Place::where('name', 'LIKE', "%".$request->name."%")->get();
+            return Place::where('name', 'LIKE', "%" . $request->name . "%")->get();
 
         return Place::paginate(5);
     }
@@ -49,9 +49,9 @@ class PlaceController extends Controller
         $request->validate([
             'name' => 'required|max:255|unique:places',
             'type' => 'required|max:255',
-            'address_address' => 'string',
-            'address_latitude' => 'float',
-            'address_longitude' => 'float',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
             'phone' => 'required|max:15',
             'capacity' => 'required|integer',
             'table_price' => 'required|string',
@@ -84,8 +84,7 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
         $products = ProductsOfPlace::where('place_id', $place->id)->get();
 
-        foreach ($products as $product)
-        {
+        foreach ($products as $product) {
             $menuItem = Product::where('id', $product->product_id)->first();
             $category = Category::where('id', $menuItem->category_id)->first();
 
@@ -106,7 +105,9 @@ class PlaceController extends Controller
         $request->validate([
             'name' => 'max:255|unique:places',
             'type' => 'max:255',
-            'location' => 'string',
+            'address_full' => 'string',
+            'address_lat' => 'float',
+            'address_lon' => 'float',
             'phone' => 'max:15',
             'capacity' => 'integer',
             'table_price' => 'string',
