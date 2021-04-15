@@ -10,9 +10,80 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * Controller for adding, deleting, updating and showing users
- *
- * @package App\Http\Controllers
+ * @OA\Get(
+ *     path="/api/users",
+ *     summary="Users info",
+ *     description="List of all users",
+ *     operationId="usersIndex",
+ *     tags={"users"},
+ *     @OA\Response(
+ *          response=200,
+ *          description="Success get a list of all users",
+ *          @OA\JsonContent(
+ *              type="object",
+ *              @OA\Property(
+ *                  property="first_name",
+ *                  type="string",
+ *                  example="Jack"
+ *              ),
+ *              @OA\Property(
+ *                  property="second_name",
+ *                  type="string",
+ *                  example="Smith"
+ *              ),
+ *              @OA\Property(
+ *                  property="email",
+ *                  type="string",
+ *                  format="email",
+ *                  example="user1@mail.com"
+ *              ),
+ *              @OA\Property(
+ *                  property="created_at",
+ *                  type="string",
+ *                  format="date-time",
+ *                  example="2019-02-25 12:59:20"
+ *              ),
+ *              @OA\Property(
+ *                  property="updated_at",
+ *                  type="string",
+ *                  format="date-time",
+ *                  example="2019-02-25 12:59:20"
+ *              ),
+ *              @OA\Property(
+ *                  property="id",
+ *                  type="integer",
+ *                  example=1
+ *              ),
+ *          ),
+ *     ),
+ *     @OA\Response(
+ *          response=422,
+ *          description="Validation error",
+ *          @OA\JsonContent(
+ *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+ *              @OA\Property(
+ *                  property="errors",
+ *                  type="object",
+ *                  @OA\Property(
+ *                      property="first_name",
+ *                      type="array",
+ *                      @OA\Items(
+ *                          type="string",
+ *                          example="The first name field is required.",
+ *                      )
+ *                  ),
+ *                  @OA\Property(
+ *                      property="email",
+ *                      type="array",
+ *                      @OA\Items(
+ *                          type="string",
+ *                          example="The email has already been taken.",
+ *                      )
+ *                  )
+ *              )
+ *          )
+ *      )
+ * )
  */
 class UserController extends Controller
 {

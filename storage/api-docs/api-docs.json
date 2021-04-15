@@ -8,7 +8,7 @@
         "/api/register": {
             "post": {
                 "tags": [
-                    "auth"
+                    "authentication"
                 ],
                 "summary": "Registration",
                 "description": "Registration of a new user by first_name, second_name, email, password",
@@ -82,7 +82,7 @@
                                         },
                                         "id": {
                                             "type": "integer",
-                                            "example": "1"
+                                            "example": 1
                                         }
                                     },
                                     "type": "object"
@@ -107,16 +107,331 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The first name field is required."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 },
                                                 "email": {
                                                     "type": "array",
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The email has already been taken."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Login",
+                "description": "Login of the user by email, password",
+                "operationId": "login",
+                "requestBody": {
+                    "description": "Pass data to login the user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success login the user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzMxOTY3My0yNTkxLTRlNGMtOWUwMy02MzRlMDYzNWUzMDMiLCJqdGkiOiI5MjUzMTU1YjY0MWIwMWY3NDEwMGNmMjhhOGIxZmU2NzNhZjhjMGExZDM1MGFiNDdmN2M3ZTRlNTNjNDUxYmIyMDUzMTAyNDRmNWExZjdmYyIsImlhdCI6MTYxODQ4MDgzOS4zNDY0ODYsIm5iZiI6MTYxODQ4MDgzOS4zNDY0OTgsImV4cCI6MTY1MDAxNjgzOS4zMzAxOTEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.FoOSs7tl3hfN1KWG40WexLGG67qsZ6SYzVUX_zAAu5H-AaxNv-p-dmY8Q6zh2HnHwPbVKrjTXLVM28nqXSanOreP2Tpfwq_LbrjAYLuEpzrY17QMddtbQ3iXh7M7OX0AyRFcw6Z4_SZVwc-sfUK-rcTyIo9e7XHtCKBsE4yaVmFgHX933s6ltmZzk5bzLP993WrMOlvuqxFHcVV6STQzuFb4QC7qkw3Pv62p-E7WTaoHbWhR5EM5FsxXSDai_zjHVmRFpIdPmrfE9eilcrTYQP-OcsbR37rKdYTdoHnaTxO3P6KVDehSsI1TU0Uok6K_8liTZU32cxV8s1nOUuM74z_d-k-chLbcm1-hKAVn5SyAKWrXbs2AI8WgoWV4msZI_VQX0lp9C8Nx12zhWDOe4AGff8gJAB7OkQIT4FMt1UIdc_04lASbU8YJV2Oht-DOwnk-G71_uUdc4REgkBf29IggdQojuXLvxFzvF3ORd3rzPQ9xGGlrV5h2UBgZd039qnqRrmZJah36oC0OgHaRGqzmQzenTAeKxyBM7zH5tsj5nwSU7cUvHq2v15XLqd7JHKuK2dPa0AJGCwUcejSs6WSTjUxbuq8Zfc76WR-6G0pv7gnvMlD0CgLR4o6sgXRtVO74Q2nGmxV49cnGc45zCI0Q_CifRD2cagZyE0USMdM"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The email field is required."
+                                                    }
+                                                },
+                                                "password": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The password field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/forgot": {
+            "post": {
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Forgot",
+                "description": "Sending password recovery email",
+                "operationId": "forgot",
+                "requestBody": {
+                    "description": "Pass data to send a password recovery email",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success sending password recovery email the user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "user1@mail.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/reset": {
+            "post": {
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "resetPassword",
+                "description": "Changing the password if there is a token",
+                "operationId": "reset",
+                "responses": {
+                    "200": {
+                        "description": "Success changing the password if there is a token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Success change password"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "authentication"
+                ],
+                "summary": "Logout",
+                "description": "Logging out a user from an account",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Success logging out a user from an account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout successful"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Users info",
+                "description": "List of all users",
+                "operationId": "usersIndex",
+                "responses": {
+                    "200": {
+                        "description": "Success get a list of all users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Jack"
+                                        },
+                                        "second_name": {
+                                            "type": "string",
+                                            "example": "Smith"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "user1@mail.com"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2019-02-25 12:59:20"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2019-02-25 12:59:20"
+                                        },
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "first_name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The first name field is required."
+                                                    }
+                                                },
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The email has already been taken."
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -137,40 +452,40 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "about": {
                         "description": "About application",
-                        "type": "text",
+                        "type": "string",
                         "example": "Very larg text..."
                     },
                     "contact": {
                         "description": "Application contacts (Phones, Addresses)",
-                        "type": "text",
+                        "type": "string",
                         "example": "Very larg text..."
                     },
                     "terms": {
                         "description": "Terms",
-                        "type": "text",
+                        "type": "string",
                         "example": "Very larg text..."
                     },
                     "privacy_policy": {
                         "description": "Privacy policy",
-                        "type": "text",
+                        "type": "string",
                         "example": "Very larg text..."
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -182,7 +497,7 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
+                        "readOnly": true,
                         "example": "1"
                     },
                     "name": {
@@ -199,13 +514,13 @@
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -217,8 +532,8 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "title": {
                         "description": "Comment title",
@@ -233,19 +548,19 @@
                     "review_id": {
                         "description": "ID of the review to which the comment applies",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -257,30 +572,30 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "user_id": {
                         "description": "user ID",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "place_id": {
                         "description": "go to the place that the user likes",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -303,11 +618,11 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "status": {
-                        "type": "enum",
+                        "type": "string",
                         "example": [
                             "In Progress",
                             "Rejected",
@@ -315,42 +630,44 @@
                         ]
                     },
                     "price": {
-                        "type": "decimal",
-                        "example": "20.99"
+                        "type": "number",
+                        "example": 20.99
                     },
                     "staying": {
                         "type": "integer",
-                        "example": "2"
+                        "example": 2
                     },
                     "time": {
-                        "type": "time",
+                        "type": "string",
+                        "format": "time",
                         "example": "17:30"
                     },
                     "staying_end": {
-                        "type": "time",
+                        "type": "string",
+                        "format": "time",
                         "example": "19:30"
                     },
                     "user_id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "place_id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -371,8 +688,8 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "name": {
                         "type": "string",
@@ -383,21 +700,21 @@
                         "example": "storage\\PlaceImages\\KFC.png"
                     },
                     "rating": {
-                        "type": "double",
-                        "example": "4.23"
+                        "type": "number",
+                        "example": 4.23
                     },
                     "address_full": {
                         "type": "string",
                         "maxLength": 255,
-                        "example": "John"
+                        "example": "Minsk"
                     },
                     "address_lat": {
-                        "type": "double",
-                        "example": "34.22"
+                        "type": "number",
+                        "example": 53.913224
                     },
                     "address_lon": {
-                        "type": "double",
-                        "example": "34.32"
+                        "type": "number",
+                        "example": 27.467663
                     },
                     "phone": {
                         "type": "string",
@@ -410,23 +727,23 @@
                     },
                     "capacity": {
                         "type": "integer",
-                        "example": "450"
+                        "example": 45
                     },
                     "table_price": {
-                        "type": "decimal",
-                        "example": "44.00"
+                        "type": "number",
+                        "example": 44.99
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -438,8 +755,8 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "name": {
                         "description": "Product name",
@@ -453,8 +770,8 @@
                     },
                     "price": {
                         "description": "Product price",
-                        "type": "decimal",
-                        "example": "4.00"
+                        "type": "number",
+                        "example": 4
                     },
                     "image_url": {
                         "description": "On creation and update, accepts a file, but stores and returns a link to the file on the server",
@@ -464,19 +781,19 @@
                     "category_id": {
                         "description": "ID of the category the product belongs to",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -492,30 +809,30 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "product_id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "place_id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -527,8 +844,8 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "title": {
                         "description": "Review title",
@@ -537,8 +854,8 @@
                     },
                     "rating": {
                         "description": "User rating",
-                        "type": "float",
-                        "example": "5"
+                        "type": "number",
+                        "example": 5
                     },
                     "description": {
                         "description": "The main text of the review",
@@ -548,30 +865,30 @@
                     "like": {
                         "description": "The number of likes under the review from other users",
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "user_id": {
                         "description": "User ID of the user who left the review",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "place_id": {
                         "description": "Id of the place for which the review is left",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "created_at": {
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -583,13 +900,13 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
-                        "example": "1"
+                        "readOnly": true,
+                        "example": 1
                     },
                     "place_id": {
                         "description": "Id of the place to which the schedule belongs",
                         "type": "integer",
-                        "example": "1"
+                        "example": 1
                     },
                     "work_start": {
                         "description": "Start time",
@@ -619,13 +936,13 @@
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -643,7 +960,7 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "readOnly": "true",
+                        "readOnly": true,
                         "example": "1"
                     },
                     "first_name": {
@@ -665,21 +982,21 @@
                     "address_full": {
                         "type": "string",
                         "maxLength": 255,
-                        "example": "John"
+                        "example": "Minsk"
                     },
                     "address_lat": {
-                        "type": "double",
-                        "example": "34.22"
+                        "type": "number",
+                        "example": "53.913224"
                     },
                     "address_lon": {
-                        "type": "double",
-                        "example": "34.32"
+                        "type": "number",
+                        "example": "27.467663"
                     },
                     "email_verified_at": {
                         "description": "Datetime marker of verification status",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true",
+                        "readOnly": true,
                         "example": "2019-02-25 12:59:20"
                     },
                     "password": {
@@ -691,13 +1008,13 @@
                         "description": "Initial creation timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     },
                     "updated_at": {
                         "description": "Last update timestamp",
                         "type": "string",
                         "format": "date-time",
-                        "readOnly": "true"
+                        "readOnly": true
                     }
                 },
                 "type": "object",
@@ -712,8 +1029,5 @@
                 "scheme": "bearer"
             }
         }
-    },
-    "security": [
-        []
-    ]
+    }
 }
