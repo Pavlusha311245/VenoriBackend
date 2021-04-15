@@ -1,9 +1,9 @@
 echo "Deploy script started"
-cd /var/www/fullplate
+cd /var/www/html
 
 echo "=====PULLING====="
-git reset --hard origin/develop
-git pull origin develop
+git reset --hard origin/master
+git pull origin master
 echo "=====PULLED====="
 
 echo "=====INSTALLING====="
