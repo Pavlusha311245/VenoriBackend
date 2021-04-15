@@ -356,7 +356,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         },
         "/api/users": {
@@ -365,11 +370,101 @@
                     "users"
                 ],
                 "summary": "Users info",
-                "description": "List of all users",
+                "description": "Getting a list of all users",
                 "operationId": "usersIndex",
                 "responses": {
                     "200": {
-                        "description": "Success get a list of all users",
+                        "description": "Success getting a list of all users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/User"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Unauthorized"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Add user",
+                "description": "Adding a new user",
+                "operationId": "usersStore",
+                "requestBody": {
+                    "description": "Pass data to add a new user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "second_name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "example": "Jack"
+                                    },
+                                    "second_name": {
+                                        "type": "string",
+                                        "example": "Smith"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "PassWord12345"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success storing a new user",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -442,7 +537,346 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update user",
+                "description": "Updating user information",
+                "operationId": "usersUpdate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "requestBody": {
+                    "description": "Pass data to update user information",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "John"
+                                    },
+                                    "second_name": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Doe"
+                                    },
+                                    "email": {
+                                        "description": "User unique email address",
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@gmail.com"
+                                    },
+                                    "address_full": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Minsk"
+                                    },
+                                    "address_lat": {
+                                        "type": "number",
+                                        "example": "53.913224"
+                                    },
+                                    "address_lon": {
+                                        "type": "number",
+                                        "example": "27.467663"
+                                    },
+                                    "email_verified_at": {
+                                        "description": "Datetime marker of verification status",
+                                        "type": "string",
+                                        "format": "date-time",
+                                        "readOnly": true,
+                                        "example": "2019-02-25 12:59:20"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Passwo424hg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success updating user information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "example": "John"
+                                        },
+                                        "second_name": {
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "example": "Doe"
+                                        },
+                                        "email": {
+                                            "description": "User unique email address",
+                                            "type": "string",
+                                            "format": "email",
+                                            "example": "user@gmail.com"
+                                        },
+                                        "address_full": {
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "example": "Minsk"
+                                        },
+                                        "address_lat": {
+                                            "type": "number",
+                                            "example": "53.913224"
+                                        },
+                                        "address_lon": {
+                                            "type": "number",
+                                            "example": "27.467663"
+                                        },
+                                        "avatar": {
+                                            "type": "string",
+                                            "example": "storage/PlaceImages/KFC.png"
+                                        },
+                                        "email_verified_at": {
+                                            "description": "Datetime marker of verification status",
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "readOnly": true,
+                                            "example": "2019-02-25 12:59:20"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2021-04-15T12:37:21.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2021-04-15T13:07:18.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "email": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The email has already been taken."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user",
+                "description": "Deleting user",
+                "operationId": "usersDelete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success deleting user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User is deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "ModelNotFoundException handled for API"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/user/location": {
+            "put": {
+                "tags": [
+                    "users"
+                ],
+                "summary": "Location of user",
+                "description": "Getting location of user",
+                "operationId": "usersLocation",
+                "requestBody": {
+                    "description": "Pass data to getting location of user",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "address_full": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "Minsk"
+                                    },
+                                    "address_lat": {
+                                        "type": "number",
+                                        "example": "53.913224"
+                                    },
+                                    "address_lon": {
+                                        "type": "number",
+                                        "example": "27.467663"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success getting location of user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "address_full": {
+                                            "type": "string",
+                                            "maxLength": 255,
+                                            "example": "Minsk"
+                                        },
+                                        "address_lat": {
+                                            "type": "number",
+                                            "example": "53.913224"
+                                        },
+                                        "address_lon": {
+                                            "type": "number",
+                                            "example": "27.467663"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "address_full": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The first name field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
             }
         }
     },
@@ -991,6 +1425,10 @@
                     "address_lon": {
                         "type": "number",
                         "example": "27.467663"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "example": "storage/PlaceImages/KFC.png"
                     },
                     "email_verified_at": {
                         "description": "Datetime marker of verification status",

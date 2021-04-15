@@ -216,6 +216,7 @@ use Illuminate\Support\Facades\Mail;
  *     description="Logging out a user from an account",
  *     operationId="logout",
  *     tags={"authentication"},
+ *     security={ {"bearer": {} }},
  *     @OA\Response(
  *          response=200,
  *          description="Success logging out a user from an account",
