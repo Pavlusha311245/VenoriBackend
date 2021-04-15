@@ -166,7 +166,7 @@ use Illuminate\Support\Facades\Mail;
  * ),
  * @OA\Post(
  *     path="/api/forgot",
- *     summary="Forgot",
+ *     summary="Forgot password",
  *     description="Sending password recovery email",
  *     operationId="forgot",
  *     tags={"authentication"},
@@ -189,7 +189,7 @@ use Illuminate\Support\Facades\Mail;
  * ),
  * @OA\Post(
  *     path="/api/reset",
- *     summary="resetPassword",
+ *     summary="Reset password",
  *     description="Changing the password if there is a token",
  *     operationId="reset",
  *     tags={"authentication"},

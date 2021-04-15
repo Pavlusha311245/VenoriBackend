@@ -242,7 +242,7 @@
                 "tags": [
                     "authentication"
                 ],
-                "summary": "Forgot",
+                "summary": "Forgot password",
                 "description": "Sending password recovery email",
                 "operationId": "forgot",
                 "requestBody": {
@@ -292,7 +292,7 @@
                 "tags": [
                     "authentication"
                 ],
-                "summary": "resetPassword",
+                "summary": "Reset password",
                 "description": "Changing the password if there is a token",
                 "operationId": "reset",
                 "responses": {
