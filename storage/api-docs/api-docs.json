@@ -1460,12 +1460,6 @@
                     "name": "User"
                 }
             }
-        },
-        "securitySchemes": {
-            "bearer": {
-                "type": "http",
-                "scheme": "bearer"
-            }
         }
     }
 }

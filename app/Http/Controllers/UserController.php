@@ -10,277 +10,42 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * @OA\Get(
- *     path="/api/users",
- *     summary="Users info",
- *     description="Getting a list of all users",
- *     operationId="usersIndex",
- *     tags={"users"},
- *     security={ {"bearer": {} }},
- *     @OA\Response(
- *          response=200,
- *          description="Success getting a list of all users",
- *          @OA\JsonContent(
- *              @OA\Property(property="current_page", type="integer", example=1),
- *              @OA\Property(
- *                  property="data",
- *                  type="array",
- *                  @OA\Items(
- *                      type="object",
- *                      ref="#/components/schemas/User"
- *                  ),
- *              ),
- *          ),
- *     ),
- *     @OA\Response(
- *          response=401,
- *          description="Validation error",
- *          @OA\JsonContent(
- *              @OA\Property(property="error", type="string", example="Unauthorized"),
- *          )
- *     ),
- * ),
- * @OA\Post(
- *     path="/api/users",
- *     summary="Add user",
- *     description="Adding a new user",
- *     operationId="usersStore",
- *     tags={"users"},
- *     security={ {"bearer": {} }},
- *     @OA\RequestBody(
- *          required=true,
- *          description="Pass data to add a new user",
- *          @OA\JsonContent(
- *              required={"first_name","second_name","email","password"},
- *              @OA\Property(property="first_name", type="string", example="Jack"),
- *              @OA\Property(property="second_name", type="string", example="Smith"),
- *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
- *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
- *          )
- *     ),
- *     @OA\Response(
- *          response=201,
- *          description="Success storing a new user",
- *          @OA\JsonContent(
- *              type="object",
- *              @OA\Property(
- *                  property="first_name",
- *                  type="string",
- *                  example="Jack"
- *              ),
- *              @OA\Property(
- *                  property="second_name",
- *                  type="string",
- *                  example="Smith"
- *              ),
- *              @OA\Property(
- *                  property="email",
- *                  type="string",
- *                  format="email",
- *                  example="user1@mail.com"
- *              ),
- *              @OA\Property(
- *                  property="created_at",
- *                  type="string",
- *                  format="date-time",
- *                  example="2019-02-25 12:59:20"
- *              ),
- *              @OA\Property(
- *                  property="updated_at",
- *                  type="string",
- *                  format="date-time",
- *                  example="2019-02-25 12:59:20"
- *              ),
- *              @OA\Property(
- *                  property="id",
- *                  type="integer",
- *                  example=1
- *              ),
- *          ),
- *     ),
- *     @OA\Response(
- *          response=422,
- *          description="Validation error",
- *          @OA\JsonContent(
- *              @OA\Property(property="message", type="string", example="The given data was invalid."),
- *              @OA\Property(
- *                  property="errors",
- *                  type="object",
- *                  @OA\Property(
- *                      property="first_name",
- *                      type="array",
- *                      @OA\Items(
- *                          type="string",
- *                          example="The first name field is required.",
- *                      )
- *                  ),
- *                  @OA\Property(
- *                      property="email",
- *                      type="array",
- *                      @OA\Items(
- *                          type="string",
- *                          example="The email has already been taken.",
- *                      )
- *                  )
- *              )
- *          )
- *      )
- * ),
- * @OA\Put(
- *     path="/api/users/{id}",
- *     summary="Update user",
- *     description="Updating user information",
- *     operationId="usersUpdate",
- *     tags={"users"},
- *     security={ {"bearer": {} }},
- *     @OA\Parameter(
- *          description="ID of user",
- *          in="path",
- *          name="id",
- *          required=true,
- *          example=1,
- *          @OA\Schema(
- *              type="integer",
- *              format="int64"
- *          )
- *     ),
- *     @OA\RequestBody(
- *          required=true,
- *          description="Pass data to update user information",
- *          @OA\JsonContent(
- *              @OA\Property(property="first_name", type="string", maxLength=255, example="John"),
- *              @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
- *              @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
- *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
- *              @OA\Property(property="address_lat", type="number", example="53.913224"),
- *              @OA\Property(property="address_lon", type="number", example="27.467663"),
- *              @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
- *              @OA\Property(property="password", type="string", maxLength=255, example="Passwo424hg"),
- *          )
- *     ),
- *     @OA\Response(
- *          response=201,
- *          description="Success updating user information",
- *          @OA\JsonContent(
- *              @OA\Property(property="id", type="integer", example=1),
- *              @OA\Property(property="first_name", type="string", maxLength=255, example="John"),
- *              @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
- *              @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
- *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
- *              @OA\Property(property="address_lat", type="number", example="53.913224"),
- *              @OA\Property(property="address_lon", type="number", example="27.467663"),
- *              @OA\Property(property="avatar", type="string", example="storage/PlaceImages/KFC.png"),
- *              @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
- *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-15T12:37:21.000000Z"),
- *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-15T13:07:18.000000Z")
- *          ),
- *     ),
- *     @OA\Response(
- *          response=422,
- *          description="Validation error",
- *          @OA\JsonContent(
- *              @OA\Property(property="message", type="string", example="The given data was invalid."),
- *              @OA\Property(
- *                  property="errors",
- *                  type="object",
- *                  @OA\Property(
- *                      property="email",
- *                      type="array",
- *                      @OA\Items(
- *                          type="string",
- *                          example="The email has already been taken.",
- *                      )
- *                  )
- *              )
- *          )
- *      )
- * ),
- * @OA\Delete(
- *     path="/api/users/{id}",
- *     summary="Delete user",
- *     description="Deleting user",
- *     operationId="usersDelete",
- *     tags={"users"},
- *     security={ {"bearer": {} }},
- *     @OA\Parameter(
- *          description="ID of user",
- *          in="path",
- *          name="id",
- *          required=true,
- *          example=1,
- *          @OA\Schema(
- *              type="integer",
- *              format="int64"
- *          )
- *     ),
- *     @OA\Response(
- *          response=200,
- *          description="Success deleting user",
- *          @OA\JsonContent(
- *              @OA\Property(property="message", type="string", example="User is deleted successfully")
- *          ),
- *     ),
- *     @OA\Response(
- *          response=400,
- *          description="User not found",
- *          @OA\JsonContent(
- *              type="object",
- *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
- *          )
- *     )
- * ),
- * @OA\Put(
- *     path="/api/user/location",
- *     summary="Location of user",
- *     description="Getting location of user",
- *     operationId="usersLocation",
- *     tags={"users"},
- *     security={ {"bearer": {} }},
- *     @OA\RequestBody(
- *          required=true,
- *          description="Pass data to getting location of user",
- *          @OA\JsonContent(
- *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
- *              @OA\Property(property="address_lat", type="number", example="53.913224"),
- *              @OA\Property(property="address_lon", type="number", example="27.467663"),
- *          )
- *     ),
- *     @OA\Response(
- *          response=200,
- *          description="Success getting location of user",
- *          @OA\JsonContent(
- *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
- *              @OA\Property(property="address_lat", type="number", example="53.913224"),
- *              @OA\Property(property="address_lon", type="number", example="27.467663"),
- *          ),
- *     ),
- *     @OA\Response(
- *          response=422,
- *          description="Validation error",
- *          @OA\JsonContent(
- *              @OA\Property(property="message", type="string", example="The given data was invalid."),
- *              @OA\Property(
- *                  property="errors",
- *                  type="object",
- *                  @OA\Property(
- *                      property="address_full",
- *                      type="array",
- *                      @OA\Items(
- *                          type="string",
- *                          example="The first name field is required.",
- *                      )
- *                  ),
- *              )
- *          )
- *      )
- * )
+ * Class UserController
+ * @package App\Http\Controllers
  */
 class UserController extends Controller
 {
     /**
-     * The method returns a list of all users
-     *
-     * @return Response
+     * @OA\Get(
+     *     path="/api/users",
+     *     summary="Users info",
+     *     description="Getting a list of all users",
+     *     operationId="usersIndex",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of all users",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/User"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function index()
     {
@@ -288,10 +53,65 @@ class UserController extends Controller
     }
 
     /**
-     * The method adds a new user
-     *
-     * @param Request $request
-     * @return JsonResponse|Response
+     * @OA\Post(
+     *     path="/api/users",
+     *     summary="Add user",
+     *     description="Adding a new user",
+     *     operationId="usersStore",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to add a new user",
+     *          @OA\JsonContent(
+     *              required={"first_name","second_name","email","password"},
+     *              @OA\Property(property="first_name", type="string", example="Jack"),
+     *              @OA\Property(property="second_name", type="string", example="Smith"),
+     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new user",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="first_name", type="string", example="Jack"),
+     *              @OA\Property(property="second_name", type="string", example="Smith"),
+     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="id", type="integer", example=1),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="first_name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The first name field is required.",
+     *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="email",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The email has already been taken.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -321,11 +141,75 @@ class UserController extends Controller
     }
 
     /**
-     * The method updates the data of the user
-     *
-     * @param Request $request
-     * @param User $user
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/users/{id}",
+     *     summary="Update user",
+     *     description="Updating user information",
+     *     operationId="usersUpdate",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to update user information",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="first_name", type="string", maxLength=255, example="John"),
+     *              @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
+     *              @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
+     *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+     *              @OA\Property(property="address_lat", type="number", example="53.913224"),
+     *              @OA\Property(property="address_lon", type="number", example="27.467663"),
+     *              @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="password", type="string", maxLength=255, example="Passwo424hg"),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating user information",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="first_name", type="string", maxLength=255, example="John"),
+     *              @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
+     *              @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
+     *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+     *              @OA\Property(property="address_lat", type="number", example="53.913224"),
+     *              @OA\Property(property="address_lon", type="number", example="27.467663"),
+     *              @OA\Property(property="avatar", type="string", example="storage/PlaceImages/KFC.png"),
+     *              @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-15T12:37:21.000000Z"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-15T13:07:18.000000Z")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The email has already been taken.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function update(Request $request, User $user)
     {
@@ -346,10 +230,40 @@ class UserController extends Controller
     }
 
     /**
-     * The method removes user
-     *
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/users/{id}",
+     *     summary="Delete user",
+     *     description="Deleting user",
+     *     operationId="usersDelete",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting user",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="User is deleted successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     )
+     * ),
      */
     public function destroy($id)
     {
@@ -360,9 +274,51 @@ class UserController extends Controller
     }
 
     /**
-     * The method uses the search service to enter the user's location into the database
-     * @param Request $request
-     * @return Application|ResponseFactory|JsonResponse|Response
+     * @OA\Put(
+     *     path="/api/user/location",
+     *     summary="Location of user",
+     *     description="Getting location of user",
+     *     operationId="usersLocation",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to getting location of user",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+     *              @OA\Property(property="address_lat", type="number", example="53.913224"),
+     *              @OA\Property(property="address_lon", type="number", example="27.467663"),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting location of user",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+     *              @OA\Property(property="address_lat", type="number", example="53.913224"),
+     *              @OA\Property(property="address_lon", type="number", example="27.467663"),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="address_full",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The first name field is required.",
+     *                      )
+     *                  ),
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function location(Request $request)
     {
