@@ -17,9 +17,36 @@ use Illuminate\Http\Response;
 class CategoryController extends Controller
 {
     /**
-     * Display a category
-     *
-     * @return Application|Factory|View|JsonResponse
+     * @OA\Get(
+     *     path="/api/categories",
+     *     summary="Category info",
+     *     description="Getting a list of all categories",
+     *     operationId="categoriesIndex",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of all categories",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Category"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function index()
     {
@@ -27,10 +54,61 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created category
-     *
-     * @param Request $request
-     * @return Response
+     * @OA\Post(
+     *     path="/api/categories",
+     *     summary="Add category",
+     *     description="Adding a new category",
+     *     operationId="categoryStore",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to add a new category",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Category"
+     *                  ),
+     *              ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new user",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Category"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The name field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -56,10 +134,72 @@ class CategoryController extends Controller
     }
 
     /**
-     * Update category
-     * @param Request $request
-     * @param Category $category
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/categories/{id}",
+     *     summary="Update category",
+     *     description="Updating category information",
+     *     operationId="categoriesUpdate",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to update user information",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Category"
+     *                  ),
+     *              ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating category information",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Category"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The email has already been taken.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function update(Request $request, Category $category)
     {
@@ -74,10 +214,40 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove category
-     *
-     * @param $id
-     * @return string
+     * @OA\Delete(
+     *     path="/api/categories/{id}",
+     *     summary="Delete category",
+     *     description="Deleting category",
+     *     operationId="categoriesDelete",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting category",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Category is deleted successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     )
+     * ),
      */
     public function destroy($id)
     {
