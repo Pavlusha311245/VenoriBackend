@@ -263,7 +263,7 @@ class UserController extends Controller
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
      *     )
-     * ),
+     * )
      */
     public function destroy($id)
     {
