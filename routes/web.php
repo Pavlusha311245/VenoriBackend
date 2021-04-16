@@ -18,9 +18,10 @@ use Spatie\Permission\Models\Role;
 */
 
 Route::get('/', function () {
-    Log::channel('abuse')->info('API endpoint abuse', [
-        'user_id' => 1
-    ]);
+//    Log::channel('abuse')->info('API endpoint abuse', [
+//        'user_id' => 1
+//    ]);
+    return view('home');
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
@@ -55,6 +56,14 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('/users/create', 'App\Http\Controllers\UserController@create');
     Route::post('/users/{id}/edit', 'App\Http\Controllers\UserController@edit');
     Route::post('/users/{id}/delete', 'App\Http\Controllers\UserController@remove');
+
+    Route::post('/places/create', 'App\Http\Controllers\PlaceController@create');
+    Route::post('/places/{id}/edit', 'App\Http\Controllers\PlaceController@edit');
+    Route::post('/places/{id}/delete', 'App\Http\Controllers\PlaceController@remove');
+
+    Route::post('/products/create', 'App\Http\Controllers\ProductController@create');
+    Route::post('/products/{id}/edit', 'App\Http\Controllers\ProductController@edit');
+    Route::post('/products/{id}/delete', 'App\Http\Controllers\ProductController@remove');
 });
 
 Route::get('/login', function () {
