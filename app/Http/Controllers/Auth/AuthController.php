@@ -15,11 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 /**
-
-
-
-
-
+ * Class AuthController
+ * @package App\Http\Controllers\Auth
  */
 class AuthController extends Controller
 {
