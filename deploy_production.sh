@@ -1,5 +1,5 @@
 echo "Deploy script started"
-cd /var/www/html
+cd /var/www/venori
 
 echo "=====PULLING====="
 git reset --hard origin/master
