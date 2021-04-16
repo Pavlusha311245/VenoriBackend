@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\ImageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
@@ -41,7 +42,6 @@ class UserController extends Controller
             'address_full' => 'required|string',
             'address_lat' => 'required|numeric',
             'address_lon' => 'required|numeric',
-            'avatar' => 'string',
             'password' => 'required|min:8',
         ]);
 
@@ -75,13 +75,36 @@ class UserController extends Controller
             'address_full' => 'required|string',
             'address_lat' => 'required|numeric',
             'address_lon' => 'required|numeric',
-            'avatar' => 'string',
-            'password' => 'min:8',
+            'avatar' => 'file'
         ]);
 
         $user->update($request->all());
 
         return response()->json($user, 200);
+    }
+
+    /**
+     * The method upload the avatar of the user
+     *
+     * @param Request $request
+     * @param int $id
+     *
+     */
+    public function uploadAvatar(Request $request, $id)
+    {
+        $imageService = new ImageService;
+
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,png'
+        ]);
+
+        $url = $imageService->upload($request->file('image'), 'UserAvatars');
+
+        $user = User::findOrFail($id);
+
+        $user->update(['avatar' => $url]);
+
+        return response()->json($url, 200);
     }
 
     /**
