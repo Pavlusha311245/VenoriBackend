@@ -35,7 +35,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
-    Route::get('/user/location', 'App\Http\Controllers\UserController@location');
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\ReviewController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
@@ -47,6 +46,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
     Route::post('/category/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
 
+    Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 });
 
 Route::group(['middleware' => 'logging'], function () {

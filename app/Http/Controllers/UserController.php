@@ -31,7 +31,7 @@ class UserController extends Controller
      * The method adds a new user
      *
      * @param Request $request
-     * @return JsonResponse|Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -39,10 +39,9 @@ class UserController extends Controller
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
-            'address_address' => 'string',
-            'address_latitude' => 'double',
-            'address_longitude' => 'double',
-            'avatar' => 'string',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
             'password' => 'required|min:8',
         ]);
 
@@ -73,16 +72,15 @@ class UserController extends Controller
             'first_name' => 'min:2',
             'second_name' => 'min:2',
             'email' => 'max:255|email|unique:users',
-            'address_address' => 'string',
-            'address_latitude' => 'double',
-            'address_longitude' => 'double',
-            'avatar' => 'file',
-            'password' => 'min:8',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
+            'avatar' => 'file'
         ]);
 
         $user->update($request->all());
 
-        return response()->json($user,200);
+        return response()->json($user, 200);
     }
 
     /**
@@ -126,12 +124,14 @@ class UserController extends Controller
     /**
      * The method uses the search service to enter the user's location into the database
      * @param Request $request
-     * @return Application|ResponseFactory|JsonResponse|Response
+     * @return JsonResponse
      */
     public function location(Request $request)
     {
         $userLocation = $request->validate([
-            'location' => 'required|string',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
         ]);
 
         $user = User::findOrFail(auth()->id());
