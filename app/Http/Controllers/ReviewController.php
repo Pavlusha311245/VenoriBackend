@@ -43,7 +43,7 @@ class ReviewController extends Controller
      *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
      *     ),
      * )
@@ -134,7 +134,7 @@ class ReviewController extends Controller
      *     tags={"reviews"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
-     *          description="ID of category",
+     *          description="ID of review",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -161,24 +161,21 @@ class ReviewController extends Controller
      *          ),
      *     ),
      *     @OA\Response(
-     *          response=422,
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *       ),
+     *     @OA\Response(
+     *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="email",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                      )
-     *                  )
-     *              )
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *      )
+     *         ),
+     *    )
      * )
      */
     public function update(Request $request, Review $review, PlaceRatingService $placeRatingService)
@@ -199,8 +196,8 @@ class ReviewController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/reviews/{id}",
-     *     summary="Delete review",
-     *     description="Deleting review",
+     *     summary="Removes review",
+     *     description="Removes review",
      *     operationId="reviewsDelete",
      *     tags={"reviews"},
      *     security={ {"bearer": {} }},
