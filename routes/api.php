@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
-    Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\ReviewController@reviewsCount');
+    Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
 
     Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');

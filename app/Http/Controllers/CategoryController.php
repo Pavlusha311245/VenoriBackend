@@ -66,28 +66,16 @@ class CategoryController extends Controller
      *          required=true,
      *          description="Pass data to add a new category",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Category"
-     *                  ),
-     *              ),
-     *          )
+     *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
+     *     )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new user",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Category"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Category"
      *          ),
      *     ),
      *     @OA\Response(
@@ -166,30 +154,18 @@ class CategoryController extends Controller
      *     ),
      *     @OA\RequestBody(
      *          required=true,
-     *          description="Pass data to update user information",
+     *          description="Pass data to add a new category",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Category"
-     *                  ),
-     *              ),
-     *          )
+     *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
+     *     )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success updating category information",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Category"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Category"
      *          ),
      *     ),
      *     @OA\Response(
@@ -226,11 +202,49 @@ class CategoryController extends Controller
     }
 
     /**
-     * The method upload the category of the user
-     *
-     * @param Request $request
-     * @param int $id
-     *
+     * @OA\Post(
+     *     path="/api/categories/1/uploadImage",
+     *     summary="Add category image",
+     *     description="Adding a new category image",
+     *     operationId="categoryUploadImage",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=false,
+     *          description="Pass data to add a new category image",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
+     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new user",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Category"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The name field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function uploadImage(Request $request, $id)
     {
