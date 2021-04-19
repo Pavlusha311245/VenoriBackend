@@ -244,11 +244,40 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param $id
-     * @return int
+     * @OA\Delete(
+     *     path="/api/reviews/{id}",
+     *     summary="Delete review",
+     *     description="Deleting review",
+     *     operationId="reviewsDelete",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of review",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting review",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Review is deleted successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     )
+     * ),
      */
-    public function reviewsCount($id)
-    {
-        return count(Review::where('place_id',$id)->get());
-    }
+
 }

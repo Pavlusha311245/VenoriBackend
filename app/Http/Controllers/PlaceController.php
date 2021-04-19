@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Place;
 use App\Models\Product;
 use App\Models\ProductsOfPlace;
+use App\Models\Review;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -132,5 +133,10 @@ class PlaceController extends Controller
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully'], 200);
+    }
+
+    public function reviewsCount($id)
+    {
+        return count(Review::where('place_id',$id)->get());
     }
 }
