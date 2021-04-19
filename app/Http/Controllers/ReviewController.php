@@ -65,28 +65,16 @@ class ReviewController extends Controller
      *          required=true,
      *          description="Pass data to add a new review",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Review"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Review"
      *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new review",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Review"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Review"
      *          ),
      *     ),
      *     @OA\Response(
@@ -157,31 +145,19 @@ class ReviewController extends Controller
      *          )
      *     ),
      *     @OA\RequestBody(
-     *          required=true,
+     *          required=false,
      *          description="Pass data to update review information",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Review"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Review"
      *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success updating review information",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Review"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Review"
      *          ),
      *     ),
      *     @OA\Response(

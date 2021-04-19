@@ -25,15 +25,10 @@ class AppInfoController extends Controller
      *          response=200,
      *          description="Success getting a list of infos",
      *          @OA\JsonContent(
-     *              @OA\Property(property="current_page", type="integer", example=1),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
+     *             @OA\Items(
      *                      type="object",
      *                      ref="#/components/schemas/AppInfo"
      *                  ),
-     *              ),
      *          ),
      *     ),
      *     @OA\Response(

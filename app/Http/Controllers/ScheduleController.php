@@ -63,28 +63,16 @@ class ScheduleController extends Controller
      *          required=true,
      *          description="Pass data to add a new schedule",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Schedule"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Schedule"
      *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new schedule",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Schedule"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Schedule"
      *          ),
      *     ),
      *     @OA\Response(
