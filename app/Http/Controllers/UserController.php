@@ -17,6 +17,12 @@ use Illuminate\Http\Response;
 class UserController extends Controller
 {
     /**
+     * @OA\SecurityScheme(
+     *   securityScheme="api_key",
+     *   type="apiKey",
+     *   in="header",
+     *   name="api_key"
+     * ),
      * @OA\Get(
      *     path="/api/users",
      *     summary="Users info",
@@ -41,11 +47,11 @@ class UserController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthorized",
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthorized"),
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -84,6 +90,13 @@ class UserController extends Controller
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="id", type="integer", example=1),
      *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -192,6 +205,13 @@ class UserController extends Controller
      *          ),
      *     ),
      *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     *     @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
@@ -221,8 +241,7 @@ class UserController extends Controller
             'address_full' => 'string',
             'address_lat' => 'double',
             'address_lon' => 'double',
-            'avatar' => 'file',
-            'password' => 'min:8',
+            'avatar' => 'file'
         ]);
 
         $user->update($request->all());
@@ -231,11 +250,68 @@ class UserController extends Controller
     }
 
     /**
-     * The method upload the avatar of the user
-     *
-     * @param Request $request
-     * @param int $id
-     *
+     * @OA\Post(
+     *     path="/api/user/{id}/uploadAvatar",
+     *     summary="Upload user avatar",
+     *     description="Uploading avatar for user",
+     *     operationId="usersAvatar",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          description="Image for user",
+     *          in="path",
+     *          name="avatar",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="file",
+     *              format="file"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success uploading avatar for user",
+     *          @OA\Property(
+     *              @OA\Property(type="string", example="storage/UserAvatars/589373154.png"),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="object", example="Unauthorized"),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="image",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The image name field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function uploadAvatar(Request $request, $id)
     {
@@ -287,6 +363,13 @@ class UserController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     )
      * )
      */
@@ -323,6 +406,13 @@ class UserController extends Controller
      *              @OA\Property(property="address_lat", type="number", example="53.913224"),
      *              @OA\Property(property="address_lon", type="number", example="27.467663"),
      *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,

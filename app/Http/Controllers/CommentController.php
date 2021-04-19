@@ -39,11 +39,11 @@ class CommentController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthorized",
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthorized"),
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -81,6 +81,13 @@ class CommentController extends Controller
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="id", type="integer", example=1),
      *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -155,6 +162,13 @@ class CommentController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     )
      * )
      */
@@ -211,6 +225,13 @@ class CommentController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     )
      * )
      */
@@ -259,6 +280,13 @@ class CommentController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
      *          )
      *     )
      * )

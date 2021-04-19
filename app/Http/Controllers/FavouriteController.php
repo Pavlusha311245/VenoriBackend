@@ -39,11 +39,11 @@ class FavouriteController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthorized",
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthorized"),
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -75,6 +75,13 @@ class FavouriteController extends Controller
      *              type="object",
      *              ref="#/components/schemas/Favourite"
      *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -151,6 +158,13 @@ class FavouriteController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
