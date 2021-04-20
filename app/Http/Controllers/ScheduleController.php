@@ -17,14 +17,14 @@ class ScheduleController extends Controller
     /**
      * @OA\Get(
      *     path="/api/schedules",
-     *     summary="Schedule info",
+     *     summary="All schedules",
      *     description="Getting a list of all schedules",
      *     operationId="schedulesIndex",
      *     tags={"schedules"},
      *     security={ {"bearer": {} }},
      *     @OA\Response(
      *          response=200,
-     *          description="Success getting a list of all schedules",
+     *          description="Successfully received a list of scheduled places",
      *          @OA\JsonContent(
      *              @OA\Property(property="current_page", type="integer", example=1),
      *              @OA\Property(
@@ -41,7 +41,7 @@ class ScheduleController extends Controller
      *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
      *     ),
      * )
@@ -54,8 +54,8 @@ class ScheduleController extends Controller
     /**
      * @OA\Post(
      *     path="/api/schedules",
-     *     summary="Add schedule",
-     *     description="Adding a new schdule",
+     *     summary="Adds 1 day to the schedule for a place",
+     *     description="Adds 1 day to the schedule for a place",
      *     operationId="scheduleStore",
      *     tags={"schedules"},
      *     security={ {"bearer": {} }},
@@ -75,6 +75,13 @@ class ScheduleController extends Controller
      *              ref="#/components/schemas/Schedule"
      *          ),
      *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
      *     @OA\Response(
      *          response=422,
      *          description="Validation error",
@@ -126,7 +133,7 @@ class ScheduleController extends Controller
      *     tags={"schedules"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
-     *          description="ID of category",
+     *          description="ID of day of the schedule",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -154,35 +161,25 @@ class ScheduleController extends Controller
      *          response=201,
      *          description="Success updating category information",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Category"
-     *                  ),
-     *              ),
+     *              type="object",
+     *              ref="#/components/schemas/Category"
      *          ),
      *     ),
      *     @OA\Response(
-     *          response=422,
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *       ),
+     *     @OA\Response(
+     *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="email",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                      )
-     *                  )
-     *              )
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *      )
+     *         ),
      * )
      */
     public function update(Request $request, Schedule $schedule)

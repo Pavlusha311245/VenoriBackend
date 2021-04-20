@@ -35,7 +35,7 @@ class AppInfoController extends Controller
      *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
      *     ),
      * )

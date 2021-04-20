@@ -44,7 +44,7 @@ class CategoryController extends Controller
      *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
      *     ),
      * )
@@ -57,8 +57,8 @@ class CategoryController extends Controller
     /**
      * @OA\Post(
      *     path="/api/categories",
-     *     summary="Add category",
-     *     description="Adding a new category",
+     *     summary="Adds a new category",
+     *     description="Adds a new category",
      *     operationId="categoryStore",
      *     tags={"categories"},
      *     security={ {"bearer": {} }},
@@ -72,11 +72,19 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *          response=201,
-     *          description="Success storing a new user",
+     *          description="Success creating category",
      *          @OA\JsonContent(
      *              type="object",
      *              ref="#/components/schemas/Category"
      *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -136,8 +144,8 @@ class CategoryController extends Controller
     /**
      * @OA\Put(
      *     path="/api/categories/{id}",
-     *     summary="Update category",
-     *     description="Updating category information",
+     *     summary="Updates the category",
+     *     description="Updates the category",
      *     operationId="categoriesUpdate",
      *     tags={"categories"},
      *     security={ {"bearer": {} }},
@@ -153,7 +161,7 @@ class CategoryController extends Controller
      *          )
      *     ),
      *     @OA\RequestBody(
-     *          required=true,
+     *          required=false,
      *          description="Pass data to add a new category",
      *          @OA\JsonContent(
      *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
@@ -169,23 +177,20 @@ class CategoryController extends Controller
      *          ),
      *     ),
      *     @OA\Response(
-     *          response=422,
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="email",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                      )
-     *                  )
-     *              )
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
+     *     ),
      *      )
      * )
      */
@@ -203,17 +208,27 @@ class CategoryController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/categories/1/uploadImage",
-     *     summary="Add category image",
-     *     description="Adding a new category image",
+     *     path="/api/categories/{id}/uploadImage",
+     *     summary="Updates the category picture",
+     *     description="Updates the category picture",
      *     operationId="categoryUploadImage",
      *     tags={"categories"},
      *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
      *     @OA\RequestBody(
      *          required=false,
      *          description="Pass data to add a new category image",
      *          @OA\JsonContent(
-     *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
      *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
      *     )
      *     ),
@@ -226,23 +241,20 @@ class CategoryController extends Controller
      *          ),
      *     ),
      *     @OA\Response(
-     *          response=422,
+     *          response=400,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
      *          description="Validation error",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="name",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
-     *                  )
-     *              )
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
+     *         ),
      *      )
      * )
      */
@@ -266,13 +278,13 @@ class CategoryController extends Controller
     /**
      * @OA\Delete(
      *     path="/api/categories/{id}",
-     *     summary="Delete category",
+     *     summary="Deleting category",
      *     description="Deleting category",
      *     operationId="categoriesDelete",
      *     tags={"categories"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
-     *          description="ID of user",
+     *          description="ID of category",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -295,6 +307,13 @@ class CategoryController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
      *     )
      * ),
