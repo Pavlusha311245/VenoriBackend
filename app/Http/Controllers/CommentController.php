@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * CommentController for adding, deleting, updating and showing comments
@@ -15,9 +13,36 @@ use Illuminate\Http\Response;
 class CommentController extends Controller
 {
     /**
-     * The method returns a list of all comments
-     *
-     * @return Response
+     * @OA\Get(
+     *     path="/api/comments",
+     *     summary="Comments info",
+     *     description="Getting a list of all comments",
+     *     operationId="commentsIndex",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of all comments",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Comment"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
      */
     public function index()
     {
@@ -25,10 +50,63 @@ class CommentController extends Controller
     }
 
     /**
-     * The method adds a new comment
-     *
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/comments",
+     *     summary="Add a new comment",
+     *     description="Adding a new comment",
+     *     operationId="commentsStore",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to add a new comment",
+     *          @OA\JsonContent(
+     *              required={"title","description","review_id"},
+     *              @OA\Property(property="title", type="string", example="OMG"),
+     *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
+     *              @OA\Property(property="review_id", type="integer", example=1)
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new comment",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="title", type="string", example="OMG"),
+     *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
+     *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="id", type="integer", example=1),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="review_id",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The review id field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -44,10 +122,53 @@ class CommentController extends Controller
     }
 
     /**
-     * The method returns comments.
-     *
-     * @param $id
-     * @return Response|string
+     * @OA\Get(
+     *     path="/api/comments/{id}",
+     *     summary="Show user comments",
+     *     description="Showing a new comment",
+     *     operationId="commentsShow",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of comment",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing comment",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="title", type="string", example="OMG"),
+     *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
+     *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Comment not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
      */
     public function show($id)
     {
@@ -55,18 +176,69 @@ class CommentController extends Controller
     }
 
     /**
-     * The method updates comment
-     *
-     * @param Request $request
-     * @param Comment $comment
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/comments/{id}",
+     *     summary="Update comment",
+     *     description="Updating comment information",
+     *     operationId="commentsUpdate",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of comment",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to update comment information",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="title", type="string", example="OMG"),
+     *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
+     *              @OA\Property(property="review_id", type="integer", example=1)
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating comment information",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(property="title", type="string", example="OMG"),
+     *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
+     *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Comment not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
      */
     public function update(Request $request, Comment $comment)
     {
         $request->validate([
             'title' => 'string|min:1',
             'description' => 'string|min:1',
-            'review_id' => 'numeric',
+            'review_id' => 'integer',
         ]);
 
         $comment->update($request->all());
@@ -75,10 +247,47 @@ class CommentController extends Controller
     }
 
     /**
-     * The method removes comment
-     *
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/comments/{id}",
+     *     summary="Delete comment",
+     *     description="Deleting comment",
+     *     operationId="commentsDelete",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of comment",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting comment",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Comment is deleted successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Comment not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
      */
     public function destroy($id)
     {

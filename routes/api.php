@@ -36,15 +36,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
-    Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\ReviewController@reviewsCount');
+    Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
 
-    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
-    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/places/{place_id}/reservation', 'App\Http\Controllers\ReservationController@availableTime');
+    Route::post('/places/{place_id}/reserve', 'App\Http\Controllers\ReservationController@tableReserve');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
+    Route::post('/user/showProfile', 'App\Http\Controllers\UserController@showProfile');
     Route::post('/user/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
     Route::post('/category/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
+    Route::post('/users/{id}/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 });

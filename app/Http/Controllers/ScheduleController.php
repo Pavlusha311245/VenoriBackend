@@ -15,8 +15,36 @@ use Illuminate\Http\Response;
 class ScheduleController extends Controller
 {
     /**
-     * show all schedules
-     * @return Response
+     * @OA\Get(
+     *     path="/api/schedules",
+     *     summary="All schedules",
+     *     description="Getting a list of all schedules",
+     *     operationId="schedulesIndex",
+     *     tags={"schedules"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Successfully received a list of scheduled places",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Schedule"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     ),
+     * )
      */
     public function index()
     {
@@ -24,9 +52,56 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Method create new schedule
-     * @param Request $request
-     * @return JsonResponse|Response
+     * @OA\Post(
+     *     path="/api/schedules",
+     *     summary="Adds 1 day to the schedule for a place",
+     *     description="Adds 1 day to the schedule for a place",
+     *     operationId="scheduleStore",
+     *     tags={"schedules"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to add a new schedule",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Schedule"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new schedule",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Schedule"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The name field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -50,10 +125,62 @@ class ScheduleController extends Controller
     }
 
     /**
-     * Method update schedule
-     * @param Request $request
-     * @param Schedule $schedule
-     * @return JsonResponse|Response
+     * @OA\Put(
+     *     path="/api/schedules/{id}",
+     *     summary="Update schedule",
+     *     description="Updating schedule information",
+     *     operationId="schedulesUpdate",
+     *     tags={"schedules"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of day of the schedule",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to update user information",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Schedule"
+     *                  ),
+     *              ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating category information",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Category"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
+     * )
      */
     public function update(Request $request, Schedule $schedule)
     {
