@@ -20,9 +20,8 @@ use Laravel\Passport\HasApiTokens;
  * @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
  * @OA\Property(property="address_lat", type="number", example="53.913224"),
  * @OA\Property(property="address_lon", type="number", example="27.467663"),
- * @OA\Property(property="avatar", type="string", example="storage/PlaceImages/KFC.png"),
+ * @OA\Property(property="avatar", type="string", example="storage/UserImages/anton.png"),
  * @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
- * @OA\Property(property="password", type="string", maxLength=255, example="Passwo424hg"),
  * @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
  * @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true)
  * )

@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\ImageService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Class UserController
@@ -49,7 +45,7 @@ class UserController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
@@ -95,7 +91,7 @@ class UserController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     ),
      *     @OA\Response(
@@ -146,8 +142,78 @@ class UserController extends Controller
     }
 
     /**
-     * The method returns information about user
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/users/{id}",
+     *     summary="Show user",
+     *     description="Showing user by Id",
+     *     operationId="usersShow",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing user",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/User"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
+     */
+    public function show($id)
+    {
+        return User::findOrFail($id);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/user/showProfile",
+     *     summary="Show user",
+     *     description="Showing auth user",
+     *     operationId="usersShowProfile",
+     *     tags={"users"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing user",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/User"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
      */
     public function showProfile()
     {
@@ -208,7 +274,7 @@ class UserController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     ),
      *     @OA\Response(
@@ -289,7 +355,7 @@ class UserController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="object", example="Unauthorized"),
+     *              @OA\Property(property="message", type="object", example="Unauthorized"),
      *          )
      *     ),
      *     @OA\Response(
@@ -368,7 +434,7 @@ class UserController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
@@ -411,7 +477,7 @@ class UserController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     ),
      *     @OA\Response(

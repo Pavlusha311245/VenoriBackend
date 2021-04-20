@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Favourite;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Controller used for add, delete, and show favorite places
@@ -41,7 +40,7 @@ class FavouriteController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
@@ -80,7 +79,7 @@ class FavouriteController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     ),
      *     @OA\Response(
@@ -117,13 +116,59 @@ class FavouriteController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/api/favourites/{id}",
+     *     summary="Show favourites",
+     *     description="Showing favourites by user_id",
+     *     operationId="favouritesShow",
+     *     tags={"favourites"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing user favourites",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  ref="#/components/schemas/Favourite"
+     *              )
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Favourites not found"
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
+     */
+    public function show($id)
+    {
+        return Favourite::where('user_id', $id)->get();
+    }
+
+    /**
      * The method returns favourite places for current authorization user
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function show()
+    public function showUserFavourites()
     {
-        return Favourite::where('user_id', auth()->user()->id);
+        return Favourite::where('user_id', auth()->user()->id)->get();
     }
 
     /**
@@ -164,7 +209,7 @@ class FavouriteController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="messerrorage", type="string", example="Unauthorized"),
      *          )
      *     )
      * )

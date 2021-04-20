@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * CommentController for adding, deleting, updating and showing comments
@@ -41,7 +39,7 @@ class CommentController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
@@ -86,7 +84,7 @@ class CommentController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     ),
      *     @OA\Response(
@@ -167,7 +165,7 @@ class CommentController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
@@ -230,7 +228,7 @@ class CommentController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
@@ -286,7 +284,7 @@ class CommentController extends Controller
      *          response=401,
      *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
      *          )
      *     )
      * )
