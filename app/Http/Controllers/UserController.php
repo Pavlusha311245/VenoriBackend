@@ -120,10 +120,9 @@ class UserController extends Controller
             'first_name' => 'required|min:2',
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
-            'address_full' => 'string',
-            'address_lat' => 'double',
-            'address_lon' => 'double',
-            'avatar' => 'string',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
             'password' => 'required|min:8',
         ]);
 
@@ -218,11 +217,10 @@ class UserController extends Controller
             'first_name' => 'min:2',
             'second_name' => 'min:2',
             'email' => 'max:255|email|unique:users',
-            'address_full' => 'string',
-            'address_lat' => 'double',
-            'address_lon' => 'double',
-            'avatar' => 'file',
-            'password' => 'min:8',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
+            'avatar' => 'file'
         ]);
 
         $user->update($request->all());
