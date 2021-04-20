@@ -41,7 +41,7 @@ class ReviewController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
@@ -76,6 +76,13 @@ class ReviewController extends Controller
      *              type="object",
      *              ref="#/components/schemas/Review"
      *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -170,7 +177,7 @@ class ReviewController extends Controller
      *       ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
@@ -219,6 +226,13 @@ class ReviewController extends Controller
      *              @OA\Property(property="message", type="string", example="Review is deleted successfully")
      *          ),
      *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
      *     @OA\Response(
      *          response=400,
      *          description="Review not found",

@@ -303,15 +303,9 @@ class UserController extends Controller
             'first_name' => 'min:2',
             'second_name' => 'min:2',
             'email' => 'max:255|email|unique:users',
-<<<<<<< HEAD
-            'address_full' => 'string',
-            'address_lat' => 'double',
-            'address_lon' => 'double',
-=======
             'address_full' => 'required|string',
             'address_lat' => 'required|numeric',
             'address_lon' => 'required|numeric',
->>>>>>> 3e0994b7f6b85e22253d8abfaf9a47fa4568ce31
             'avatar' => 'file'
         ]);
 
