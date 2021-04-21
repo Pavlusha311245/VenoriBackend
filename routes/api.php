@@ -40,8 +40,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
     Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
 
-    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
-    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/places/{place_id}/reservation', 'App\Http\Controllers\ReservationController@availableTime');
+    Route::post('/places/{place_id}/reserve', 'App\Http\Controllers\ReservationController@tableReserve');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
     Route::post('/user/showProfile', 'App\Http\Controllers\UserController@showProfile');

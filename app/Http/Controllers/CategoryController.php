@@ -80,7 +80,7 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *          response=400,
-     *          description="Review not found",
+     *          description="Category not found",
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
@@ -178,7 +178,7 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *          response=400,
-     *          description="Review not found",
+     *          description="Category not found",
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
