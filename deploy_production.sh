@@ -1,9 +1,9 @@
 echo "Deploy script started"
-cd /var/www/fullplate
+cd /var/www/venori
 
 echo "=====PULLING====="
-git reset --hard origin/develop
-git pull origin develop
+git reset --hard origin/master
+git pull origin master
 echo "=====PULLED====="
 
 echo "=====INSTALLING====="
@@ -13,9 +13,5 @@ echo "=====INSTALLED====="
 echo "=====MIGRATING====="
 php artisan migrate
 echo "=====MIGRATED====="
-
-echo "======GENERATING DOC======"
-php artisan l5-swagger:generate
-echo "======GENERATED======"
 
 echo "Deploy script finished execution"

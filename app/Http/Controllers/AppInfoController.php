@@ -14,9 +14,31 @@ use Illuminate\Http\Response;
 class AppInfoController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return AppInfo[]|Collection|Response
+     * @OA\Get(
+     *     path="/api/get_info",
+     *     summary="App info",
+     *     description="Getting all infos",
+     *     operationId="appInfoGetInfo",
+     *     tags={"app info"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of infos",
+     *          @OA\JsonContent(
+     *             @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/AppInfo"
+     *                  ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     ),
+     * )
      */
     public function getInfo()
     {

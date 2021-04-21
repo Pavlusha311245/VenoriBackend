@@ -11,6 +11,23 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @OA\Schema(
+ * required={"first_name","second_name","email","password"},
+ * @OA\Xml(name="User"),
+ * @OA\Property(property="id", type="integer", readOnly=true, example="1"),
+ * @OA\Property(property="first_name", type="string", maxLength=255, example="John"),
+ * @OA\Property(property="second_name", type="string", maxLength=255, example="Doe"),
+ * @OA\Property(property="email", type="string", format="email", description="User unique email address", example="user@gmail.com"),
+ * @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+ * @OA\Property(property="address_lat", type="number", example="53.913224"),
+ * @OA\Property(property="address_lon", type="number", example="27.467663"),
+ * @OA\Property(property="avatar", type="string", example="storage/UserImages/anton.png"),
+ * @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
+ * @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+ * @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true)
+ * )
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, CanResetPassword, HasRoles;

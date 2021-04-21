@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Place;
+use App\Models\Product;
+use App\Models\ProductsOfPlace;
+use App\Models\Review;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use function GuzzleHttp\Promise\all;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -32,7 +35,7 @@ class PlaceController extends Controller
         }
 
         if ($request->has('name'))
-            return Place::where('name', 'LIKE', "%".$request->name."%")->get();
+            return Place::where('name', 'LIKE', "%" . $request->name . "%")->get();
 
         return Place::paginate(5);
     }
@@ -47,12 +50,14 @@ class PlaceController extends Controller
         $request->validate([
             'name' => 'required|max:255|unique:places',
             'type' => 'required|max:255',
-            'address_address' => 'string',
-            'address_latitude' => 'float',
-            'address_longitude' => 'float',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
             'phone' => 'required|max:15',
-            'capacity' => 'required|string',
-            'description' => 'required|string'
+            'capacity' => 'required|integer',
+            'table_price' => 'required|string',
+            'description' => 'required|string',
+            'image_url' => 'required|string'
         ]);
 
         $place = Place::create($request->all());
@@ -71,6 +76,26 @@ class PlaceController extends Controller
     }
 
     /**
+     * The method returns menu for place
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function menu($id)
+    {
+        $place = Place::findOrFail($id);
+        $products = ProductsOfPlace::where('place_id', $place->id)->get();
+
+        foreach ($products as $product) {
+            $menuItem = Product::where('id', $product->product_id)->first();
+            $category = Category::where('id', $menuItem->category_id)->first();
+
+            $menu[$category->name][] = $menuItem;
+        }
+
+        return response()->json($menu);
+    }
+
+    /**
      * The method updates the data of the establishment
      * @param Request $request
      * @param Place $place
@@ -81,10 +106,14 @@ class PlaceController extends Controller
         $request->validate([
             'name' => 'max:255|unique:places',
             'type' => 'max:255',
-            'location' => 'string',
+            'address_full' => 'string',
+            'address_lat' => 'float',
+            'address_lon' => 'float',
             'phone' => 'max:15',
-            'capacity' => 'string',
-            'description' => 'string'
+            'capacity' => 'integer',
+            'table_price' => 'string',
+            'description' => 'string',
+            'image_url' => 'string'
         ]);
 
         $place->update($request->all());
@@ -104,5 +133,10 @@ class PlaceController extends Controller
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully'], 200);
+    }
+
+    public function reviewsCount($id)
+    {
+        return count(Review::where('place_id',$id)->get());
     }
 }
