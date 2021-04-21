@@ -193,4 +193,12 @@ class ScheduleController extends Controller
 
         return response()->json($schedule, 200);
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function scheduleByPlaceId($id) {
+        return Schedule::where('place_id', $id)->limit(7)->get();
+    }
 }

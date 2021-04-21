@@ -191,7 +191,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/showProfile",
+     *     path="/api/user/details",
      *     summary="Show user",
      *     description="Showing auth user",
      *     operationId="usersShowProfile",
