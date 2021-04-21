@@ -117,10 +117,10 @@ class FavouriteController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/favourites/{id}",
-     *     summary="Show favourites",
+     *     path="/api/users/{id}/favourites",
+     *     summary="Show user favourites by id",
      *     description="Showing favourites by user_id",
-     *     operationId="favouritesShow",
+     *     operationId="favouritesShowForUserById",
      *     tags={"favourites"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
@@ -138,9 +138,10 @@ class FavouriteController extends Controller
      *          response=200,
      *          description="Success showing user favourites",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  ref="#/components/schemas/Favourite"
-     *              )
+     *             @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Favourite"
+     *                  ),
      *          ),
      *     ),
      *     @OA\Response(
@@ -162,9 +163,31 @@ class FavouriteController extends Controller
     }
 
     /**
-     * The method returns favourite places for current authorization user
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/user/favourites",
+     *     summary="Show favourites for auth user",
+     *     description="Showing favourites for auth user",
+     *     operationId="favouritesShowForAuthUser",
+     *     tags={"favourites"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing auth user favourites",
+     *          @OA\JsonContent(
+     *             @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Favourite"
+     *                  ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *          )
+     *     )
+     * )
      */
     public function showUserFavourites()
     {

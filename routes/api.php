@@ -38,6 +38,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
+    Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
 
     Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
     Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
@@ -46,7 +47,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user/showProfile', 'App\Http\Controllers\UserController@showProfile');
     Route::post('/user/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
     Route::post('/category/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
-    Route::post('/users/{id}/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
+    Route::post('/users/{id}/favourites', 'App\Http\Controllers\FavouriteController@show');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 });
