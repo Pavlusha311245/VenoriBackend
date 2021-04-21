@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 /**
@@ -295,5 +296,14 @@ class CommentController extends Controller
         $comment->delete();
 
         return response()->json(['message' => 'Comment is deleted successfully'], 200);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function commentsByReviewId($id)
+    {
+        return Comment::where('review_id', $id)->get();
     }
 }

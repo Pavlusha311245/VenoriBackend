@@ -253,4 +253,21 @@ class ReviewController extends Controller
 
         return response()->json(['message' => 'Review is successfully deleted'], 200);
     }
+
+    /**
+     * @return mixed
+     */
+    public function reviewsByUserId()
+    {
+        return Review::where('user_id', auth()->user()->id)->get();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function reviewsByPlaceId($id)
+    {
+        return Review::where('place_id', $id)->get();
+    }
 }
