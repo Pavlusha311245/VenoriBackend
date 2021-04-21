@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 /**
@@ -295,5 +296,47 @@ class CommentController extends Controller
         $comment->delete();
 
         return response()->json(['message' => 'Comment is deleted successfully'], 200);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/reviews/{id}/comments",
+     *     summary="Get review comments",
+     *     description="Getting a review comments",
+     *     operationId="commentsReview",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of review",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a review comments",
+     *          @OA\JsonContent(
+     *              @OA\Items(
+     *                  ref="#/components/schemas/Comment",
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     )
+     * )
+     */
+    public function commentsByReviewId($id)
+    {
+        return Comment::where('review_id', $id)->get();
     }
 }
