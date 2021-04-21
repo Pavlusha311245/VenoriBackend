@@ -20,8 +20,36 @@ use Illuminate\Http\Response;
 class PlaceController extends Controller
 {
     /**
-     * The method returns a list of all establishments
-     * @return mixed
+     * @OA\Get(
+     *     path="/api/places",
+     *     summary="Places info",
+     *     description="Getting a list of all establishments",
+     *     operationId="placesIndex",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of all establishment",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Place"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
@@ -40,9 +68,70 @@ class PlaceController extends Controller
     }
 
     /**
-     * The method adds a new establishment
-     * @param Request $request
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/places",
+     *     summary="Add establishment",
+     *     description="Adding a new establishments",
+     *     operationId="placesStore",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to add a new establishment",
+     *          @OA\JsonContent(
+     *              required={"name","type","address_full","address_lat", "address_lon", "phone", "capacity", "table_price", "description", "image_url"},
+     *              @OA\Property(property="name", type="string", example="KFC"),
+     *              @OA\Property(property="type", type="string", example="Fast food"),
+     *              @OA\Property(property="address_full", type="string", example="adress.ul.address"),
+     *              @OA\Property(property="address_lat", type="number", example=123),
+     *              @OA\Property(property="address_lon", type="number", example=34),
+     *              @OA\Property(property="phone", type="string", example="+375295637384"),
+     *              @OA\Property(property="capacity", type="number", example=10),
+     *              @OA\Property(property="table_price", type="string", example="12"),
+     *              @OA\Property(property="description", type="string", example="Description of the KFC"),
+     *              @OA\Property(property="image_url", type="string", example="app/public/PlaceImages/KFC.png")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new establishment",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="name", type="string", example="KFC"),
+     *              @OA\Property(property="type", type="string", example="Fast food"),
+     *              @OA\Property(property="address_full", type="string", example="adress.ul.address"),
+     *              @OA\Property(property="address_lat", type="number", example=123),
+     *              @OA\Property(property="address_lon", type="number", example=34),
+     *              @OA\Property(property="phone", type="string", example="+375295637384"),
+     *              @OA\Property(property="capacity", type="number", example=10),
+     *              @OA\Property(property="table_price", type="string", example="12"),
+     *              @OA\Property(property="description", type="string", example="Description of the KFC"),
+     *              @OA\Property(property="image_url", type="string", example="app/public/PlaceImages/KFC.png"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-21 18:22:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-21 18:2:20"),
+     *              @OA\Property(property="id", type="integer", example=1)
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The name field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function store(Request $request)
     {
@@ -65,9 +154,36 @@ class PlaceController extends Controller
     }
 
     /**
-     * The method returns information about 1 institution
-     * @param int $id
-     * @return Application|ResponseFactory|Response
+     * @OA\Get(
+     *     path="/api/places/{id}",
+     *     summary="Places info",
+     *     description="Getting information about 1 institution",
+     *     operationId="placesShow",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting information about 1 institution",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Place"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function show($id)
     {
@@ -75,9 +191,35 @@ class PlaceController extends Controller
     }
 
     /**
-     * The method returns menu for place
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/places/{id}/menu",
+     *     summary="Places menu",
+     *     description="Getting information about 1 institution",
+     *     operationId="placesMenu",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting information about 1 institution",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="Coffee",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Product"
+     *                  ),
+     *              ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function menu($id)
     {
@@ -96,10 +238,72 @@ class PlaceController extends Controller
     }
 
     /**
-     * The method updates the data of the establishment
-     * @param Request $request
-     * @param Place $place
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/places/{id}",
+     *     summary="Update establishment",
+     *     description="Updating the data of the establishment",
+     *     operationId="placesUpdate",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of place",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to update establishment information",
+     *          @OA\JsonContent(
+     *              required={"name","type","address_full","address_lat", "address_lon", "phone", "capacity", "table_price", "description", "image_url"},
+     *              @OA\Property(property="name", type="string", example="Burger King"),
+     *              @OA\Property(property="type", type="string", example="Fast food"),
+     *              @OA\Property(property="address_full", type="string", example="adress.ul.address"),
+     *              @OA\Property(property="address_lat", type="number", example=123),
+     *              @OA\Property(property="address_lon", type="number", example=34),
+     *              @OA\Property(property="phone", type="string", example="+375295637384"),
+     *              @OA\Property(property="capacity", type="number", example=10),
+     *              @OA\Property(property="table_price", type="string", example="12"),
+     *              @OA\Property(property="description", type="string", example="Description of the Burger King"),
+     *              @OA\Property(property="image_url", type="string", example="app/public/PlaceImages/BurgerKing.png")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating establishment information",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="string", example=1),
+     *              @OA\Property(property="name", type="string", example="Burger King"),
+     *              @OA\Property(property="type", type="string", example="Fast food"),
+     *              @OA\Property(property="address_full", type="string", example="adress.ul.address"),
+     *              @OA\Property(property="address_lat", type="number", example=123),
+     *              @OA\Property(property="address_lon", type="number", example=34),
+     *              @OA\Property(property="phone", type="string", example="+375295637384"),
+     *              @OA\Property(property="capacity", type="number", example=10),
+     *              @OA\Property(property="table_price", type="string", example="12"),
+     *              @OA\Property(property="description", type="string", example="Description of the Burger King"),
+     *              @OA\Property(property="image_url", type="string", example="app/public/PlaceImages/BurgerKing.png"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-21 18:22:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-21 18:2:20")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object"
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function update(Request $request, Place $place)
     {
@@ -120,9 +324,40 @@ class PlaceController extends Controller
     }
 
     /**
-     * The method removes establishments by id
-     * @param int $id
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/places/{id}",
+     *     summary="Delete place",
+     *     description="Deleting establishment",
+     *     operationId="placesDelete",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of place",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting place",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Place is deleted successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     * )
      */
     public function destroy($id)
     {

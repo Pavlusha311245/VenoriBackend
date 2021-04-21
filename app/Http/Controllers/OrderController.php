@@ -14,9 +14,36 @@ use Illuminate\Http\JsonResponse;
 class OrderController extends Controller
 {
     /**
-     * Get booking history of Orders
-     *
-     * @return mixed
+     * @OA\Get(
+     *     path="/api/orders",
+     *     summary="History",
+     *     description="Getting booking history of orders",
+     *     operationId="ordersGetBookingHistory",
+     *     tags={"orders"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting booking history of orders",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Order"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function getBookingHistory()
     {
@@ -29,9 +56,36 @@ class OrderController extends Controller
     }
 
     /**
-     * Get active Orders
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/booking_history",
+     *     summary="Order info",
+     *     description="Getting active orders",
+     *     operationId="ordersGetBookingHistory",
+     *     tags={"orders"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting active orders",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Order"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function getActiveOrders()
     {
@@ -43,10 +97,40 @@ class OrderController extends Controller
     }
 
     /**
-     * Cancel Orders
-     *
-     * @param $order_id
-     * @return mixed
+     * @OA\Post(
+     *     path="/api/orders/{order_id}",
+     *     summary="Cancel order",
+     *     description="Cancelling order",
+     *     operationId="ordersCancel",
+     *     tags={"orders"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of order",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success cancelling place",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Order is canceled successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     * )
      */
     public function cancelOrder($order_id)
     {
@@ -56,6 +140,53 @@ class OrderController extends Controller
             ->update(['status' => 'Rejected']);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/api/orders/{id}",
+     *     summary="Update order",
+     *     description="Updating order",
+     *     operationId="orderUpdate",
+     *     tags={"orders"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of order",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to update order status",
+     *          @OA\JsonContent(
+     *              required={},
+     *
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating order status",
+     *          @OA\JsonContent(
+     *
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object"
+     *              )
+     *          )
+     *      )
+     * )
+     */
     public function updateOrders()
     {
         return Order::where('staying_end', '<', date('Y-m-d H:i:s', strtotime(Carbon::now())))

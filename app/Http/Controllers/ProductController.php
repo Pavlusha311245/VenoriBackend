@@ -247,10 +247,36 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param $id
-     * @return Response|string
+     * @OA\Get(
+     *     path="/api/products/{id}",
+     *     summary="Product show",
+     *     description="Showing product by id",
+     *     operationId="productsShow",
+     *     tags={"products"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing product by id",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Product"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *          )
+     *     ),
+     * )
      */
     public function show($id)
     {
