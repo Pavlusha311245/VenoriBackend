@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailJob;
+use App\Mail\LoginMail;
+use App\Mail\RegisterMail;
+use App\Mail\VenoriMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
@@ -88,6 +92,8 @@ class AuthController extends Controller
 
         $user = User::create($validData);
 
+        SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['user' => $user, 'view' => 'mail.register'])]);
+
         return response()->json($user, 201);
     }
 
@@ -163,6 +169,8 @@ class AuthController extends Controller
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
 
+        SendEmailJob::dispatch(['user' => auth()->user(), 'mail' => new VenoriMail(['view' => 'mail.login'])]);
+
         return response()->json(['access_token' => $accessToken, 'user' => auth()->user()]);
     }
 
@@ -203,10 +211,7 @@ class AuthController extends Controller
 
         DB::table('password_resets')->updateOrInsert(['email' => $email], ['token' => $token]);
 
-        Mail::send('password.forgot', ['token' => $token],
-            function (Message $message) use ($email) {
-                $message->to($email)->subject('Reset your password');
-            });
+        SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['view' => 'mail.forgot', 'token' => $token])]);
 
         return response()->json($email, 200);
     }

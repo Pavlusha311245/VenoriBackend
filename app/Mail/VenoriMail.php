@@ -7,20 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingConfirmationMail extends Mailable
+class VenoriMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $order;
+    protected $data;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($order)
+    public function __construct($data)
     {
-        $this->order = $order;
+        $this->data = $data;
     }
 
     /**
@@ -31,6 +31,6 @@ class BookingConfirmationMail extends Mailable
     public function build()
     {
         return $this->from('help@venori.com')
-                    ->view('mail.confirmOrder', ['order' => $this->order]);
+            ->view($this->data['view'], $this->data);
     }
 }

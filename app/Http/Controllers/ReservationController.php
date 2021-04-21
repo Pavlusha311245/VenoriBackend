@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservationTimeRequest;
 use App\Jobs\SendEmailJob;
 use App\Mail\BookingConfirmationMail;
+use App\Mail\VenoriMail;
 use App\Models\Order;
 use App\Models\Place;
 use App\Models\Schedule;
@@ -236,7 +237,7 @@ class ReservationController extends Controller
             'place_id' => $place_id,
         ]);
 
-        SendEmailJob::dispatch(['user' => $request->user(), 'mail' => new BookingConfirmationMail($order)]);
+        SendEmailJob::dispatch(['user' => $request->user(), 'mail' => new VenoriMail(['order' => $order, 'view' => 'mail.confirmOrder'])]);
 
         return response()->json($order, 200);
     }
