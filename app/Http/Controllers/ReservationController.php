@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationTimeRequest;
+use App\Jobs\SendEmailJob;
+use App\Mail\BookingConfirmationMail;
 use App\Models\Order;
 use App\Models\Place;
 use App\Models\Schedule;
@@ -233,6 +235,8 @@ class ReservationController extends Controller
             'user_id' => auth()->user()->id,
             'place_id' => $place_id,
         ]);
+
+        SendEmailJob::dispatch(['user' => $request->user(), 'mail' => new BookingConfirmationMail($order)]);
 
         return response()->json($order, 200);
     }
