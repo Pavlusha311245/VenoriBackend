@@ -261,13 +261,6 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="Logout successful")
      *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *          )
      *     )
      * )
      */
