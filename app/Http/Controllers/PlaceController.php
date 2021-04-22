@@ -7,6 +7,7 @@ use App\Models\Place;
 use App\Models\Product;
 use App\Models\ProductsOfPlace;
 use App\Models\Review;
+use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -57,10 +58,16 @@ class PlaceController extends Controller
             'capacity' => 'required|integer',
             'table_price' => 'required|string',
             'description' => 'required|string',
-            'image_url' => 'required|string'
+            'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $place = Place::create($request->all());
+        $imageService = new ImageService;
+        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
+        $place = Place::create($data);
 
         return response()->json($place, 201);
     }
@@ -135,8 +142,33 @@ class PlaceController extends Controller
         return response()->json(['message' => 'Place is deleted successfully'], 200);
     }
 
+    /**
+     * @param $id
+     * @return int
+     */
     public function reviewsCount($id)
     {
-        return count(Review::where('place_id',$id)->get());
+        return count(Review::where('place_id', $id)->get());
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function uploadImage(Request $request, $id)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,png'
+        ]);
+
+        $imageService = new ImageService;
+
+        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+
+        $place = Place::findOrFail($id);
+        $place->update(['image_url' => $url]);
+
+        return response()->json(['image_url' => $url], 200);
     }
 }

@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/places/{place_id}/reservation', 'App\Http\Controllers\ReservationController@availableTime');
     Route::post('/places/{place_id}/reserve', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/places/{id}/uploadImage', 'App\Http\Controllers\PlaceController@uploadImage');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
     Route::post('/users/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');

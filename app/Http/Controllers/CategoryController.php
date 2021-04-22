@@ -109,23 +109,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $imageService = new ImageService;
-
         $request->validate([
+            'name' => 'required|string|unique:categories|max:255',
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
+        $imageService = new ImageService;
+
         $url = $imageService->upload($request->file('image'), 'CategoryImages');
 
-        $request->validate([
-            'name' => 'string',
-            'image_url' => $url
-        ]);
+        $data = $request->all();
+        $data['image_url'] = $url;
 
-        $category = Category::create([
-            'image_url' => $url,
-            'name' => $request->name
-        ]);
+        $category = Category::create($data);
 
         return response($category, 201);
     }
