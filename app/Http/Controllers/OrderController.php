@@ -140,53 +140,6 @@ class OrderController extends Controller
             ->update(['status' => 'Rejected']);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/api/orders/{id}",
-     *     summary="Update order",
-     *     description="Updating order",
-     *     operationId="orderUpdate",
-     *     tags={"orders"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Parameter(
-     *          description="ID of order",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
-     *     ),
-     *     @OA\RequestBody(
-     *          required=true,
-     *          description="Pass data to update order status",
-     *          @OA\JsonContent(
-     *              required={},
-     *
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=201,
-     *          description="Success updating order status",
-     *          @OA\JsonContent(
-     *
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="Validation error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object"
-     *              )
-     *          )
-     *      )
-     * )
-     */
     public function updateOrders()
     {
         return Order::where('staying_end', '<', date('Y-m-d H:i:s', strtotime(Carbon::now())))
