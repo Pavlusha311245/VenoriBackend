@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  *
  * @OA\Schema(
  * @OA\Xml(name="Favourite"),
- * @OA\Property(property="id", type="integer", readOnly="true", example="1"),
- * @OA\Property(property="user_id", type="integer", description="user ID", example="1"),
- * @OA\Property(property="place_id", type="integer", description="go to the place that the user likes", example="1"),
- * @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly="true"),
- * @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly="true"),
+ * @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ * @OA\Property(property="user_id", type="integer", description="user ID", example=1),
+ * @OA\Property(property="place_id", type="integer", description="go to the place that the user likes", example=1),
+ * @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+ * @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true),
  * )
  *
  * Class Favourite

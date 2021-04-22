@@ -17,8 +17,36 @@ use Illuminate\Http\Response;
 class ReviewController extends Controller
 {
     /**
-     * Method for returning all reviews
-     * @return Response
+     * @OA\Get(
+     *     path="/api/reviews",
+     *     summary="Review info",
+     *     description="Getting a list of all reviews",
+     *     operationId="reviewsIndex",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of all reviews",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      ref="#/components/schemas/Review"
+     *                  ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     ),
+     * )
      */
     public function index()
     {
@@ -26,10 +54,56 @@ class ReviewController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @param PlaceRatingService $placeRatingService
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/reviews",
+     *     summary="Add review",
+     *     description="Adding a new review",
+     *     operationId="reviewStore",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\RequestBody(
+     *          required=true,
+     *          description="Pass data to add a new review",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Review"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new review",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Review"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          type="string",
+     *                          example="The name field is required.",
+     *                      )
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
      */
     public function store(Request $request, PlaceRatingService $placeRatingService)
     {
@@ -59,11 +133,57 @@ class ReviewController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param Review $review
-     * @param PlaceRatingService $placeRatingService
-     * @return JsonResponse
+     * @OA\Put(
+     *     path="/api/reviews/{id}",
+     *     summary="Update review",
+     *     description="Updating review information",
+     *     operationId="reviewUpdate",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of review",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=false,
+     *          description="Pass data to update review information",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Review"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success updating review information",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              ref="#/components/schemas/Review"
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *       ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
+     *    )
+     * )
      */
     public function update(Request $request, Review $review, PlaceRatingService $placeRatingService)
     {
@@ -81,10 +201,47 @@ class ReviewController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @param PlaceRatingService $placeRatingService
-     * @return JsonResponse
+     * @OA\Delete(
+     *     path="/api/reviews/{id}",
+     *     summary="Removes review",
+     *     description="Removes review",
+     *     operationId="reviewsDelete",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of review",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting review",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Review is deleted successfully")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     )
+     * ),
      */
     public function destroy($id, PlaceRatingService $placeRatingService)
     {
@@ -98,11 +255,19 @@ class ReviewController extends Controller
     }
 
     /**
-     * @param $id
-     * @return int
+     * @return mixed
      */
-    public function reviewsCount($id)
+    public function reviewsByUserId()
     {
-        return count(Review::where('place_id',$id)->get());
+        return Review::where('user_id', auth()->user()->id)->get();
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function reviewsByPlaceId($id)
+    {
+        return Review::where('place_id', $id)->get();
     }
 }
