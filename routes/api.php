@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/users/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
     Route::post('/users/{id}/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
     Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
+    Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 });
