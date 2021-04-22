@@ -143,18 +143,104 @@ class PlaceController extends Controller
     }
 
     /**
-     * @param $id
-     * @return int
+     * @OA\Get(
+     *     path="/api/places/{id}/reviewsCount",
+     *     summary="Returns the number of reviews for a place",
+     *     description="Returns the number of reviews for a place",
+     *     operationId="reviewsCount",
+     *     tags={"places"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new user",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="reviews_count", type="integer", maxLength=255, example=2)
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
+     *      )
+     * )
      */
     public function reviewsCount($id)
     {
-        return count(Review::where('place_id', $id)->get());
+        return response()->json(['reviews_count' => count(Review::where('place_id', $id)->get())]);
     }
 
     /**
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse
+     * @OA\Post(
+     *     path="/api/places/{id}/uploadImage",
+     *     summary="Updates the category picture",
+     *     description="Updates the category picture",
+     *     operationId="categoryUploadImage",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\RequestBody(
+     *          required=false,
+     *          description="Pass data to add a new category image",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
+     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new user",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/PlacesImages/236095676.png")
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *         ),
+     *      )
+     * )
      */
     public function uploadImage(Request $request, $id)
     {
