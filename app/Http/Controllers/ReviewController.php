@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Place;
 use App\Models\Review;
 use App\Services\Rating\PlaceRatingService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -32,20 +30,17 @@ class ReviewController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Review"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Review")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -64,24 +59,18 @@ class ReviewController extends Controller
      *     @OA\RequestBody(
      *          required=true,
      *          description="Pass data to add a new review",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Review"
-     *          )
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new review",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Review"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -95,10 +84,7 @@ class ReviewController extends Controller
      *                  @OA\Property(
      *                      property="name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The name field is required.")
      *                  )
      *              )
      *          )
@@ -146,26 +132,17 @@ class ReviewController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=false,
      *          description="Pass data to update review information",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Review"
-     *          )
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success updating review information",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Review"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -174,15 +151,14 @@ class ReviewController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
-     *       ),
+     *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *         ),
-     *    )
+     *     )
      * )
      */
     public function update(Request $request, Review $review, PlaceRatingService $placeRatingService)
@@ -214,25 +190,15 @@ class ReviewController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting review",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Review is deleted successfully")
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *         ),
+     *     ),
      *     @OA\Response(
      *          response=400,
      *          description="Review not found",
@@ -240,8 +206,15 @@ class ReviewController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *     )
-     * ),
+     * )
      */
     public function destroy($id, PlaceRatingService $placeRatingService)
     {
@@ -266,16 +239,14 @@ class ReviewController extends Controller
      *          response=200,
      *          description="Success getting a auth user reviews",
      *          @OA\JsonContent(
-     *              @OA\Items(
-     *                  ref="#/components/schemas/Review",
-     *              )
+     *              @OA\Items(ref="#/components/schemas/Review")
      *          )
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -299,25 +270,20 @@ class ReviewController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success getting a place reviews",
      *          @OA\JsonContent(
-     *              @OA\Items(
-     *                  ref="#/components/schemas/Review",
-     *              )
+     *              @OA\Items(ref="#/components/schemas/Review")
      *          )
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )

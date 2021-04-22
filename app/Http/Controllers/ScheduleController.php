@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -30,20 +29,17 @@ class ScheduleController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Schedule"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Schedule")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -62,24 +58,18 @@ class ScheduleController extends Controller
      *     @OA\RequestBody(
      *          required=true,
      *          description="Pass data to add a new schedule",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Schedule"
-     *          )
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Schedule")
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new schedule",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Schedule"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Schedule")
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -93,10 +83,7 @@ class ScheduleController extends Controller
      *                  @OA\Property(
      *                      property="name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The name field is required.")
      *                  )
      *              )
      *          )
@@ -138,10 +125,7 @@ class ScheduleController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -150,20 +134,14 @@ class ScheduleController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Schedule"
-     *                  ),
-     *              ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Schedule")
+     *              )
      *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success updating category information",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Category"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -177,7 +155,7 @@ class ScheduleController extends Controller
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -208,10 +186,7 @@ class ScheduleController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
@@ -304,7 +279,7 @@ class ScheduleController extends Controller
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      * )
