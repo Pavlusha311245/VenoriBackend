@@ -260,19 +260,18 @@ class CategoryController extends Controller
      */
     public function uploadImage(Request $request, $id)
     {
-        $imageService = new ImageService;
-
         $request->validate([
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
+        $imageService = new ImageService;
+
         $url = $imageService->upload($request->file('image'), 'CategoryImages');
 
         $category = Category::findOrFail($id);
-
         $category->update(['image_url' => $url]);
 
-        return response()->json($url, 200);
+        return response()->json(['image_url' => $url], 200);
     }
 
     /**
