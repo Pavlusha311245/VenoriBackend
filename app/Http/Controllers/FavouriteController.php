@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favourite;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -29,18 +28,15 @@ class FavouriteController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Favourite"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -70,16 +66,13 @@ class FavouriteController extends Controller
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new favourite",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Favourite"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Favourite")
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -93,14 +86,11 @@ class FavouriteController extends Controller
      *                  @OA\Property(
      *                      property="user_id",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The review id field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The review id field is required.")
      *                  )
      *              )
      *          )
-     *      )
+     *     )
      * )
      */
     public function store(Request $request)
@@ -117,10 +107,10 @@ class FavouriteController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/favourites/{id}",
-     *     summary="Show favourites",
+     *     path="/api/users/{id}/favourites",
+     *     summary="Show user favourites by id",
      *     description="Showing favourites by user_id",
-     *     operationId="favouritesShow",
+     *     operationId="favouritesShowForUserById",
      *     tags={"favourites"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
@@ -129,29 +119,21 @@ class FavouriteController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success showing user favourites",
      *          @OA\JsonContent(
-     *              @OA\Property(
-     *                  ref="#/components/schemas/Favourite"
-     *              )
-     *          ),
+     *             @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *          )
      *     ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="Favourites not found"
-     *     ),
+     *     @OA\Response(response=400, description="Favourites not found"),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -162,9 +144,28 @@ class FavouriteController extends Controller
     }
 
     /**
-     * The method returns favourite places for current authorization user
-     *
-     * @return JsonResponse
+     * @OA\Get(
+     *     path="/api/user/favourites",
+     *     summary="Show favourites for auth user",
+     *     description="Showing favourites for auth user",
+     *     operationId="favouritesShowForAuthUser",
+     *     tags={"favourites"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success showing auth user favourites",
+     *          @OA\JsonContent(
+     *              @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     )
+     * )
      */
     public function showUserFavourites()
     {
@@ -185,17 +186,14 @@ class FavouriteController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting favourite",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Favourite is deleted successfully")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -207,9 +205,9 @@ class FavouriteController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="messerrorage", type="string", example="Unauthorized"),
+     *              @OA\Property(property="messerrorage", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )

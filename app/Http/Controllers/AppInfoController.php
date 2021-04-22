@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\AppInfo;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Response;
 
 /**
  * Class AppInfoController
@@ -25,19 +23,16 @@ class AppInfoController extends Controller
      *          response=200,
      *          description="Success getting a list of infos",
      *          @OA\JsonContent(
-     *             @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/AppInfo"
-     *                  ),
-     *          ),
+     *             @OA\Items(type="object", ref="#/components/schemas/AppInfo")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function getInfo()
