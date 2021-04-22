@@ -7,11 +7,7 @@ use App\Models\Place;
 use App\Models\Product;
 use App\Models\ProductsOfPlace;
 use App\Services\RadiusAroundLocationService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -35,20 +31,17 @@ class PlaceController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Place"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Place")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
@@ -110,7 +103,14 @@ class PlaceController extends Controller
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-21 18:22:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-21 18:2:20"),
      *              @OA\Property(property="id", type="integer", example=1)
-     *          ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -123,10 +123,7 @@ class PlaceController extends Controller
      *                  @OA\Property(
      *                      property="name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The name field is required.")
      *                  )
      *              )
      *          )
@@ -169,20 +166,17 @@ class PlaceController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Place"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Place")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function show($id)
@@ -205,20 +199,17 @@ class PlaceController extends Controller
      *              @OA\Property(
      *                  property="Coffee",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Product"
-     *                  ),
-     *              ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Product")
+     *              )
      *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function menu($id)
@@ -251,10 +242,7 @@ class PlaceController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -290,17 +278,21 @@ class PlaceController extends Controller
      *              @OA\Property(property="image_url", type="string", example="app/public/PlaceImages/BurgerKing.png"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-21 18:22:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-21 18:2:20")
-     *          ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object"
-     *              )
+     *              @OA\Property(property="errors", type="object")
      *          )
      *      )
      * )
@@ -337,17 +329,14 @@ class PlaceController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting place",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Place is deleted successfully")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -357,6 +346,13 @@ class PlaceController extends Controller
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
      *          )
      *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
+     *     )
      * )
      */
     public function destroy($id)

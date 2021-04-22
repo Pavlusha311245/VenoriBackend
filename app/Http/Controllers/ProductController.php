@@ -3,12 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
 /**
@@ -34,20 +28,17 @@ class ProductController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Product"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Product")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -63,18 +54,20 @@ class ProductController extends Controller
      *     operationId="productsImport",
      *     tags={"products"},
      *     security={ {"bearer": {} }},
-     *     @OA\RequestBody(
+     *     @OA\Parameter(
+     *          description="Csv file for products",
+     *          in="path",
+     *          name="file",
      *          required=true,
-     *          description="Pass data to import a new product",
-     *          @OA\JsonContent(
-     *              required={"products"},
-     *              @OA\Property(property="products", type="file", example="products.csv"),
-     *          )
+     *          @OA\Schema(type="file", format="file")
      *     ),
+     *     @OA\Response(response=200, description="Success importing a new product"),
      *     @OA\Response(
-     *          response=200,
-     *          description="Success importing a new product",
-     *          ),
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -87,10 +80,7 @@ class ProductController extends Controller
      *                  @OA\Property(
      *                      property="name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The name field is required.")
      *                  )
      *              )
      *          )
@@ -101,10 +91,11 @@ class ProductController extends Controller
         $data = $request->file('products');
 
         $request->validate([
-            'products' => 'required|file',
+            'products' => 'required|file|mimes:csv,txt',
         ]);
 
-        $rows = array_map('str_products', file($data));
+
+        $rows = array_map('str_getcsv', file($data));
         $header = array_shift($rows);
 
         foreach ($rows as $row){
@@ -130,6 +121,8 @@ class ProductController extends Controller
                     'image_url' => $products['image_url']
                 ]);
         }
+
+        return response()->json(['message' => "Success importing a new product"], 200);
     }
 
     /**
@@ -149,7 +142,7 @@ class ProductController extends Controller
      *              @OA\Property(property="weight", type="string", example="200ml"),
      *              @OA\Property(property="price", type="number", example=10),
      *              @OA\Property(property="category_id", type="integer", example=1),
-     *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/248445071.png"),
+     *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/248445071.png")
      *          )
      *     ),
      *     @OA\Response(
@@ -164,8 +157,15 @@ class ProductController extends Controller
      *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/248445071.png"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="id", type="integer", example=3),
-     *          ),
+     *              @OA\Property(property="id", type="integer", example=3)
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -178,10 +178,7 @@ class ProductController extends Controller
      *                  @OA\Property(
      *                      property="name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The name field is required.")
      *                  )
      *              )
      *          )
@@ -213,32 +210,25 @@ class ProductController extends Controller
      *     @OA\Response(
      *         response=201,
      *         description="Success storing a new product",
-     *             @OA\JsonContent(
-     *             type="object",
-     *                 @OA\Property(property="name", type="string", example="Milk"),
-     *                 @OA\Property(property="weight", type="string", example="200ml"),
-     *                 @OA\Property(property="price", type="number", example="user1@mail.com"),
-     *                 @OA\Property(property="category_id", type="integer", example=1),
-     *                 @OA\Property(property="image_url", type="string", example="app/public/ProductImages/248445071.png"),
-     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *                 @OA\Property(property="id", type="integer", example=3),
-     *                 ),
-     *       ),
-     *
-     *       @OA\Items(
-     *                 type="object",
-     *                  ref="#/components/schemas/Product"
-     *                 ),
-     *       ),
-     *     ),
-     *     @OA\Response(
+     *         @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="name", type="string", example="Milk"),
+     *              @OA\Property(property="weight", type="string", example="200ml"),
+     *              @OA\Property(property="price", type="number", example="user1@mail.com"),
+     *              @OA\Property(property="category_id", type="integer", example=1),
+     *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/248445071.png"),
+     *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *              @OA\Property(property="id", type="integer", example=3)
+     *        )
+     *    ),
+     *    @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function getProduct($name)
@@ -262,20 +252,17 @@ class ProductController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Product"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Product")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthorized"),
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function show($id)
@@ -297,10 +284,7 @@ class ProductController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -311,7 +295,7 @@ class ProductController extends Controller
      *              @OA\Property(property="weight", type="string", example="200ml"),
      *              @OA\Property(property="price", type="number", example=10),
      *              @OA\Property(property="category_id", type="integer", example=2),
-     *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/cheese.png"),
+     *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/cheese.png")
      *          )
      *     ),
      *     @OA\Response(
@@ -325,17 +309,21 @@ class ProductController extends Controller
      *              @OA\Property(property="avatar", type="string", example="storage/ProductImages/cheese.png"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-15T12:37:21.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-15T13:07:18.000000Z")
-     *          ),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object"
-     *              )
+     *              @OA\Property(property="errors", type="object")
      *          )
      *      )
      * )
@@ -369,17 +357,14 @@ class ProductController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting product",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Product is deleted successfully")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -387,6 +372,13 @@ class ProductController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
