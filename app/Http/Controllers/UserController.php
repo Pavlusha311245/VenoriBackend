@@ -190,7 +190,7 @@ class UserController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *     path="/api/user/details",
      *     summary="Show user",
      *     description="Showing auth user",
@@ -316,7 +316,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/user/{id}/uploadAvatar",
+     *     path="/api/users/{id}/uploadAvatar",
      *     summary="Upload user avatar",
      *     description="Uploading avatar for user",
      *     operationId="usersAvatar",
@@ -346,8 +346,8 @@ class UserController extends Controller
      *     @OA\Response(
      *          response=200,
      *          description="Success uploading avatar for user",
-     *          @OA\Property(
-     *              @OA\Property(type="string", example="storage/UserAvatars/589373154.png"),
+     *          @OA\JsonContent(
+     *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/UsersAvatars/236095676.png")
      *          ),
      *     ),
      *     @OA\Response(
@@ -380,19 +380,18 @@ class UserController extends Controller
      */
     public function uploadAvatar(Request $request, $id)
     {
-        $imageService = new ImageService;
-
         $request->validate([
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $url = $imageService->upload($request->file('image'), 'UserAvatars');
+        $imageService = new ImageService;
+
+        $url = $imageService->upload($request->file('image'), 'UsersAvatars');
 
         $user = User::findOrFail($id);
-
         $user->update(['avatar' => $url]);
 
-        return response()->json($url, 200);
+        return response()->json(['image_url' => $url], 200);
     }
 
     /**
