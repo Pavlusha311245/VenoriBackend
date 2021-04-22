@@ -190,7 +190,7 @@ class UserController extends Controller
     }
 
     /**
-     * @OA\Post(
+     * @OA\Get(
      *     path="/api/user/details",
      *     summary="Show user",
      *     description="Showing auth user",
@@ -346,8 +346,8 @@ class UserController extends Controller
      *     @OA\Response(
      *          response=200,
      *          description="Success uploading avatar for user",
-     *          @OA\Property(
-     *              @OA\Property(type="string", example="storage/UsersAvatars/589373154.png"),
+     *          @OA\JsonContent(
+     *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/UsersAvatars/236095676.png")
      *          ),
      *     ),
      *     @OA\Response(

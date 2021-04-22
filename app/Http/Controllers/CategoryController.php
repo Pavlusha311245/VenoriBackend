@@ -236,8 +236,7 @@ class CategoryController extends Controller
      *          response=201,
      *          description="Success storing a new user",
      *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Category"
+     *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/CategoryImages/236095676.png")
      *          ),
      *     ),
      *     @OA\Response(
@@ -250,7 +249,7 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
