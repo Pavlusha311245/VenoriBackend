@@ -31,22 +31,28 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('schedules', ScheduleController::class);
     Route::resource('comments', CommentController::class);
 
-    Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
+    Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
+    Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
+    Route::get('/places/{id}/schedule', 'App\Http\Controllers\ScheduleController@scheduleByPlaceId');
+    Route::get('/places/{id}/reviews', 'App\Http\Controllers\ReviewController@reviewsByPlaceId');
+    Route::get('/user/reviews', 'App\Http\Controllers\ReviewController@reviewsByUserId');
+    Route::get('/reviews/{id}/comments', 'App\Http\Controllers\CommentController@commentsByReviewId');
 
     Route::post('/places/{place_id}/reservation', 'App\Http\Controllers\ReservationController@availableTime');
     Route::post('/places/{place_id}/reserve', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/places/{id}/uploadImage', 'App\Http\Controllers\PlaceController@uploadImage');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
-    Route::post('/user/showProfile', 'App\Http\Controllers\UserController@showProfile');
-    Route::post('/user/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
-    Route::post('/category/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
+    Route::post('/users/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
     Route::post('/users/{id}/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
+    Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
+    Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 });

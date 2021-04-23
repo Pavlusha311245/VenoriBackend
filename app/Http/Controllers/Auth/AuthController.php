@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailJob;
+use App\Mail\LoginMail;
+use App\Mail\RegisterMail;
+use App\Mail\VenoriMail;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 /**
  * Class AuthController
@@ -35,7 +37,7 @@ class AuthController extends Controller
      *              @OA\Property(property="first_name", type="string", example="Jack"),
      *              @OA\Property(property="second_name", type="string", example="Smith"),
      *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345")
      *          )
      *     ),
      *     @OA\Response(
@@ -45,11 +47,11 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(property="first_name", type="string", example="Jack"),
      *              @OA\Property(property="second_name", type="string", example="Smith"),
-     *              @OA\Property( property="email", type="string", format="email", example="user1@mail.com"),
+     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="id", type="integer", example=1),
-     *          ),
+     *              @OA\Property(property="id", type="integer", example=1)
+     *          )
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -62,18 +64,12 @@ class AuthController extends Controller
      *                  @OA\Property(
      *                      property="first_name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The first name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The first name field is required.")
      *                  ),
      *                  @OA\Property(
      *                      property="email",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                      )
+     *                      @OA\Items(type="string", example="The email has already been taken.")
      *                  )
      *              )
      *          )
@@ -92,6 +88,8 @@ class AuthController extends Controller
 
         $user = User::create($validData);
 
+        SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['user' => $user, 'view' => 'mail.register'])]);
+
         return response()->json($user, 201);
     }
 
@@ -108,7 +106,7 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *              required={"email","password"},
      *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345")
      *          )
      *     ),
      *     @OA\Response(
@@ -117,14 +115,14 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="access_token", type="string", example="eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzMxOTY3My0yNTkxLTRlNGMtOWUwMy02MzRlMDYzNWUzMDMiLCJqdGkiOiI5MjUzMTU1YjY0MWIwMWY3NDEwMGNmMjhhOGIxZmU2NzNhZjhjMGExZDM1MGFiNDdmN2M3ZTRlNTNjNDUxYmIyMDUzMTAyNDRmNWExZjdmYyIsImlhdCI6MTYxODQ4MDgzOS4zNDY0ODYsIm5iZiI6MTYxODQ4MDgzOS4zNDY0OTgsImV4cCI6MTY1MDAxNjgzOS4zMzAxOTEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.FoOSs7tl3hfN1KWG40WexLGG67qsZ6SYzVUX_zAAu5H-AaxNv-p-dmY8Q6zh2HnHwPbVKrjTXLVM28nqXSanOreP2Tpfwq_LbrjAYLuEpzrY17QMddtbQ3iXh7M7OX0AyRFcw6Z4_SZVwc-sfUK-rcTyIo9e7XHtCKBsE4yaVmFgHX933s6ltmZzk5bzLP993WrMOlvuqxFHcVV6STQzuFb4QC7qkw3Pv62p-E7WTaoHbWhR5EM5FsxXSDai_zjHVmRFpIdPmrfE9eilcrTYQP-OcsbR37rKdYTdoHnaTxO3P6KVDehSsI1TU0Uok6K_8liTZU32cxV8s1nOUuM74z_d-k-chLbcm1-hKAVn5SyAKWrXbs2AI8WgoWV4msZI_VQX0lp9C8Nx12zhWDOe4AGff8gJAB7OkQIT4FMt1UIdc_04lASbU8YJV2Oht-DOwnk-G71_uUdc4REgkBf29IggdQojuXLvxFzvF3ORd3rzPQ9xGGlrV5h2UBgZd039qnqRrmZJah36oC0OgHaRGqzmQzenTAeKxyBM7zH5tsj5nwSU7cUvHq2v15XLqd7JHKuK2dPa0AJGCwUcejSs6WSTjUxbuq8Zfc76WR-6G0pv7gnvMlD0CgLR4o6sgXRtVO74Q2nGmxV49cnGc45zCI0Q_CifRD2cagZyE0USMdM"),
-     *              @OA\Property(property="user", type="object", ref="#/components/schemas/User"),
-     *          ),
+     *              @OA\Property(property="user", type="object", ref="#/components/schemas/User")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthorized",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthorized")
      *          )
      *     ),
      *     @OA\Response(
@@ -138,18 +136,12 @@ class AuthController extends Controller
      *                  @OA\Property(
      *                      property="email",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The email field is required.")
      *                  ),
      *                  @OA\Property(
      *                      property="password",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The password field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The password field is required.")
      *                  )
      *              )
      *          )
@@ -166,6 +158,8 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
+
+        SendEmailJob::dispatch(['user' => auth()->user(), 'mail' => new VenoriMail(['view' => 'mail.login'])]);
 
         return response()->json(['access_token' => $accessToken, 'user' => auth()->user()]);
     }
@@ -201,7 +195,7 @@ class AuthController extends Controller
      *          description="Pass data to send a password recovery email",
      *          @OA\JsonContent(
      *              required={"email"},
-     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com")
      *          )
      *     ),
      *     @OA\Response(
@@ -210,7 +204,7 @@ class AuthController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com")
-     *          ),
+     *          )
      *     )
      * )
      */
@@ -226,10 +220,7 @@ class AuthController extends Controller
 
         DB::table('password_resets')->updateOrInsert(['email' => $email], ['token' => $token]);
 
-        Mail::send('password.forgot', ['token' => $token],
-            function (Message $message) use ($email) {
-                $message->to($email)->subject('Reset your password');
-            });
+        SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['view' => 'mail.forgot', 'token' => $token])]);
 
         return response()->json($email, 200);
     }
