@@ -348,7 +348,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return response()->json($user, 200);
+        return response()->json($user);
     }
 
     /**
@@ -419,7 +419,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update(['avatar' => $url]);
 
-        return response()->json(['image_url' => $url], 200);
+        return response()->json(['image_url' => $url]);
     }
 
     /**
@@ -467,7 +467,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['message' => 'User is deleted successfully'], 200);
+        return response()->json(['message' => 'User is deleted successfully']);
     }
 
     /**
@@ -533,6 +533,6 @@ class UserController extends Controller
         $user->update($userLocation);
         $user->save();
 
-        return response()->json($userLocation, 200);
+        return response()->json($userLocation);
     }
 }

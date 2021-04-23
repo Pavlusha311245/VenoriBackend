@@ -169,7 +169,7 @@ class ScheduleController extends Controller
         $schedule->update($request->all());
         $schedule->save();
 
-        return response()->json($schedule, 200);
+        return response()->json($schedule);
     }
 
     /**

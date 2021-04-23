@@ -173,7 +173,7 @@ class ReviewController extends Controller
 
         $placeRatingService->countPlaceRating($review);
 
-        return response()->json($review, 200);
+        return response()->json($review);
     }
 
     /**
@@ -224,7 +224,7 @@ class ReviewController extends Controller
 
         $placeRatingService->countPlaceRating($review);
 
-        return response()->json(['message' => 'Review is successfully deleted'], 200);
+        return response()->json(['message' => 'Review is successfully deleted']);
     }
 
     /**
