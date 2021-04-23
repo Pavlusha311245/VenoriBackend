@@ -34,18 +34,15 @@ class UserController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/User"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/User")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -71,7 +68,7 @@ class UserController extends Controller
      *              @OA\Property(property="first_name", type="string", example="Jack"),
      *              @OA\Property(property="second_name", type="string", example="Smith"),
      *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345")
      *          )
      *     ),
      *     @OA\Response(
@@ -84,14 +81,14 @@ class UserController extends Controller
      *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="id", type="integer", example=1),
-     *          ),
+     *              @OA\Property(property="id", type="integer", example=1)
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -105,18 +102,12 @@ class UserController extends Controller
      *                  @OA\Property(
      *                      property="first_name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The first name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The first name field is required.")
      *                  ),
      *                  @OA\Property(
      *                      property="email",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                      )
+     *                      @OA\Items(type="string", example="The email has already been taken.")
      *                  )
      *              )
      *          )
@@ -154,18 +145,12 @@ class UserController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success showing user",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/User"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -177,9 +162,9 @@ class UserController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -200,16 +185,13 @@ class UserController extends Controller
      *     @OA\Response(
      *          response=200,
      *          description="Success showing user",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/User"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/User")
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -233,10 +215,7 @@ class UserController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -249,7 +228,7 @@ class UserController extends Controller
      *              @OA\Property(property="address_lat", type="number", example="53.913224"),
      *              @OA\Property(property="address_lon", type="number", example="27.467663"),
      *              @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="password", type="string", maxLength=255, example="Passwo424hg"),
+     *              @OA\Property(property="password", type="string", maxLength=255, example="Passwo424hg")
      *          )
      *     ),
      *     @OA\Response(
@@ -267,13 +246,13 @@ class UserController extends Controller
      *              @OA\Property(property="email_verified_at", type="string", readOnly=true, format="date-time", description="Datetime marker of verification status", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2021-04-15T12:37:21.000000Z"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2021-04-15T13:07:18.000000Z")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -287,10 +266,7 @@ class UserController extends Controller
      *                  @OA\Property(
      *                      property="email",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The email has already been taken.",
-     *                      )
+     *                      @OA\Items(type="string", example="The email has already been taken.")
      *                  )
      *              )
      *          )
@@ -328,33 +304,27 @@ class UserController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Parameter(
      *          description="Image for user",
      *          in="path",
      *          name="avatar",
      *          required=true,
-     *          @OA\Schema(
-     *              type="file",
-     *              format="file"
-     *         )
+     *          @OA\Schema(type="file", format="file")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success uploading avatar for user",
      *          @OA\JsonContent(
      *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/UsersAvatars/236095676.png")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="object", example="Unauthorized"),
+     *              @OA\Property(property="message", type="object", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -368,10 +338,7 @@ class UserController extends Controller
      *                  @OA\Property(
      *                      property="image",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The image name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The image name field is required.")
      *                  )
      *              )
      *          )
@@ -408,17 +375,14 @@ class UserController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting user",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="User is deleted successfully")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -430,9 +394,9 @@ class UserController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -459,7 +423,7 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
      *              @OA\Property(property="address_lat", type="number", example="53.913224"),
-     *              @OA\Property(property="address_lon", type="number", example="27.467663"),
+     *              @OA\Property(property="address_lon", type="number", example="27.467663")
      *          )
      *     ),
      *     @OA\Response(
@@ -468,14 +432,14 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
      *              @OA\Property(property="address_lat", type="number", example="53.913224"),
-     *              @OA\Property(property="address_lon", type="number", example="27.467663"),
-     *          ),
+     *              @OA\Property(property="address_lon", type="number", example="27.467663")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -489,11 +453,8 @@ class UserController extends Controller
      *                  @OA\Property(
      *                      property="address_full",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The first name field is required.",
-     *                      )
-     *                  ),
+     *                      @OA\Items(type="string", example="The first name field is required.")
+     *                  )
      *              )
      *          )
      *      )

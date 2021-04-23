@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Services\ImageService;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -33,20 +29,17 @@ class CategoryController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Category"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Category")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     ),
+     *     )
      * )
      */
     public function index()
@@ -67,16 +60,13 @@ class CategoryController extends Controller
      *          description="Pass data to add a new category",
      *          @OA\JsonContent(
      *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
-     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
-     *     )
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success creating category",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Category"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -104,10 +94,7 @@ class CategoryController extends Controller
      *                  @OA\Property(
      *                      property="name",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The name field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The name field is required.")
      *                  )
      *              )
      *          )
@@ -158,26 +145,20 @@ class CategoryController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=false,
      *          description="Pass data to add a new category",
      *          @OA\JsonContent(
      *              @OA\Property(property="name", type="string", maxLength=255, example="Coffee"),
-     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
-     *     )
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success updating category information",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Category"
-     *          ),
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -191,10 +172,9 @@ class CategoryController extends Controller
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     ),
-     *      )
+     *     )
      * )
      */
     public function update(Request $request, Category $category)
@@ -223,24 +203,21 @@ class CategoryController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=false,
      *          description="Pass data to add a new category image",
      *          @OA\JsonContent(
-     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
-     *     )
+     *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new user",
      *          @OA\JsonContent(
      *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/CategoryImages/236095676.png")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -256,8 +233,7 @@ class CategoryController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *         ),
-     *      )
+     *     )
      * )
      */
     public function uploadImage(Request $request, $id)
@@ -290,17 +266,14 @@ class CategoryController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting category",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Category is deleted successfully")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -312,12 +285,12 @@ class CategoryController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Validation error",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
-     * ),
+     * )
      */
     public function destroy($id)
     {

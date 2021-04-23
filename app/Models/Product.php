@@ -8,15 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 /**
  *
  * @OA\Schema(
- * @OA\Xml(name="Product"),
- * @OA\Property(property="id", type="integer", readOnly=true, example=1),
- * @OA\Property(property="name", type="string", description="Product name", example="Americano"),
- * @OA\Property(property="weight", type="string", description="Product weight", example="200ml"),
- * @OA\Property(property="price", type="number", description="Product price", example=4.00),
- * @OA\Property(property="image_url", type="string", description="On creation and update, accepts a file, but stores and returns a link to the file on the server", example="storage/products/coffe_americano.png"),
- * @OA\Property(property="category_id", type="integer", description="ID of the category the product belongs to", example=1),
- * @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
- * @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true),
+ *      @OA\Xml(name="Product"),
+ *      @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ *      @OA\Property(property="name", type="string", description="Product name", example="Americano"),
+ *      @OA\Property(property="weight", type="string", description="Product weight", example="200ml"),
+ *      @OA\Property(property="price", type="number", description="Product price", example=4.00),
+ *      @OA\Property(property="image_url", type="string", description="On creation and update, accepts a file, but stores and returns a link to the file on the server", example="storage/products/coffe_americano.png"),
+ *      @OA\Property(property="category_id", type="integer", description="ID of the category the product belongs to", example=1),
+ *      @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+ *      @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true)
  * )
  *
  * Class Product

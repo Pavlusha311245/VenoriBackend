@@ -43,7 +43,8 @@ class Comment extends Model
      *
      * @return HasOne
      */
-    public function review(){
+    public function review()
+    {
         return $this->hasOne(Review::class);
     }
 }

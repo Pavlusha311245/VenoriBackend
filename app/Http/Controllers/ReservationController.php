@@ -11,7 +11,6 @@ use App\Models\Place;
 use App\Models\Schedule;
 use App\Services\ReservationService;
 use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class ReservationController for Reservation logic
@@ -46,10 +45,7 @@ class ReservationController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -57,40 +53,16 @@ class ReservationController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="date", type="date", example="2021-04-19"),
      *              @OA\Property(property="people", type="integer", example="1"),
-     *              @OA\Property(property="staying", type="float", example="0.5"),
+     *              @OA\Property(property="staying", type="float", example="0.5")
      *          )
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="available time array",
      *          @OA\JsonContent(
-     *          @OA\Items(
-     *              @OA\Items(
-     *                      type="string",
-     *                      example="10:00 AM",
-     *                  )
-     *              )
+     *              @OA\Items(type="string", example="10:00 AM")
      *          )
-     *      ),
-     *     @OA\Response(
-     *          response=422,
-     *          description="Validation error",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
-     *              @OA\Property(
-     *                  property="errors",
-     *                  type="object",
-     *                  @OA\Property(
-     *                      property="date",
-     *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The date must be a date after yesterday.",
-     *                      )
-     *                  )
-     *              )
-     *          )
-     *      ),
+     *     ),
      *     @OA\Response(
      *          response=400,
      *          description="Place not found",
@@ -103,9 +75,25 @@ class ReservationController extends Controller
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="date",
+     *                      type="array",
+     *                      @OA\Items(type="string", example="The date must be a date after yesterday.")
+     *                  )
+     *              )
+     *          )
+     *     )
      * )
      */
     public function availableTime(ReservationTimeRequest $request, $place_id)
@@ -159,10 +147,7 @@ class ReservationController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -171,7 +156,27 @@ class ReservationController extends Controller
      *              @OA\Property(property="date", type="date", example="2021-04-21"),
      *              @OA\Property(property="people", type="integer", example="10"),
      *              @OA\Property(property="staying", type="float", example="2"),
-     *              @OA\Property(property="time", type="time", example="17:00"),
+     *              @OA\Property(property="time", type="time", example="17:00")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="The order has been successfully created. Status: 'In progress'",
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Order")
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -185,38 +190,11 @@ class ReservationController extends Controller
      *                  @OA\Property(
      *                      property="date",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The date must be a date after yesterday.",
-     *                      )
+     *                      @OA\Items(type="string", example="The date must be a date after yesterday.")
      *                  )
      *              )
      *          )
-     *      ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="Place not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=200,
-     *          description="The order has been successfully created. Status: 'In progress' ",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              ref="#/components/schemas/Order"
-     *          ),
-     *      )
-     * )
+     *     )
      * )
      */
     public function tableReserve(ReservationTimeRequest $request, $place_id)

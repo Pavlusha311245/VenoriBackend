@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
-use App\Models\Review;
 use Illuminate\Http\Request;
 
 /**
@@ -29,18 +28,15 @@ class CommentController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(
-     *                      type="object",
-     *                      ref="#/components/schemas/Comment"
-     *                  ),
-     *              ),
-     *          ),
+     *                  @OA\Items(type="object", ref="#/components/schemas/Comment")
+     *              )
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -80,14 +76,14 @@ class CommentController extends Controller
      *              @OA\Property(property="user_id", type="integer", example=1),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="id", type="integer", example=1),
-     *          ),
+     *              @OA\Property(property="id", type="integer", example=1)
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
      *     @OA\Response(
@@ -101,10 +97,7 @@ class CommentController extends Controller
      *                  @OA\Property(
      *                      property="review_id",
      *                      type="array",
-     *                      @OA\Items(
-     *                          type="string",
-     *                          example="The review id field is required.",
-     *                      )
+     *                      @OA\Items(type="string", example="The review id field is required.")
      *                  )
      *              )
      *          )
@@ -139,10 +132,7 @@ class CommentController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
@@ -156,7 +146,7 @@ class CommentController extends Controller
      *              @OA\Property(property="user_id", type="integer", example=1),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -168,9 +158,9 @@ class CommentController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -194,10 +184,7 @@ class CommentController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\RequestBody(
      *          required=true,
@@ -221,7 +208,7 @@ class CommentController extends Controller
      *              @OA\Property(property="user_id", type="integer", example=1),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -233,9 +220,9 @@ class CommentController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -268,17 +255,14 @@ class CommentController extends Controller
      *          name="id",
      *          required=true,
      *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
+     *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
      *          response=200,
      *          description="Success deleting comment",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Comment is deleted successfully")
-     *          ),
+     *          )
      *     ),
      *     @OA\Response(
      *          response=400,
@@ -290,9 +274,9 @@ class CommentController extends Controller
      *     ),
      *     @OA\Response(
      *          response=401,
-     *          description="Unauthorized",
+     *          description="Unauthenticated",
      *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthorized"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     )
      * )
@@ -306,8 +290,36 @@ class CommentController extends Controller
     }
 
     /**
-     * @param $id
-     * @return mixed
+     * @OA\Get(
+     *     path="/api/reviews/{id}/comments",
+     *     summary="Get review comments",
+     *     description="Getting a review comments",
+     *     operationId="commentsReview",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of review",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a review comments",
+     *          @OA\JsonContent(
+     *              @OA\Items(ref="#/components/schemas/Comment")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     )
+     * )
      */
     public function commentsByReviewId($id)
     {
