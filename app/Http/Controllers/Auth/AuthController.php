@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmailJob;
-use App\Mail\LoginMail;
-use App\Mail\RegisterMail;
 use App\Mail\VenoriMail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -199,7 +197,7 @@ class AuthController extends Controller
 
         SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['view' => 'mail.forgot', 'token' => $token])]);
 
-        return response()->json($email, 200);
+        return response()->json($email);
     }
 
     /**

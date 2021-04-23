@@ -122,7 +122,7 @@ class ProductController extends Controller
                 ]);
         }
 
-        return response()->json(['message' => "Success importing a new product"], 200);
+        return response()->json(['message' => "Success importing a new product"]);
     }
 
     /**
@@ -233,7 +233,7 @@ class ProductController extends Controller
      */
     public function getProduct($name)
     {
-        return response()->json(Product::findOrFail($name), 200);
+        return response()->json(Product::findOrFail($name));
     }
 
     /**
@@ -340,7 +340,7 @@ class ProductController extends Controller
 
         $product->update($request->all());
 
-        return response()->json($product, 200);
+        return response()->json($product);
     }
 
     /**
@@ -388,6 +388,6 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
 
-        return response()->json(['message' => 'Product is deleted successfully'], 200);
+        return response()->json(['message' => 'Product is deleted successfully']);
     }
 }
