@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Place;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -33,10 +34,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
         return view('products');
     });
 
-    Route::get('/places', function () {
-        return view('places');
-    });
-
     Route::get('/users', function () {
         return view('users.index', ['users' => User::all()]);
     });
@@ -51,6 +48,22 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     });
     Route::get('/users/{id}/delete', function ($id) {
         return view('users.delete', ['user' => User::findOrFail($id)]);
+    });
+
+    Route::get('/places', function () {
+        return view('places.index', ['places' => Place::all()]);
+    });
+    Route::get('/places/create', function () {
+        return view('places.create');
+    });
+    Route::get('/places/{id}', function ($id) {
+        return view('places.show', ['place' => Place::findOrFail($id)]);
+    });
+    Route::get('/places/{id}/edit', function ($id) {
+        return view('places.edit', ['place' => Place::findOrFail($id)]);
+    });
+    Route::get('/places/{id}/delete', function ($id) {
+        return view('places.delete', ['place' => Place::findOrFail($id)]);
     });
 
     Route::post('/users/create', 'App\Http\Controllers\UserController@create');
