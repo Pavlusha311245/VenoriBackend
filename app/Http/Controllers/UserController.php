@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
@@ -59,6 +56,10 @@ class UserController extends Controller
         return User::paginate(5);
     }
 
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
     public function create(Request $request)
     {
         $validData = $request->validate([
@@ -466,11 +467,6 @@ class UserController extends Controller
     }
 
     /**
-<<<<<<< HEAD
-     * The method uses the search service to enter the user's location into the database
-     * @param Request $request
-     * @return JsonResponse
-=======
      * @OA\Put(
      *     path="/api/user/location",
      *     summary="Location of user",
@@ -520,7 +516,6 @@ class UserController extends Controller
      *          )
      *      )
      * )
->>>>>>> develop
      */
     public function location(Request $request)
     {
