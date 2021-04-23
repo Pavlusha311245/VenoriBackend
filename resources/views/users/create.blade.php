@@ -28,7 +28,7 @@
             </div>
             <div class="form-row">
                 <h2>Role</h2>
-                <select>
+                <select name="role">
                     @foreach($roles as $role)
                         <option value="{{$role->name}}">{{$role->name}}</option>
                     @endforeach

@@ -9,6 +9,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 /**
  * Class UserController
@@ -67,16 +68,15 @@ class UserController extends Controller
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|min:8',
+            'role' => 'required|string'
         ]);
 
+        $roleName = $request->all(['role'])['role'];
         $user = User::create($validData);
+        $role = Role::findByName($roleName);
+        $user->assignRole($role);
 
-        if ($user) {
-            Auth::login($user);
-            return redirect('/admin/dashboard')->with('success', 'Register successful');
-        }
-
-        return redirect('/register')->withErrors('formError', 'Register failed');
+        return redirect('/admin/users')->with('successful', 'Successful registration');
     }
 
     /**
@@ -87,12 +87,16 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $request->validate([
-            'first_name' => 'min:2',
-            'second_name' => 'min:2',
+            'first_name' => 'min:2|string',
+            'second_name' => 'min:2|string',
+            'role' => 'string'
         ]);
+
+        $role = Role::findByName($request->all(['role'])['role']);
 
         $user = User::findOrFail($id);
         $user->update($request->all());
+        $user->assignRole($role);
         $user->save();
 
         return redirect("/admin/users/$id")->with(['success', 'User was updated']);

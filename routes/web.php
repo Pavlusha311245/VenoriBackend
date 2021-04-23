@@ -24,7 +24,7 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['auth:web'], 'prefix' => 'admin'], function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -78,8 +78,4 @@ Route::get('/logout', function () {
     Auth::logout();
     return redirect('/login');
 });
-
-//Route::get('/register', function () {
-//    return view('auth.registration');
-//});
 

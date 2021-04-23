@@ -42,7 +42,6 @@ class Place extends Model
         'type',
         'rating',
         'phone',
-        'review_id',
         'capacity',
         'table_price',
         'description',

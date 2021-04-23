@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::resource('users', UserController::class);
+    Route::resource('users', UserController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
     Route::resource('places', PlaceController::class);

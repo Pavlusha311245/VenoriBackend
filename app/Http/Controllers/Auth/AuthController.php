@@ -4,15 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmailJob;
-use App\Mail\LoginMail;
-use App\Mail\RegisterMail;
 use App\Mail\VenoriMail;
 use App\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -170,12 +166,12 @@ class AuthController extends Controller
      */
     public function loginAdmin(Request $request)
     {
-        $request->validate([
+        $loginData = $request->validate([
             'email' => 'required|email|max:255',
             'password' => 'required|min:8'
         ]);
 
-        if (auth()->attempt($request->only(['email', 'password'])))
+        if (auth()->attempt($loginData))
             return redirect('/admin/dashboard')->with('success', 'Success login');
 
         return redirect('/login')->withErrors([
