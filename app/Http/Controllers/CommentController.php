@@ -61,7 +61,8 @@ class CommentController extends Controller
      *              required={"title","description","review_id"},
      *              @OA\Property(property="title", type="string", example="OMG"),
      *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
-     *              @OA\Property(property="review_id", type="integer", example=1)
+     *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
      *          )
      *     ),
      *     @OA\Response(
@@ -72,6 +73,7 @@ class CommentController extends Controller
      *              @OA\Property(property="title", type="string", example="OMG"),
      *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
      *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="id", type="integer", example=1)
@@ -107,7 +109,8 @@ class CommentController extends Controller
         $request->validate([
             'title' => 'required|min:1',
             'description' => 'required|min:1',
-            'review_id' => 'required',
+            'review_id' => 'required|integer',
+            'user_id' => 'required|integer'
         ]);
 
         $comment = Comment::create($request->all());
@@ -140,6 +143,7 @@ class CommentController extends Controller
      *              @OA\Property(property="title", type="string", example="OMG"),
      *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
      *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20")
      *          )
@@ -188,7 +192,8 @@ class CommentController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="title", type="string", example="OMG"),
      *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
-     *              @OA\Property(property="review_id", type="integer", example=1)
+     *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
      *          )
      *     ),
      *     @OA\Response(
@@ -200,6 +205,7 @@ class CommentController extends Controller
      *              @OA\Property(property="title", type="string", example="OMG"),
      *              @OA\Property(property="description", type="string", example="It is an amazing place in my hometown."),
      *              @OA\Property(property="review_id", type="integer", example=1),
+     *              @OA\Property(property="user_id", type="integer", example=1),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20")
      *          )
@@ -227,6 +233,7 @@ class CommentController extends Controller
             'title' => 'string|min:1',
             'description' => 'string|min:1',
             'review_id' => 'integer',
+            'user_id' => 'integer'
         ]);
 
         $comment->update($request->all());
