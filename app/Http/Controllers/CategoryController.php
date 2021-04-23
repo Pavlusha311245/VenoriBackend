@@ -87,6 +87,13 @@ class CategoryController extends Controller
      *          )
      *     ),
      *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     ),
+     *     @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
@@ -105,13 +112,6 @@ class CategoryController extends Controller
      *              )
      *          )
      *      ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
-     *          )
-     *     ),
      * )
      */
     public function store(Request $request)
