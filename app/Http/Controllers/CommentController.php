@@ -238,7 +238,7 @@ class CommentController extends Controller
 
         $comment->update($request->all());
 
-        return response()->json($comment, 200);
+        return response()->json($comment);
     }
 
     /**
@@ -286,7 +286,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $comment->delete();
 
-        return response()->json(['message' => 'Comment is deleted successfully'], 200);
+        return response()->json(['message' => 'Comment is deleted successfully']);
     }
 
     /**
