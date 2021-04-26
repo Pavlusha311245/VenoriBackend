@@ -20,21 +20,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/admin/dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/users">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/products">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/places">Places</a>
-                </li>
+
                 @if(\Illuminate\Support\Facades\Auth::check())
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/places">Places</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Log In to Admin Panel</a>
                     </li>
                 @endif
             </ul>
