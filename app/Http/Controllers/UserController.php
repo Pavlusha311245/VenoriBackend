@@ -89,14 +89,14 @@ class UserController extends Controller
         $request->validate([
             'first_name' => 'min:2|string',
             'second_name' => 'min:2|string',
-            'role' => 'string'
+            'email' => 'required',
+            'role' => 'required'
         ]);
 
-        $role = Role::findByName($request->all(['role'])['role']);
-
+        $userRoles = $request->get('role');
         $user = User::findOrFail($id);
         $user->update($request->all());
-        $user->assignRole($role);
+        $user->syncRoles($userRoles);
         $user->save();
 
         return redirect("/admin/users/$id")->with(['success', 'User was updated']);
