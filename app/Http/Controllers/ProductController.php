@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 /**
  * Class ProductController for CRUD Products
@@ -44,6 +47,62 @@ class ProductController extends Controller
     public function index()
     {
         return Product::paginate(5);
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function create(Request $request)
+    {
+        $validData = $request->validate([
+            'name' => 'required|min:2',
+            'weight' => 'required|min:1',
+            'price' => 'required|min:1',
+            'image_url' => 'required',
+            'category_id' => 'required|min:1'
+        ]);
+
+        $product = Product::create($validData);
+
+        if ($product) {
+            return redirect('/admin/products')->with('success', 'Create successful');
+        }
+
+        return redirect('/create')->withErrors('formError', 'Create failed');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'min:2',
+            'weight' => 'min:1',
+            'price' => 'min:1',
+            'image_url' => 'min:2',
+            'category_id',
+        ]);
+
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        $product->save();
+
+        return redirect('/admin/products/'.$id)->with(['success', 'Product was updated']);
+    }
+
+    /**
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function remove($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect('/admin/products/')->with(['success', 'Products was deleted']);
     }
 
     /**

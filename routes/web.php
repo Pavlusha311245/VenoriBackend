@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,23 @@ Route::group(['middleware' => ['auth:web'], 'prefix' => 'admin'], function () {
     })->name('dashboard');
 
     Route::get('/products', function () {
-        return view('products');
+        return view('products.index', ['products' => Product::all()]);
+    });
+
+    Route::get('/products/create', function () {
+        return view('products.create', ['products' => Product::all()]);
+    });
+
+    Route::get('/products/{id}', function ($id) {
+        return view('products.show', ['products' => Product::findOrFail($id)]);
+    });
+
+    Route::get('/products/{id}/edit', function ($id) {
+        return view('products.edit', ['products' => Product::findOrFail($id)]);
+    });
+
+    Route::get('/products/{id}/delete', function ($id) {
+        return view('products.delete', ['products' => Product::findOrFail($id)]);
     });
 
     Route::get('/places', function () {
