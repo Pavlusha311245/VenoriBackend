@@ -34,11 +34,15 @@
     </style>
 
     <div class="d-flex justify-content-center" style="height: 750px">
+
         <div style="height: min-content">
             @if(count($users)==0)
                 <h2>There is no data to form the table</h2>
             @else
-                <table style="margin: 100px 0; min-width: 100%;">
+                @if(session('message'))
+                    <div class="alert alert-success" style="margin-top: 20px">{{session('message')}}</div>
+                @endif
+                <table style="margin: 50px 0; min-width: 100%;">
                     <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
                         <th style="width: 50px">Id</th>
                         <th>Name</th>
@@ -55,9 +59,12 @@
                             <td id="user_surname">{{$user['second_name']}}</td>
                             <td id="user_email">{{$user['email']}}</td>
                             <td>
-                                @foreach($user->roles as $role)
-                                    <span style="background-color: #7cffb4; padding: 5px; border-radius: 5px">{{$role['name']}}</span>
-                                @endforeach
+                                <div class="d-flex flex-wrap">
+                                    @foreach($user->roles as $role)
+                                        <span
+                                            style="background-color: #7cffb4; padding: 5px; border-radius: 5px">{{$role['name']}}</span>
+                                    @endforeach
+                                </div>
                             </td>
                             <td>
                                 <a href="/admin/users/{{$user->id}}" class="btn btn-outline-primary btn-sm">Show</a>
@@ -79,7 +86,7 @@
                     </tr>
                     @endif
                 </table>
+
         </div>
     </div>
-
 @endsection

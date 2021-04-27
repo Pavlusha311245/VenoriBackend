@@ -6,10 +6,10 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class UserController
@@ -71,12 +71,12 @@ class UserController extends Controller
             'role' => 'required|string'
         ]);
 
-        $roleName = $request->all(['role'])['role'];
+        $roleName = $request->get('role');
         $user = User::create($validData);
         $role = Role::findByName($roleName);
         $user->assignRole($role);
 
-        return redirect('/admin/users')->with('successful', 'Successful registration');
+        return redirect('/admin/users')->with('message', 'Successful registration');
     }
 
     /**
@@ -99,7 +99,7 @@ class UserController extends Controller
         $user->syncRoles($userRoles);
         $user->save();
 
-        return redirect("/admin/users/$id")->with(['success', 'User was updated']);
+        return redirect("/admin/users/$id")->with('message', 'User was updated');
     }
 
     /**
@@ -110,7 +110,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect("/admin/users/")->with(['success', 'User was deleted']);
+        return redirect("/admin/users/")->with('message', 'User was deleted');
     }
 
     /**
@@ -185,9 +185,13 @@ class UserController extends Controller
             'address_lat' => 'required|numeric',
             'address_lon' => 'required|numeric',
             'password' => 'required|min:8',
+            'role' => 'string'
         ]);
 
+        $roleName = $request->get('role');
         $user = User::create($request->all());
+        $role = Role::findByName($roleName);
+        $user->assignRole($role);
 
         return response()->json($user, 201);
     }

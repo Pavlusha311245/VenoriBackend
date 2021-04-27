@@ -3,6 +3,15 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h1 style="text-align: center"> Edit product №{{$products->id}}</h1>
             <div class="form-group">
                 {!! Form::open(['action' => ['App\Http\Controllers\ProductController@edit', $products->id], 'method' => 'POST']) !!}

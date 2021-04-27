@@ -3,6 +3,9 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
+            @if(session('message'))
+                <div class="alert alert-success" style="margin-top: 20px">{{session('message')}}</div>
+            @endif
             <h1 style="text-align: center"> Product №{{$products->id}} <img src="{{asset($products->image_url)}}" width="45" height="45" style="border-radius: 5px"/></h1>
             <div class="d-flex row" style="font-weight: normal; font-style: italic">
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">

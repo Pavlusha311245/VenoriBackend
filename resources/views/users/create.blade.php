@@ -3,6 +3,15 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h2>Create new user</h2>
             {!! Form::open(['action' => ['App\Http\Controllers\UserController@create'], 'method' => 'POST']) !!}
             @csrf

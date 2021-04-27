@@ -66,10 +66,10 @@ class ProductController extends Controller
         $product = Product::create($validData);
 
         if ($product) {
-            return redirect('/admin/products')->with('success', 'Create successful');
+            return redirect('/admin/products')->with('message', 'Create successful');
         }
 
-        return redirect('/create')->withErrors('formError', 'Create failed');
+        return redirect('/create')->withErrors('message', 'Create failed');
     }
 
     /**
@@ -91,7 +91,7 @@ class ProductController extends Controller
         $product->update($request->all());
         $product->save();
 
-        return redirect('/admin/products/'.$id)->with(['success', 'Product was updated']);
+        return redirect('/admin/products/'.$id)->with('message', 'Product was updated');
     }
 
     /**
@@ -102,7 +102,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect('/admin/products/')->with(['success', 'Products was deleted']);
+        return redirect('/admin/products/')->with('message', 'Products was deleted');
     }
 
     /**

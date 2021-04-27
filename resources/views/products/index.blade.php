@@ -38,9 +38,12 @@
     <div style="height: min-content">
         @if(count($products)==0)
                 <h2>There is no data to form the table</h2>
-                <p style="text-align: center"><a href="/admin/products/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="100" height="100"/></a></p>
+                <p style="text-align: center"><a href="/admin/products/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="50" height="50"/></a></p>
         @else
-            <table style="margin: 100px 0; min-width: 100%;">
+            @if(session('message'))
+                <div class="alert alert-success" style="margin-top: 20px">{{session('message')}}</div>
+            @endif
+            <table style="margin: 50px 0; min-width: 100%;">
                 <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
                     <th style="width: 50px">Id</th>
                     <th>Name</th>

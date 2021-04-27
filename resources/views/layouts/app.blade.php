@@ -13,7 +13,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Venori</a>
+        <a class="navbar-brand" href="/"><img src="../../img/logo.gif" alt="VENORI"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -73,6 +73,16 @@
 
 @yield('content')
 
+<script type="text/javascript">
+    window.addEventListener('load', () => {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(function () {
+                alert.remove();
+            }, 5000);
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
