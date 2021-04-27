@@ -3,8 +3,16 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <h2>Create a new place</h2>
-
             {!! Form::open(['action' => ['App\Http\Controllers\PlaceController@create'], 'method' => 'POST']) !!}
             @csrf
             <div class="form-row">
@@ -37,15 +45,15 @@
             </div>
             <div class="form-row">
                 {{Form::label('address_lat', 'Address Lat')}}
-                {{Form::number('address_lat', '', ['class' => 'form-control', 'placeholder' => 'Address Lat'])}}
+                {{Form::number('address_lat', '', ['class' => 'form-control', 'placeholder' => 'Address Lat', 'step'=>'0.000001'])}}
             </div>
             <div class="form-row">
                 {{Form::label('address_lon', 'Address Lon')}}
-                {{Form::number('address_lon', '', ['class' => 'form-control', 'placeholder' => 'Address Lon'])}}
+                {{Form::number('address_lon', '', ['class' => 'form-control', 'placeholder' => 'Address Lon', 'step'=>'0.000001'])}}
             </div>
             <div class="form-row">
-                {{Form::label('image', 'Image')}}
-                {{Form::file('image')}}
+                {{Form::label('image_url', 'Image Url')}}
+                {{Form::text('image_url', '', ['class' => 'form-control', 'placeholder' => 'Image Url'])}}
             </div>
             {{Form::submit('Create', ['class'=> 'btn btn-success btn-register'])}}
             {!! Form::close() !!}

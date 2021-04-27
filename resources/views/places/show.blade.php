@@ -39,11 +39,11 @@
                 </div>
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
                     <div>Address Lat</div>
-                    <div>{{$place->address_lat}}</div>
+                    <div>{{number_format($place->address_lat, 6)}}</div>
                 </div>
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
                     <div>Address Lon</div>
-                    <div>{{$place->address_lon}}</div>
+                    <div>{{number_format($place->address_lon, 6)}}</div>
                 </div>
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
                     <div>Image Url</div>

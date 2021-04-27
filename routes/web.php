@@ -34,19 +34,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('/products', function () {
         return view('products.index', ['products' => Product::all()]);
     });
-
     Route::get('/products/create', function () {
         return view('products.create', ['products' => Product::all()]);
     });
-
     Route::get('/products/{id}', function ($id) {
         return view('products.show', ['products' => Product::findOrFail($id)]);
     });
-
     Route::get('/products/{id}/edit', function ($id) {
         return view('products.edit', ['products' => Product::findOrFail($id)]);
     });
-
     Route::get('/products/{id}/delete', function ($id) {
         return view('products.delete', ['products' => Product::findOrFail($id)]);
     });
@@ -71,7 +67,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
         return view('places.index', ['places' => Place::all()]);
     });
     Route::get('/places/create', function () {
-        return view('places.create');
+        return view('places.create', ['places' => Place::all()]);
     });
     Route::get('/places/{id}', function ($id) {
         return view('places.show', ['place' => Place::findOrFail($id)]);

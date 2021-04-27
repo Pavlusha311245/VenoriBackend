@@ -9,7 +9,6 @@ use Illuminate\Routing\Redirector;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\Validator;
 
 /**
  * Class UserController

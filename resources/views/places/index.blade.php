@@ -37,6 +37,7 @@
         <div style="height: min-content">
             @if(count($places)==0)
                 <h2>There is no data to form the table</h2>
+                <p style="text-align: center"><a href="/admin/places/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="50" height="50"/></a></p>
             @else
                 <table style="margin: 100px 0; min-width: 100%;">
                     <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
@@ -66,8 +67,8 @@
                             <td id="place_price">{{$place['table_price']}}</td>
                             <td id="place_description">{{$place['description']}}</td>
                             <td id="place_address_full">{{$place['address_full']}}</td>
-                            <td id="place_address_lat">{{$place['address_lat']}}</td>
-                            <td id="place_address_lon">{{$place['address_lon']}}</td>
+                            <td id="place_address_lat">{{number_format($place['address_lat'], 6)}}</td>
+                            <td id="place_address_lon">{{number_format($place['address_lon'], 6)}}</td>
                             <td id="place_image_url">{{$place['image_url']}}</td>
                             <td>
                                 <a href="/admin/places/{{$place->id}}" class="btn btn-outline-primary btn-sm">Show</a>
