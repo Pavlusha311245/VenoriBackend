@@ -86,8 +86,6 @@ class ReservationService
                         $times = array_values($times);
                     }
 
-//        $result_times[] = $times;
-
         return $times;
     }
 }
