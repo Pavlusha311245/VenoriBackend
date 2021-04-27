@@ -114,9 +114,10 @@ class ReservationController extends Controller
 
         if ($date->isToday())
         {
-            $current_time = date(('12') ? 'g:i A' : 'G:i', strtotime(Carbon::now()->toDateTimeString()));
+            $current_time = new Carbon();
+            $current_time->now()->diffForHumans();
             foreach ($times as $time)
-                if ($current_time <= $time)
+                if ($current_time <= Carbon::createFromTimeString($time))
                 {
                     $work_start = $time;
                     $times = $this->reservation_service->getTimes($work_start, $work_end);
@@ -199,7 +200,9 @@ class ReservationController extends Controller
      */
     public function tableReserve(ReservationTimeRequest $request, $place_id)
     {
-        $staying_end = date('H:i', (strtotime($request->time) + ($request->staying * 3600)));
+        $time = Carbon::createFromTimeString($request->time);
+
+        $staying_end = date('H:i', (strtotime($time) + ($request->staying * 3600)));
         $tablePrice = Place::findOrFail($place_id)->value('table_price');
 
         $price = (int)($request->people * $tablePrice);
@@ -208,7 +211,7 @@ class ReservationController extends Controller
             'price' => $price,
             'date' => $request['date'],
             'people' => $request['people'],
-            'time' => $request['time'],
+            'time' => date('H:i', strtotime($time)),
             'staying' => $request['staying'],
             'staying_end' => $staying_end,
             'user_id' => auth()->user()->id,

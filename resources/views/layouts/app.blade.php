@@ -13,28 +13,33 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">Venori</a>
+        <a class="navbar-brand" href="/"><img src="{{asset('/img/logo.gif')}}" alt="VENORI" height="50" style="border-radius: 15px"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/admin/dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/users">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/products">Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/places">Places</a>
-                </li>
+
                 @if(\Illuminate\Support\Facades\Auth::check())
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/places">Places</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Log In to Admin Panel</a>
                     </li>
                 @endif
             </ul>
@@ -68,6 +73,16 @@
 
 @yield('content')
 
+<script type="text/javascript">
+    window.addEventListener('load', () => {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(function () {
+                alert.remove();
+            }, 5000);
+        });
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>

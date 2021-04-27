@@ -14,4 +14,12 @@ echo "=====MIGRATING====="
 php artisan migrate
 echo "=====MIGRATED====="
 
+echo "======GENERATING DOC======"
+php artisan l5-swagger:generate
+echo "======GENERATED======"
+
+echo "======OPTIMIZE======"
+php artisan optimize
+echo "======OPTIMIZED======"
+
 echo "Deploy script finished execution"

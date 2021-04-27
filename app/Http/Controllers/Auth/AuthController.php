@@ -15,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 /**
  * Class AuthController
@@ -87,6 +88,8 @@ class AuthController extends Controller
         $validData['password'] = bcrypt($validData['password']);
 
         $user = User::create($validData);
+        $role = Role::findByName('User');
+        $user->assignRole($role);
 
         SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['user' => $user, 'view' => 'mail.register'])]);
 

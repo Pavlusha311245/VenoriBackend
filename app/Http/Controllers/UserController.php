@@ -6,9 +6,10 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class UserController
@@ -67,16 +68,15 @@ class UserController extends Controller
             'second_name' => 'required|min:2',
             'email' => 'required|email|unique:users|max:255',
             'password' => 'required|min:8',
+            'role' => 'required|string'
         ]);
 
+        $roleName = $request->get('role');
         $user = User::create($validData);
+        $role = Role::findByName($roleName);
+        $user->assignRole($role);
 
-        if ($user) {
-            Auth::login($user);
-            return redirect('/admin/dashboard')->with('success', 'Register successful');
-        }
-
-        return redirect('/register')->withErrors('formError', 'Register failed');
+        return redirect('/admin/users')->with('message', 'Successful registration');
     }
 
     /**
@@ -87,15 +87,19 @@ class UserController extends Controller
     public function edit(Request $request, $id)
     {
         $request->validate([
-            'first_name' => 'min:2',
-            'second_name' => 'min:2',
+            'first_name' => 'min:2|string',
+            'second_name' => 'min:2|string',
+            'email' => 'required',
+            'role' => 'required'
         ]);
 
+        $userRoles = $request->get('role');
         $user = User::findOrFail($id);
         $user->update($request->all());
+        $user->syncRoles($userRoles);
         $user->save();
 
-        return redirect("/admin/users/$id")->with(['success', 'User was updated']);
+        return redirect("/admin/users/$id")->with('message', 'User was updated');
     }
 
     /**
@@ -106,7 +110,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect("/admin/users/")->with(['success', 'User was deleted']);
+        return redirect("/admin/users/")->with('message', 'User was deleted');
     }
 
     /**
@@ -181,9 +185,13 @@ class UserController extends Controller
             'address_lat' => 'required|numeric',
             'address_lon' => 'required|numeric',
             'password' => 'required|min:8',
+            'role' => 'string'
         ]);
 
+        $roleName = $request->get('role');
         $user = User::create($request->all());
+        $role = Role::findByName($roleName);
+        $user->assignRole($role);
 
         return response()->json($user, 201);
     }
@@ -344,7 +352,7 @@ class UserController extends Controller
 
         $user->update($request->all());
 
-        return response()->json($user, 200);
+        return response()->json($user);
     }
 
     /**
@@ -415,7 +423,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->update(['avatar' => $url]);
 
-        return response()->json(['image_url' => $url], 200);
+        return response()->json(['image_url' => $url]);
     }
 
     /**
@@ -463,7 +471,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return response()->json(['message' => 'User is deleted successfully'], 200);
+        return response()->json(['message' => 'User is deleted successfully']);
     }
 
     /**
@@ -529,6 +537,6 @@ class UserController extends Controller
         $user->update($userLocation);
         $user->save();
 
-        return response()->json($userLocation, 200);
+        return response()->json($userLocation);
     }
 }
