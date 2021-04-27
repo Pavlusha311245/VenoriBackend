@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title','Place details')
+@section('title','Place Remove')
 @section('content')
     <div class="d-flex justify-content-center align-items-center" style="height: 500px">
         <div class="whiteBlockPurpleBorder">
