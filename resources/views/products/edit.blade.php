@@ -14,7 +14,7 @@
             @endif
             <h1 style="text-align: center"> Edit product №{{$products->id}}</h1>
             <div class="form-group">
-                {!! Form::open(['action' => ['App\Http\Controllers\ProductController@edit', $products->id], 'method' => 'POST']) !!}
+                {!! Form::open(['action' => ['App\Http\Controllers\ProductController@edit', $products->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                 @csrf
                 <div class="form-row">
                     {{Form::label('name','Name')}}
@@ -29,8 +29,8 @@
                     {{Form::text('price', $products->price ,['class' => 'form-control', 'placeholder' => 'Price'])}}
                 </div>
                 <div class="form-row">
-                    {{Form::label('image_url','ImageUrl')}}
-                    {{Form::text('image_url', $products->image_url ,['class' => 'form-control', 'placeholder' => 'ImageUrl'])}}
+                    {{Form::label('image','Image')}}
+                    {{Form::file('image',['class' => 'form-control', 'name' => 'image', 'placeholder' => 'Image'])}}
                 </div>
                 <div class="form-row">
                     {{Form::label('category_id','CategoryId')}}

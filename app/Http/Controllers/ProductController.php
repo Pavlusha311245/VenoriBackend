@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\ImageService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -59,11 +60,17 @@ class ProductController extends Controller
             'name' => 'required|min:2',
             'weight' => 'required|min:1',
             'price' => 'required|min:1',
-            'image_url' => 'required',
+            'image' => 'required|mimes:png,jpg',
             'category_id' => 'required|min:1'
         ]);
 
-        $product = Product::create($validData);
+        $imageService = new ImageService();
+        $url = $imageService->upload($request->file('image'), 'ProductImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
+        $product = Product::create($data);
 
         if ($product) {
             return redirect('/admin/products')->with('message', 'Create successful');
@@ -83,12 +90,19 @@ class ProductController extends Controller
             'name' => 'min:2',
             'weight' => 'min:1',
             'price' => 'min:1',
-            'image_url' => 'min:2',
-            'category_id',
+            'image' => 'mimes:png,jpg',
+            'category_id' => 'min:1',
         ]);
 
+        $imageService = new ImageService();
+        $url = $imageService->upload($request->file('image'), 'ProductImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
         $product = Product::findOrFail($id);
-        $product->update($request->all());
+
+        $product->update($data);
         $product->save();
 
         return redirect('/admin/products/'.$id)->with('message', 'Product was updated');
