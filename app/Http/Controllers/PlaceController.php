@@ -325,6 +325,8 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
         $products = ProductsOfPlace::where('place_id', $place->id)->get();
 
+        $menu = [];
+
         foreach ($products as $product) {
             $menuItem = Product::where('id', $product->product_id)->first();
             $category = Category::where('id', $menuItem->category_id)->first();

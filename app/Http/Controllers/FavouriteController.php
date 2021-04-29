@@ -126,10 +126,9 @@ class FavouriteController extends Controller
      *          response=200,
      *          description="Success showing user favourites",
      *          @OA\JsonContent(
-     *             @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *              @OA\Items(type="object", ref="#/components/schemas/Place")
      *          )
      *     ),
-     *     @OA\Response(response=400, description="Favourites not found"),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -142,6 +141,8 @@ class FavouriteController extends Controller
     public function show($id)
     {
         $favourites = Favourite::where('user_id', $id)->get();
+
+        $favouriteList = [];
 
         foreach ($favourites as $favourite) {
             $place = Place::where('id', $favourite->place_id)->first();
@@ -164,7 +165,7 @@ class FavouriteController extends Controller
      *          response=200,
      *          description="Success showing auth user favourites",
      *          @OA\JsonContent(
-     *              @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *              @OA\Items(type="object", ref="#/components/schemas/Place")
      *          )
      *     ),
      *     @OA\Response(
@@ -179,6 +180,8 @@ class FavouriteController extends Controller
     public function showUserFavourites()
     {
         $favourites = Favourite::where('user_id', auth()->user()->id)->get();
+
+        $favouriteList = [];
 
         foreach ($favourites as $favourite) {
             $place = Place::where('id', $favourite->place_id)->first();
