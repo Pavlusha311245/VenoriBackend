@@ -29,11 +29,11 @@
             </div>
             <div class="form-row">
                 {{Form::label('capacity','Capacity')}}
-                {{Form::number('capacity', '', ['class' => 'form-control', 'placeholder' => 'Capacity'])}}
+                {{Form::number('capacity', '', ['class' => 'form-control', 'placeholder' => 'Capacity', 'min' => 0])}}
             </div>
             <div class="form-row">
                 {{Form::label('table_price', 'Table Price')}}
-                {{Form::number('table_price', '', ['class' => 'form-control', 'placeholder' => 'Table Price'])}}
+                {{Form::number('table_price', '', ['class' => 'form-control', 'placeholder' => 'Table Price', 'min' => 0])}}
             </div>
             <div class="form-row">
                 {{Form::label('description', 'Description')}}
@@ -45,11 +45,11 @@
             </div>
             <div class="form-row">
                 {{Form::label('address_lat', 'Address Lat')}}
-                {{Form::number('address_lat', '', ['class' => 'form-control', 'placeholder' => 'Address Lat', 'step'=>'0.000001'])}}
+                {{Form::number('address_lat', '', ['class' => 'form-control', 'placeholder' => 'Address Lat', 'step'=>'0.000000000000001'])}}
             </div>
             <div class="form-row">
                 {{Form::label('address_lon', 'Address Lon')}}
-                {{Form::number('address_lon', '', ['class' => 'form-control', 'placeholder' => 'Address Lon', 'step'=>'0.000001'])}}
+                {{Form::number('address_lon', '', ['class' => 'form-control', 'placeholder' => 'Address Lon', 'step'=>'0.000000000000001'])}}
             </div>
             <div class="form-row">
                 {{Form::label('image','Image')}}

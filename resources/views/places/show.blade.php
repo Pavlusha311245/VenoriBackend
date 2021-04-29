@@ -3,49 +3,52 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
-            <h1 style="text-align: center"> Place №{{$place->id}} <img src="{{asset($place->image_url)}}" width="45" height="45" style="border-radius: 5px"/></h1>
+            <div style="position: relative">
+                <h1 style="position: absolute; width: 100%; height: 100%; text-align: center; color: white; background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 10px 0 0 0; margin: 0"> Place №{{$place->id}} </h1>
+                <img src="{{asset($place->image_url)}}" width="100%" height="auto" style="border-radius: 10px;"/>
+            </div>
             <div class="d-flex row" style="font-weight: normal; font-style: italic">
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Name</div>
                     <div>{{$place->name}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Type</div>
                     <div>{{$place->type}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Rating</div>
                     <div>{{$place->rating}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Phone</div>
                     <div>{{$place->phone}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Capacity</div>
                     <div>{{$place->capacity}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Table Price</div>
                     <div>{{$place->table_price}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Description</div>
                     <div>{{$place->description}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Address Full</div>
                     <div>{{$place->address_full}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Address Lat</div>
-                    <div>{{number_format($place->address_lat, 6)}}</div>
+                    <div>{{number_format($place->address_lat, 15)}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Address Lon</div>
-                    <div>{{number_format($place->address_lon, 6)}}</div>
+                    <div>{{number_format($place->address_lon, 15)}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
+                <div class="d-flex column justify-content-between" style="margin: 5px 0">
                     <div>Image Url</div>
                     <div>{{$place->image_url}}</div>
                 </div>
