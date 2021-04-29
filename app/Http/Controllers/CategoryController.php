@@ -186,7 +186,7 @@ class CategoryController extends Controller
 
         $category->update($request->all());
 
-        return response()->json($category, 200);
+        return response()->json($category);
     }
 
     /**
@@ -249,7 +249,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->update(['image_url' => $url]);
 
-        return response()->json(['image_url' => $url], 200);
+        return response()->json(['image_url' => $url]);
     }
 
     /**
@@ -298,6 +298,6 @@ class CategoryController extends Controller
         $category->products()->delete();
         $category->delete();
 
-        return response()->json(['message' => 'Category is deleted successfully'], 200);
+        return response()->json(['message' => 'Category is deleted successfully']);
     }
 }

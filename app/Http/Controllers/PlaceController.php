@@ -423,7 +423,7 @@ class PlaceController extends Controller
 
         $place->update($request->all());
 
-        return response()->json($place, 200);
+        return response()->json($place);
     }
 
     /**
@@ -472,7 +472,7 @@ class PlaceController extends Controller
         $place->schedules()->delete();
         $place->delete();
 
-        return response()->json(['message' => 'Place is deleted successfully'], 200);
+        return response()->json(['message' => 'Place is deleted successfully']);
     }
 
     /**
@@ -588,6 +588,6 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
         $place->update(['image_url' => $url]);
 
-        return response()->json(['image_url' => $url], 200);
+        return response()->json(['image_url' => $url]);
     }
 }

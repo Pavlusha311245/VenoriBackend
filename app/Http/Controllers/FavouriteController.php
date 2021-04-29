@@ -237,6 +237,6 @@ class FavouriteController extends Controller
         $favourite = Favourite::findOrFail($id);
         $favourite->delete();
 
-        return response()->json(['message' => 'Favourite is deleted successfully'], 200);
+        return response()->json(['message' => 'Favourite is deleted successfully']);
     }
 }

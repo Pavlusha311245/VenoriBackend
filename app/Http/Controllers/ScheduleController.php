@@ -182,7 +182,7 @@ class ScheduleController extends Controller
         ]);
         $schedule->save();
 
-        return response()->json($schedule, 200);
+        return response()->json($schedule);
     }
 
     /**

@@ -217,6 +217,6 @@ class ReservationController extends Controller
 
         SendEmailJob::dispatch(['user' => $request->user(), 'mail' => new VenoriMail(['order' => $order, 'view' => 'mail.confirmOrder'])]);
 
-        return response()->json($order, 200);
+        return response()->json($order);
     }
 }
