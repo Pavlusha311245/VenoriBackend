@@ -19,8 +19,6 @@ class CreateSchedulesTable extends Migration
             $table->foreign('place_id')->references('id')->on('places');
             $table->string('work_start')->nullable();
             $table->string('work_end')->nullable();
-            $table->string('lunch_start')->nullable();
-            $table->string('lunch_end')->nullable();
             $table->timestamps();
         });
     }

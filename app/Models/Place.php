@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  *      @OA\Property(property="name", type="string", example="KFC"),
  *      @OA\Property(property="image_url", type="string", example="storage\PlaceImages\KFC.png"),
  *      @OA\Property(property="rating", type="number", example=4.23),
+ *      @OA\Property(property="reviewsCount", type="number", example=5),
  *      @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
  *      @OA\Property(property="address_lat", type="number", example=53.913224),
  *      @OA\Property(property="address_lon", type="number", example=27.467663),
@@ -40,7 +41,6 @@ class Place extends Model
     protected $fillable = [
         'name',
         'type',
-        'rating',
         'phone',
         'capacity',
         'table_price',

@@ -19,6 +19,7 @@ class CreatePlacesTable extends Migration
             $table->string('image_url');
             $table->string('type');
             $table->float('rating')->default(0);
+            $table->unsignedInteger('reviewsCount')->default(0);
             $table->string('address_full');
             $table->double('address_lat');
             $table->double('address_lon');

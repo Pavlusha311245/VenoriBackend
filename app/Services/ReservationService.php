@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Order;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -20,18 +22,13 @@ class ReservationService
      */
     public function getTimes($work_start, $work_end)
     {
-        $startTime = strtotime($work_start);
-        $endTime = strtotime($work_end);
+        $startTime = Carbon::parse($work_start);
+        $endTime = Carbon::parse($work_end);
 
-        $returnTimeFormat = ('12') ? 'g:i A' : 'G:i';
-        $current = time();
-        $addTime = strtotime('+' . '30 mins', $current);
-        $diffTimes = $addTime - $current;
+        $rangeTimes = CarbonInterval::minutes(30)->toPeriod($startTime, $endTime->addMinutes(-30));
 
-        $times = [];
-        while ($startTime < $endTime) {
-                $times[] = date($returnTimeFormat, $startTime);
-                $startTime += $diffTimes;
+        foreach ($rangeTimes as $time) {
+            $times[] = $time->format('g:i A');
         }
 
         return $times;
@@ -52,17 +49,15 @@ class ReservationService
         $index = 0;
         $bad_times = [];
 
-        while ($index < count($times)) {
-            $peoples = Order::where('place_id', $place_id)
+        foreach ($times as $time) {
+            $peoples = Order::findOrFail($place_id)
                 ->where('date', $date)
-                ->where('time', '<=', date('G:i:s', strtotime($times[$index])))
-                ->where('staying_end', '>', date('G:i:s', strtotime($times[$index])))
+                ->where('time', '<=', Carbon::parse($time)->format('G:i:s'))
+                ->where('staying_end', '>', Carbon::parse($time)->format('G:i:s'))
                 ->get('people');
             $capacity = $peoples->sum('people');
             if (($capacity + $people) > $capacityOnPlace)
-                $bad_times[] = $times[array_search($times[$index], $times)];
-
-            $index++;
+                $bad_times[] = $times[array_search($time, $times)];
         }
 
         return $bad_times;
@@ -77,15 +72,6 @@ class ReservationService
      */
     public function getAvailableTimes($bad_times, $times)
     {
-        if (!empty($bad_times))
-            foreach ($bad_times as $bad)
-                foreach ($times as $key => $time)
-                    if ($bad == $time)
-                    {
-                        unset($times[$key]);
-                        $times = array_values($times);
-                    }
-
-        return $times;
+        return array_values(array_diff($times, $bad_times));
     }
 }

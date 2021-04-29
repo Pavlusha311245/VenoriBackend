@@ -255,41 +255,4 @@ class ReviewController extends Controller
     {
         return Review::where('user_id', auth()->user()->id)->get();
     }
-
-    /**
-     * @OA\Get(
-     *     path="/api/places/{id}/reviews",
-     *     summary="Get place reviews",
-     *     description="Getting place reviews",
-     *     operationId="reviewsPlaceById",
-     *     tags={"reviews"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Parameter(
-     *          description="ID of place",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(type="integer", format="int64")
-     *     ),
-     *     @OA\Response(
-     *          response=200,
-     *          description="Success getting a place reviews",
-     *          @OA\JsonContent(
-     *              @OA\Items(ref="#/components/schemas/Review")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *          )
-     *     )
-     * )
-     */
-    public function reviewsByPlaceId($id)
-    {
-        return Review::where('place_id', $id)->get();
-    }
 }

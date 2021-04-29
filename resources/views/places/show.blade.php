@@ -55,7 +55,7 @@
                 <div class="d-flex justify-content-between">
                     <a href="/admin/places/" class="btn btn-secondary" style="width: 100px">Go back</a>
                     <a href="/admin/places/{{$place->id}}/edit" class="btn btn-primary">Update</a>
-                </div>
+                </div>y
             </div>
         </div>
     </div>

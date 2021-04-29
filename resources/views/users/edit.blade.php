@@ -115,6 +115,12 @@
         });
 
         let createRoleBtn = document.querySelector('#createRoleBtn');
+
+        const onBlockClick = (evt) => {
+            console.log(evt.target);
+            evt.target.removeEventListener('click', onBlockClick);
+            // evt.target.remove();
+        }
         createRoleBtn.addEventListener('click', function () {
             ToggleCreationRole();
             let selectedRole = document.querySelector('select').value;
@@ -122,9 +128,7 @@
             block.classList.add('hasRole');
             block.innerHTML = "<label class='role' for='role'>" + selectedRole + "</label>" +
                 "<input type='hidden' value='" + selectedRole + "' name='role[]' id='role" + selectedRole + "'>";
-            block.addEventListener('click', () => {
-                block.remove();
-            })
+            block.addEventListener('click', onBlockClick);
             addRoleBtn.before(block);
         });
 
