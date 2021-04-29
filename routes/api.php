@@ -21,14 +21,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => ['auth:api', 'role:Admin']], function () {
+Route::group(['middleware' => ['auth:api']], function () {
     Route::resource('users', UserController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::resource('places', PlaceController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::resource('reviews', ReviewController::class);
     Route::resource('favourites', FavouriteController::class);
-    Route::resource('schedules', ScheduleController::class);
+    Route::apiResource('schedules', ScheduleController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::resource('comments', CommentController::class);
 
     Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
