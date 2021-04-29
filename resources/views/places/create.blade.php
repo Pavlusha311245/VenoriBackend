@@ -13,7 +13,7 @@
                 </div>
             @endif
             <h2>Create a new place</h2>
-            {!! Form::open(['action' => ['App\Http\Controllers\PlaceController@create'], 'method' => 'POST']) !!}
+            {!! Form::open(['action' => ['App\Http\Controllers\PlaceController@create'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
             @csrf
             <div class="form-row">
                 {{Form::label('name', 'Name')}}
@@ -52,8 +52,8 @@
                 {{Form::number('address_lon', '', ['class' => 'form-control', 'placeholder' => 'Address Lon', 'step'=>'0.000001'])}}
             </div>
             <div class="form-row">
-                {{Form::label('image_url', 'Image Url')}}
-                {{Form::text('image_url', '', ['class' => 'form-control', 'placeholder' => 'Image Url'])}}
+                {{Form::label('image','Image')}}
+                {{Form::file('image', ['class' => 'form-control', 'name' => 'image', 'placeholder' => 'Image'])}}
             </div>
             {{Form::submit('Create', ['class'=> 'btn btn-success btn-register'])}}
             {!! Form::close() !!}

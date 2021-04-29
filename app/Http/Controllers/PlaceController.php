@@ -13,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\File;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -71,7 +72,7 @@ class PlaceController extends Controller
      */
     public function create(Request $request)
     {
-        $validData = $request->validate([
+        $request->validate([
             'name' => 'required|max:255',
             'type' => 'required|max:255',
             'address_full' => 'required|string',
@@ -81,10 +82,16 @@ class PlaceController extends Controller
             'capacity' => 'required|integer',
             'table_price' => 'required|string',
             'description' => 'required|string',
-            'image_url' => 'required|string'
+            'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $product = Place::create($validData);
+        $imageService = new ImageService;
+        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
+        $product = Place::create($data);
 
         if ($product) {
             return redirect('/admin/places')->with('message', 'Create successful');
@@ -110,11 +117,27 @@ class PlaceController extends Controller
             'capacity' => 'integer',
             'table_price' => 'string',
             'description' => 'string',
-            'image_url' => 'string'
+            'image' => 'nullable|image|mimes:jpg,png'
         ]);
 
         $product = Place::findOrFail($id);
-        $product->update($request->all());
+
+        $data = $request->all();
+
+        if (isset($data['image'])) {
+            $image_path = $product->image_url;
+
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+
+            $imageService = new ImageService;
+            $url = $imageService->upload($request->file('image'), 'PlacesImages');
+
+            $data['image_url'] = $url;
+        }
+
+        $product->update($data);
         $product->save();
 
         return redirect('/admin/places/'.$id)->with('message', 'Place was updated');
@@ -127,6 +150,13 @@ class PlaceController extends Controller
     public function remove($id)
     {
         $product = Place::findOrFail($id);
+
+        $image_path = $product->image_url;
+
+        if(File::exists($image_path)) {
+            File::delete($image_path);
+        }
+
         $product->delete();
 
         return redirect('/admin/places/')->with('message', 'Places was deleted');

@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
-            <h1 style="text-align: center"> Place №{{$place->id}} </h1>
+            <h1 style="text-align: center"> Place №{{$place->id}} <img src="{{asset($place->image_url)}}" width="45" height="45" style="border-radius: 5px"/></h1>
             <div class="d-flex row" style="font-weight: normal; font-style: italic">
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
                     <div>Name</div>

@@ -14,7 +14,7 @@
             @endif
             <h1 style="text-align: center"> Edit place №{{$place->id}}</h1>
             <div class="form-group">
-                {!! Form::open(['action' => ['App\Http\Controllers\PlaceController@edit', $place->id], 'method' => 'POST']) !!}
+                {!! Form::open(['action' => ['App\Http\Controllers\PlaceController@edit', $place->id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                 @csrf
                 <div class="form-row">
                     {{Form::label('name', 'Name')}}
@@ -53,8 +53,8 @@
                     {{Form::number('address_lon', number_format($place->address_lon, 6), ['class' => 'form-control', 'placeholder' => 'Address Lon', 'step'=>'0.0001'])}}
                 </div>
                 <div class="form-row">
-                    {{Form::label('image_url', 'Image Url')}}
-                    {{Form::text('image_url', $place->image_url, ['class' => 'form-control', 'placeholder' => 'Image Url'])}}
+                    {{Form::label('image', 'Image')}}
+                    {{Form::file('image', ['class' => 'form-control', 'name' => 'image', 'placeholder' => 'Image'])}}
                 </div>
                 <div class="d-flex justify-content-between">
                     <a href="/admin/places/{{$place->id}}" class="btn btn-secondary">Go back</a>
