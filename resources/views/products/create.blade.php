@@ -13,7 +13,7 @@
                 </div>
             @endif
             <h2>Create a new product</h2>
-            {!! Form::open(['action' => ['App\Http\Controllers\ProductController@create'], 'method' => 'POST']) !!}
+            {!! Form::open(['action' => ['App\Http\Controllers\ProductController@create'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
             @csrf
             <div class="form-row">
                 {{Form::label('name','Name')}}
@@ -28,8 +28,8 @@
                 {{Form::text('price','',['class' => 'form-control', 'placeholder' => 'Price'])}}
             </div>
             <div class="form-row">
-                {{Form::label('image_url','ImageUrl')}}
-                {{Form::text('image_url','',['class' => 'form-control', 'placeholder' => 'ImageUrl'])}}
+                {{Form::label('image','Image')}}
+                {{Form::file('image',['class' => 'form-control', 'name' => 'image', 'placeholder' => 'Image'])}}
             </div>
             <div class="form-row">
                 {{Form::label('category_id','CategoryId')}}
