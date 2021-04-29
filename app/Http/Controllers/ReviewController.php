@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use App\Models\Review;
 use App\Services\Rating\PlaceRatingService;
 use Illuminate\Http\Request;
@@ -14,6 +15,13 @@ use Illuminate\Http\Response;
  */
 class ReviewController extends Controller
 {
+    protected $placeRatingService;
+
+    public function __construct(PlaceRatingService $placeRatingService)
+    {
+        $this->placeRatingService = $placeRatingService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/reviews",
@@ -91,7 +99,7 @@ class ReviewController extends Controller
      *      )
      * )
      */
-    public function store(Request $request, PlaceRatingService $placeRatingService)
+    public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string',
@@ -103,7 +111,7 @@ class ReviewController extends Controller
 
         $review = Review::create($request->all());
 
-        $placeRatingService->countPlaceRating($review);
+        $this->placeRatingService->updatePlaceRatingAndReviewsCount($review);
 
         return response()->json($review, 201);
     }
@@ -161,7 +169,7 @@ class ReviewController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, Review $review, PlaceRatingService $placeRatingService)
+    public function update(Request $request, Review $review)
     {
         $request->validate([
             'title' => 'string',
@@ -171,7 +179,7 @@ class ReviewController extends Controller
 
         $review->update($request->all());
 
-        $placeRatingService->countPlaceRating($review);
+        $this->placeRatingService->updatePlaceRatingAndReviewsCount($review);
 
         return response()->json($review, 200);
     }
@@ -216,13 +224,13 @@ class ReviewController extends Controller
      *     )
      * )
      */
-    public function destroy($id, PlaceRatingService $placeRatingService)
+    public function destroy($id)
     {
         $review = Review::findOrFail($id);
         $review->comments()->delete();
         $review->delete();
 
-        $placeRatingService->countPlaceRating($review);
+        $this->placeRatingService->updatePlaceRatingAndReviewsCount($review);
 
         return response()->json(['message' => 'Review is successfully deleted'], 200);
     }
@@ -254,5 +262,44 @@ class ReviewController extends Controller
     public function reviewsByUserId()
     {
         return Review::where('user_id', auth()->user()->id)->get();
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/places/{id}/reviews",
+     *     summary="Get place reviews",
+     *     description="Getting place reviews",
+     *     operationId="reviewsPlaceById",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of place",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a place reviews",
+     *          @OA\JsonContent(
+     *              @OA\Items(ref="#/components/schemas/Review")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     )
+     * )
+     */
+
+    public function reviewsByPlaceId($id)
+    {
+        return Review::where('place_id', $id)->get();
     }
 }

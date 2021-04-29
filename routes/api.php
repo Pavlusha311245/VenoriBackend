@@ -22,14 +22,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::resource('users', UserController::class, ['except' => ['create', 'edit', 'remove']]);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('products', ProductController::class, ['except' => ['create', 'edit', 'remove']]);
-    Route::resource('places', PlaceController::class, ['except' => ['create', 'edit', 'remove']]);
-    Route::resource('reviews', ReviewController::class);
-    Route::resource('favourites', FavouriteController::class);
+    Route::apiResource('users', UserController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('categories', CategoryController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('products', ProductController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('places', PlaceController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('reviews', ReviewController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('favourites', FavouriteController::class,['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('schedules', ScheduleController::class, ['except' => ['create', 'edit', 'remove']]);
-    Route::resource('comments', CommentController::class);
+    Route::apiResource('comments', CommentController::class, ['except' => ['create', 'edit', 'remove']]);
 
     Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');

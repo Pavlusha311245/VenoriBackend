@@ -43,6 +43,8 @@ class Place extends Model
         'type',
         'phone',
         'capacity',
+        'rating',
+        'reviewsCount',
         'table_price',
         'description',
         'address_full',
