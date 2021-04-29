@@ -46,14 +46,13 @@ class ReservationService
      */
     public function getBadTimes($place_id, $people, $times, $capacityOnPlace, $date)
     {
-        $index = 0;
         $bad_times = [];
 
         foreach ($times as $time) {
-            $peoples = Order::findOrFail($place_id)
+            $peoples = Order::where('place_id', $place_id)
                 ->where('date', $date)
-                ->where('time', '<=', Carbon::parse($time)->format('G:i:s'))
-                ->where('staying_end', '>', Carbon::parse($time)->format('G:i:s'))
+                ->where('time', '<=', Carbon::parse($time)->format('g:i A'))
+                ->where('staying_end', '>', Carbon::parse($time)->format('g:i A'))
                 ->get('people');
             $capacity = $peoples->sum('people');
             if (($capacity + $people) > $capacityOnPlace)

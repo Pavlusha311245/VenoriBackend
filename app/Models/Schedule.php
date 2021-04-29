@@ -28,7 +28,5 @@ class Schedule extends Model
         'place_id',
         'work_start',
         'work_end',
-        'lunch_start',
-        'lunch_end'
     ];
 }
