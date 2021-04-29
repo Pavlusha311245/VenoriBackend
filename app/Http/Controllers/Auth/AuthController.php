@@ -225,7 +225,7 @@ class AuthController extends Controller
 
         SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['view' => 'mail.forgot', 'token' => $token])]);
 
-        return response()->json($email, 200);
+        return response()->json($email);
     }
 
     /**
