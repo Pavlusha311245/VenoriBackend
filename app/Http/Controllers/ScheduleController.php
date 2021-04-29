@@ -101,8 +101,6 @@ class ScheduleController extends Controller
             'place_id' => $request->get('place_id'),
             'work_start' => Carbon::parse($request->get('work_start'))->format('g:i A'),
             'work_end' => Carbon::parse($request->get('work_end'))->format('g:i A'),
-            'lunch_start' => Carbon::parse($request->get('lunch_start'))->format('g:i A'),
-            'lunch_end' => Carbon::parse($request->get('lunch_end'))->format('g:i A'),
         ]);
 
         return response()->json($schedule, 201);
@@ -177,8 +175,6 @@ class ScheduleController extends Controller
             'place_id' => $request->get('place_id'),
             'work_start' => Carbon::parse($request->get('work_start'))->format('g:i A'),
             'work_end' => Carbon::parse($request->get('work_end'))->format('g:i A'),
-            'lunch_start' => Carbon::parse($request->get('lunch_start'))->format('g:i A'),
-            'lunch_end' => Carbon::parse($request->get('lunch_end'))->format('g:i A'),
         ]);
         $schedule->save();
 
