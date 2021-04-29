@@ -46,6 +46,7 @@ class ReservationService
      */
     public function getBadTimes($place_id, $people, $times, $capacityOnPlace, $date)
     {
+        $index = 0;
         $bad_times = [];
 
         foreach ($times as $time) {
