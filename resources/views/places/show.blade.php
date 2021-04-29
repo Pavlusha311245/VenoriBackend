@@ -3,8 +3,8 @@
 @section('content')
     <div class="d-flex justify-content-center">
         <div class="whiteBlockPurpleBorder">
-            <div style="position: relative">
-                <h1 style="position: absolute; width: 100%; height: 100%; text-align: center; color: white; background: rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 10px 0 0 0; margin: 0"> Place №{{$place->id}} </h1>
+            <div>
+                <h1 style="width: 100%; text-align: center; color: black; border-radius: 10px; padding: 10px 0 0 0; margin: 0"> Place №{{$place->id}} </h1>
                 <img src="{{asset($place->image_url)}}" width="100%" height="auto" style="border-radius: 10px;"/>
             </div>
             <div class="d-flex row" style="font-weight: normal; font-style: italic">
