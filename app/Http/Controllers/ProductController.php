@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Services\ImageService;
-use Faker\Provider\Image;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,6 +16,13 @@ use Illuminate\Routing\Redirector;
  */
 class ProductController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/products",
@@ -118,8 +124,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
 
-        $imageService = new ImageService();
-        $imageService->delete($product->image_url);
+        $this->imageService->delete($product->image_url);
 
         return redirect('/admin/products/')->with('message', 'Products was deleted');
     }
@@ -466,8 +471,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->delete();
 
-        $imageService = new ImageService();
-        $imageService->delete($product->image_url);
+        $this->imageService->delete($product->image_url);
 
         return response()->json(['message' => 'Product is deleted successfully']);
     }
