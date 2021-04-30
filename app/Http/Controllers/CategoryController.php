@@ -13,6 +13,13 @@ use Illuminate\Http\Response;
  */
 class CategoryController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/categories",
@@ -297,6 +304,8 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->products()->delete();
         $category->delete();
+
+        $this->imageService->delete($category->image_url);
 
         return response()->json(['message' => 'Category is deleted successfully']);
     }

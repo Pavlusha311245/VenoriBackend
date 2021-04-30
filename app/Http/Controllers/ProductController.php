@@ -16,6 +16,13 @@ use Illuminate\Routing\Redirector;
  */
 class ProductController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/products",
@@ -116,6 +123,9 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
+
+        $this->imageService->delete($product->image_url);
+
         return redirect('/admin/products/')->with('message', 'Products was deleted');
     }
 
@@ -460,6 +470,8 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $product->delete();
+
+        $this->imageService->delete($product->image_url);
 
         return response()->json(['message' => 'Product is deleted successfully']);
     }
