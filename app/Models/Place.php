@@ -93,8 +93,19 @@ class Place extends Model
         return $this->hasOne(Review::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function users()
     {
         return $this->belongsToMany(User::class, 'favourites');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'place_id', 'id');
     }
 }
