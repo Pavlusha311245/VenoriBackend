@@ -298,6 +298,9 @@ class CategoryController extends Controller
         $category->products()->delete();
         $category->delete();
 
+        $imageService = new ImageService();
+        $imageService->delete($category->image_url);
+
         return response()->json(['message' => 'Category is deleted successfully']);
     }
 }

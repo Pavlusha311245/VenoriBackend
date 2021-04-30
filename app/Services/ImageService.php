@@ -28,4 +28,13 @@ class ImageService
 
         return 'storage/' . $collection . '/' . $new_name;
     }
+
+    /**
+     * The method delete image
+     * @param $pathToImage
+     */
+    public function delete($pathToImage)
+    {
+        File::delete($pathToImage);
+    }
 }

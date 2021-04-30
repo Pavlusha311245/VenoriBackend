@@ -470,6 +470,9 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
+        $imageService = new ImageService();
+        $imageService->delete($user->image_url);
+
         return response()->json(['message' => 'User is deleted successfully']);
     }
 

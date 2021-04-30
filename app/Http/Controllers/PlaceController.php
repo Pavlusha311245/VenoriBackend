@@ -472,6 +472,9 @@ class PlaceController extends Controller
         $place->schedules()->delete();
         $place->delete();
 
+        $imageService = new ImageService();
+        $imageService->delete($place->image_url);
+
         return response()->json(['message' => 'Place is deleted successfully']);
     }
 
