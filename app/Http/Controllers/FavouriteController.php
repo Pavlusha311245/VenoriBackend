@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favourite;
-use App\Models\Place;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -140,17 +140,9 @@ class FavouriteController extends Controller
      */
     public function show($id)
     {
-        $favourites = Favourite::where('user_id', $id)->get();
+        $user = User::findOrFail($id);
 
-        $favouriteList = [];
-
-        foreach ($favourites as $favourite) {
-            $place = Place::where('id', $favourite->place_id)->first();
-
-            $favouriteList[] = $place;
-        }
-
-        return response()->json($favouriteList);
+        return response()->json($user->favoutirePlaces);
     }
 
     /**
@@ -179,17 +171,7 @@ class FavouriteController extends Controller
      */
     public function showUserFavourites()
     {
-        $favourites = Favourite::where('user_id', auth()->user()->id)->get();
-
-        $favouriteList = [];
-
-        foreach ($favourites as $favourite) {
-            $place = Place::where('id', $favourite->place_id)->first();
-
-            $favouriteList[] = $place;
-        }
-
-        return response()->json($favouriteList);
+        return response()->json(auth()->user()->favoutirePlaces);
     }
 
     /**

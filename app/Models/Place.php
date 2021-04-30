@@ -92,4 +92,9 @@ class Place extends Model
     {
         return $this->hasOne(Review::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'favourites');
+    }
 }
