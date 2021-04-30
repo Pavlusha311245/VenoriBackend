@@ -257,14 +257,16 @@ class AuthController extends Controller
         ]);
         $token = $request->input('token');
 
-        if (!$passwordResets = DB::table('password_resets')->where('token', $token)->first())
+        $passwordResets = DB::table('password_resets')->where('token', $token);
+
+        if (!$passwordResets->first())
             return response(['message' => 'Invalid token'], 400);
 
-        if (!$user = User::where('email', $passwordResets->email)->first())
-            return response(['message' => 'User does not exist'], 404);
-
+        $user = User::where('email', $passwordResets->first()->email)->first();
         $user->password = Hash::make($request->input('password'));
         $user->save();
+
+        $passwordResets->delete();
 
         return response()->json(['message' => 'Success change password']);
     }
