@@ -19,9 +19,6 @@ use Spatie\Permission\Models\Role;
 */
 
 Route::get('/', function () {
-//    Log::channel('abuse')->info('API endpoint abuse', [
-//        'user_id' => 1
-//    ]);
     return view('home');
 });
 
