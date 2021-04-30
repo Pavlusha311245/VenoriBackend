@@ -35,6 +35,9 @@
                         <a class="nav-link" href="/admin/places">Places</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/user/resetPassword">Reset password</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 @else

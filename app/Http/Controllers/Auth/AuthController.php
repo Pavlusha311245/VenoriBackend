@@ -8,8 +8,10 @@ use App\Mail\LoginMail;
 use App\Mail\RegisterMail;
 use App\Mail\VenoriMail;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -273,6 +275,56 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
+     *     path="/api/user/resetPassword",
+     *     summary="Reset password",
+     *     description="Changing authorized user password",
+     *     operationId="reset",
+     *     tags={"authentication"},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success changing authorized user password",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Success change password")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
+     *     )
+     * )
+     */
+    public function resetPasswordAuthUser(Request $request) {
+        $request->validate([
+            'password' => 'required|min:8'
+        ]);
+
+        auth()->user()->password = Hash::make($request->get('password'));
+        auth()->user()->save();
+
+        return response()->json(['message' => 'Success change password']);
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function resetPasswordView(Request $request) {
+        $request->validate([
+            'password' => 'required|min:8|confirmed'
+        ]);
+
+        auth()->user()->password = Hash::make($request->input('password'));
+        auth()->user()->save();
+
+        return redirect('/admin/user/resetPassword')->with(['message' => 'Success change password']);
+    }
+
+    /**
+     * @OA\Post(
      *     path="/api/logout",
      *     summary="Logout",
      *     description="Logging out a user from an account",
@@ -286,7 +338,7 @@ class AuthController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="Logout successful")
      *          )
-     *     )
+     *     ),
      * )
      */
     public function logout(Request $request)

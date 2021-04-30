@@ -43,6 +43,10 @@ Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], 
         return view('products.delete', ['products' => Product::findOrFail($id)]);
     });
 
+    Route::get('/user/resetPassword', function () {
+        return view('auth.reset');
+    });
+
     Route::get('/users', function () {
         return view('users.index', ['users' => User::all()]);
     });
@@ -86,6 +90,8 @@ Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], 
     Route::post('/products/create', 'App\Http\Controllers\ProductController@create');
     Route::post('/products/{id}/edit', 'App\Http\Controllers\ProductController@edit');
     Route::post('/products/{id}/delete', 'App\Http\Controllers\ProductController@remove');
+
+    Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordView');
 });
 
 Route::get('/login', function () {
