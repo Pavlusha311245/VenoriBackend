@@ -21,6 +21,13 @@ use Illuminate\Support\Facades\File;
  */
 class PlaceController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/places",
@@ -149,15 +156,11 @@ class PlaceController extends Controller
      */
     public function remove($id)
     {
-        $product = Place::findOrFail($id);
+        $place = Place::findOrFail($id);
 
-        $image_path = $product->image_url;
+        $this->imageService->delete($place->image_url);
 
-        if (File::exists($image_path)) {
-            File::delete($image_path);
-        }
-
-        $product->delete();
+        $place->delete();
 
         return redirect('/admin/places/')->with('message', 'Places was deleted');
     }

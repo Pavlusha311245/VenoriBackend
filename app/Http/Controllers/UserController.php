@@ -16,6 +16,13 @@ use Spatie\Permission\Models\Role;
  */
 class UserController extends Controller
 {
+    protected $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     /**
      * @OA\SecurityScheme(
      *   securityScheme="api_key",
@@ -109,6 +116,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
+        if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
+            $this->imageService->delete($user->avatar);
+
         return redirect("/admin/users/")->with('message', 'User was deleted');
     }
 
@@ -469,6 +480,9 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->delete();
+
+        if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
+            $this->imageService->delete($user->avatar);
 
         return response()->json(['message' => 'User is deleted successfully']);
     }
