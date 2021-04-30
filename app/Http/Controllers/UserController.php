@@ -117,7 +117,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        if ($user->avatar !== 'storage/default/avatar')
+        if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
             $this->imageService->delete($user->avatar);
 
         return redirect("/admin/users/")->with('message', 'User was deleted');
@@ -481,7 +481,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        if ($user->avatar !== 'storage/default/avatar')
+        if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
             $this->imageService->delete($user->avatar);
 
         return response()->json(['message' => 'User is deleted successfully']);
