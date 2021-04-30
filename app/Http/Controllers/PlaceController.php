@@ -127,7 +127,7 @@ class PlaceController extends Controller
         if (isset($data['image'])) {
             $image_path = $product->image_url;
 
-            if(File::exists($image_path)) {
+            if (File::exists($image_path)) {
                 File::delete($image_path);
             }
 
@@ -140,7 +140,7 @@ class PlaceController extends Controller
         $product->update($data);
         $product->save();
 
-        return redirect('/admin/places/'.$id)->with('message', 'Place was updated');
+        return redirect('/admin/places/' . $id)->with('message', 'Place was updated');
     }
 
     /**
@@ -153,7 +153,7 @@ class PlaceController extends Controller
 
         $image_path = $product->image_url;
 
-        if(File::exists($image_path)) {
+        if (File::exists($image_path)) {
             File::delete($image_path);
         }
 
@@ -323,16 +323,9 @@ class PlaceController extends Controller
     public function menu($id)
     {
         $place = Place::findOrFail($id);
-        $products = ProductsOfPlace::where('place_id', $place->id)->get();
 
-        $menu = [];
-
-        foreach ($products as $product) {
-            $menuItem = Product::where('id', $product->product_id)->first();
-            $category = Category::where('id', $menuItem->category_id)->first();
-
-            $menu[$category->name][] = $menuItem;
-        }
+        foreach ($place->products as $product)
+            $menu[$product->category->name][] = $product;
 
         return response()->json($menu);
     }

@@ -41,16 +41,11 @@ class Product extends Model
 
     public function category()
     {
-        return $this->hasOne(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
-    public function productsOfPlace()
+    public function places()
     {
-        return $this->hasMany(ProductsOfPlace::class);
-    }
-
-    public function schedules()
-    {
-        return $this->hasMany(Schedule::class);
+        return $this->belongsToMany(Place::class, 'products_of_places');
     }
 }

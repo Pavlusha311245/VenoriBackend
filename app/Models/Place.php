@@ -78,19 +78,19 @@ class Place extends Model
      *
      * @return HasMany
      */
-    public function productsOfPlace()
+    public function products()
     {
-        return $this->hasMany(ProductsOfPlace::class);
+        return $this->belongsToMany(Product::class, 'products_of_places');
     }
 
     /**
      * Relationship with Review
      *
-     * @return HasOne
+     * @return HasMany
      */
-    public function review()
+    public function reviews()
     {
-        return $this->hasOne(Review::class);
+        return $this->hasMany(Review::class);
     }
 
     /**
