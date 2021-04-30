@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmailJob;
+use App\Mail\LoginMail;
+use App\Mail\RegisterMail;
 use App\Mail\VenoriMail;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 /**
  * Class AuthController
@@ -81,6 +85,8 @@ class AuthController extends Controller
         $validData['password'] = bcrypt($validData['password']);
 
         $user = User::create($validData);
+        $role = Role::findByName('User');
+        $user->assignRole($role);
 
         SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['user' => $user, 'view' => 'mail.register'])]);
 
@@ -156,6 +162,25 @@ class AuthController extends Controller
         SendEmailJob::dispatch(['user' => auth()->user(), 'mail' => new VenoriMail(['view' => 'mail.login'])]);
 
         return response()->json(['access_token' => $accessToken, 'user' => auth()->user()]);
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function loginAdmin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:8'
+        ]);
+
+        if (auth()->attempt($request->only(['email', 'password'])))
+            return redirect('/admin/dashboard')->with('success', 'Success login');
+
+        return redirect('/login')->withErrors([
+            'error' => 'Invalid login or password'
+        ]);
     }
 
     /**

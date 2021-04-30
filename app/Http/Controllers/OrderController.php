@@ -131,15 +131,17 @@ class OrderController extends Controller
      */
     public function cancelOrder($order_id)
     {
-        return Order::findOrFail($order_id)
+        Order::findOrFail($order_id)
             ->where('user_id', auth()->user()->id)
             ->where('id', $order_id)
             ->update(['status' => 'Rejected']);
+        return response()->json(['message' => 'Order is canceled successfully']);
     }
 
-    public function updateOrders()
+    private function updateOrders()
     {
-        return Order::where('staying_end', '<', date('Y-m-d H:i:s', strtotime(Carbon::now())))
+        return Order::where('date', '<', Carbon::now()->toDateString())
+            ->where('staying_end', '<', Carbon::now()->format('g:i A'))
             ->where('status', 'In Progress')
             ->update(['status' => 'Confirmed']);
     }

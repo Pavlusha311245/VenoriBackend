@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favourite;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -125,10 +126,9 @@ class FavouriteController extends Controller
      *          response=200,
      *          description="Success showing user favourites",
      *          @OA\JsonContent(
-     *             @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *              @OA\Items(type="object", ref="#/components/schemas/Place")
      *          )
      *     ),
-     *     @OA\Response(response=400, description="Favourites not found"),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
@@ -140,7 +140,9 @@ class FavouriteController extends Controller
      */
     public function show($id)
     {
-        return Favourite::where('user_id', $id)->get();
+        $user = User::findOrFail($id);
+
+        return response()->json($user->favoutirePlaces);
     }
 
     /**
@@ -155,7 +157,7 @@ class FavouriteController extends Controller
      *          response=200,
      *          description="Success showing auth user favourites",
      *          @OA\JsonContent(
-     *              @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *              @OA\Items(type="object", ref="#/components/schemas/Place")
      *          )
      *     ),
      *     @OA\Response(
@@ -169,7 +171,7 @@ class FavouriteController extends Controller
      */
     public function showUserFavourites()
     {
-        return Favourite::where('user_id', auth()->user()->id)->get();
+        return response()->json(auth()->user()->favoutirePlaces);
     }
 
     /**

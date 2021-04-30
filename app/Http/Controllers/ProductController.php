@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\ImageService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 
 /**
  * Class ProductController for CRUD Products
@@ -44,6 +48,75 @@ class ProductController extends Controller
     public function index()
     {
         return Product::paginate(5);
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function create(Request $request)
+    {
+        $validData = $request->validate([
+            'name' => 'required|min:2',
+            'weight' => 'required|min:1',
+            'price' => 'required|min:1',
+            'image' => 'required|mimes:png,jpg',
+            'category_id' => 'required|min:1'
+        ]);
+
+        $imageService = new ImageService();
+        $url = $imageService->upload($request->file('image'), 'ProductImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
+        $product = Product::create($data);
+
+        if ($product) {
+            return redirect('/admin/products')->with('message', 'Create successful');
+        }
+
+        return redirect('/create')->withErrors('message', 'Create failed');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'min:2',
+            'weight' => 'min:1',
+            'price' => 'min:1',
+            'image' => 'mimes:png,jpg',
+            'category_id' => 'min:1',
+        ]);
+
+        $imageService = new ImageService();
+        $url = $imageService->upload($request->file('image'), 'ProductImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
+        $product = Product::findOrFail($id);
+
+        $product->update($data);
+        $product->save();
+
+        return redirect('/admin/products/'.$id)->with('message', 'Product was updated');
+    }
+
+    /**
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function remove($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+        return redirect('/admin/products/')->with('message', 'Products was deleted');
     }
 
     /**

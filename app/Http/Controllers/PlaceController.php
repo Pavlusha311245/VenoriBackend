@@ -9,7 +9,11 @@ use App\Models\ProductsOfPlace;
 use App\Models\Review;
 use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\File;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -60,6 +64,102 @@ class PlaceController extends Controller
             return Place::where('name', 'LIKE', "%" . $request->name . "%")->get();
 
         return Place::paginate(5);
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function create(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255',
+            'type' => 'required|max:255',
+            'address_full' => 'required|string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
+            'phone' => 'required|max:15',
+            'capacity' => 'required|integer',
+            'table_price' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpg,png'
+        ]);
+
+        $imageService = new ImageService;
+        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+
+        $data = $request->all();
+        $data['image_url'] = $url;
+
+        $product = Place::create($data);
+
+        if ($product) {
+            return redirect('/admin/places')->with('message', 'Create successful');
+        }
+
+        return redirect('/create')->withErrors('message', 'Create failed');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'max:255',
+            'type' => 'max:255',
+            'address_full' => 'string',
+            'address_lat' => 'required|numeric',
+            'address_lon' => 'required|numeric',
+            'phone' => 'max:15',
+            'capacity' => 'integer',
+            'table_price' => 'string',
+            'description' => 'string',
+            'image' => 'nullable|image|mimes:jpg,png'
+        ]);
+
+        $product = Place::findOrFail($id);
+
+        $data = $request->all();
+
+        if (isset($data['image'])) {
+            $image_path = $product->image_url;
+
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+
+            $imageService = new ImageService;
+            $url = $imageService->upload($request->file('image'), 'PlacesImages');
+
+            $data['image_url'] = $url;
+        }
+
+        $product->update($data);
+        $product->save();
+
+        return redirect('/admin/places/'.$id)->with('message', 'Place was updated');
+    }
+
+    /**
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function remove($id)
+    {
+        $product = Place::findOrFail($id);
+
+        $image_path = $product->image_url;
+
+        if(File::exists($image_path)) {
+            File::delete($image_path);
+        }
+
+        $product->delete();
+
+        return redirect('/admin/places/')->with('message', 'Places was deleted');
     }
 
     /**
@@ -225,6 +325,8 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
         $products = ProductsOfPlace::where('place_id', $place->id)->get();
 
+        $menu = [];
+
         foreach ($products as $product) {
             $menuItem = Product::where('id', $product->product_id)->first();
             $category = Category::where('id', $menuItem->category_id)->first();
@@ -371,55 +473,6 @@ class PlaceController extends Controller
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully']);
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/api/places/{id}/reviewsCount",
-     *     summary="Returns the number of reviews for a place",
-     *     description="Returns the number of reviews for a place",
-     *     operationId="reviewsCount",
-     *     tags={"places"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Parameter(
-     *          description="ID of category",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=201,
-     *          description="Success storing a new user",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="reviews_count", type="integer", maxLength=255, example=2)
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
-     *          )
-     *         ),
-     *      )
-     * )
-     */
-    public function reviewsCount($id)
-    {
-        return response()->json(['reviews_count' => count(Review::where('place_id', $id)->get())]);
     }
 
     /**

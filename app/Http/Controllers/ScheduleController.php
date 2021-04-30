@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -96,7 +97,11 @@ class ScheduleController extends Controller
             'place_id' => 'required|numeric|min:1',
         ]);
 
-        $schedule = Schedule::create($request->all());
+        $schedule = Schedule::create([
+            'place_id' => $request->get('place_id'),
+            'work_start' => Carbon::parse($request->get('work_start'))->format('g:i A'),
+            'work_end' => Carbon::parse($request->get('work_end'))->format('g:i A'),
+        ]);
 
         return response()->json($schedule, 201);
     }
@@ -166,7 +171,11 @@ class ScheduleController extends Controller
             'place_id' => 'numeric|min:1',
         ]);
 
-        $schedule->update($request->all());
+        $schedule->update([
+            'place_id' => $request->get('place_id'),
+            'work_start' => Carbon::parse($request->get('work_start'))->format('g:i A'),
+            'work_end' => Carbon::parse($request->get('work_end'))->format('g:i A'),
+        ]);
         $schedule->save();
 
         return response()->json($schedule);
@@ -284,7 +293,8 @@ class ScheduleController extends Controller
      *     ),
      * )
      */
-    public function scheduleByPlaceId($id) {
+    public function scheduleByPlaceId($id)
+    {
         return Schedule::where('place_id', $id)->limit(7)->get();
     }
 }

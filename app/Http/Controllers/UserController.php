@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 /**
  * Class UserController
@@ -50,6 +54,62 @@ class UserController extends Controller
     public function index()
     {
         return User::paginate(5);
+    }
+
+    /**
+     * @param Request $request
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function create(Request $request)
+    {
+        $validData = $request->validate([
+            'first_name' => 'required|min:2',
+            'second_name' => 'required|min:2',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|min:8',
+            'role' => 'required|string'
+        ]);
+
+        $roleName = $request->get('role');
+        $user = User::create($validData);
+        $role = Role::findByName($roleName);
+        $user->assignRole($role);
+
+        return redirect('/admin/users')->with('message', 'Successful registration');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function edit(Request $request, $id)
+    {
+        $request->validate([
+            'first_name' => 'min:2|string',
+            'second_name' => 'min:2|string',
+            'email' => 'required',
+            'role' => 'required'
+        ]);
+
+        $userRoles = $request->get('role');
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        $user->syncRoles($userRoles);
+        $user->save();
+
+        return redirect("/admin/users/$id")->with('message', 'User was updated');
+    }
+
+    /**
+     * @param $id
+     * @return Application|RedirectResponse|Redirector
+     */
+    public function remove($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect("/admin/users/")->with('message', 'User was deleted');
     }
 
     /**
@@ -124,9 +184,13 @@ class UserController extends Controller
             'address_lat' => 'required|numeric',
             'address_lon' => 'required|numeric',
             'password' => 'required|min:8',
+            'role' => 'string'
         ]);
 
+        $roleName = $request->get('role');
         $user = User::create($request->all());
+        $role = Role::findByName($roleName);
+        $user->assignRole($role);
 
         return response()->json($user, 201);
     }
