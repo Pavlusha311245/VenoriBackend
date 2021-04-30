@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
     Route::post('/users/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
+    Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordAuthUser');
     Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
     Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
 
