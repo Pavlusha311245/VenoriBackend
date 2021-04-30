@@ -476,55 +476,6 @@ class PlaceController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/places/{id}/reviewsCount",
-     *     summary="Returns the number of reviews for a place",
-     *     description="Returns the number of reviews for a place",
-     *     operationId="reviewsCount",
-     *     tags={"places"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Parameter(
-     *          description="ID of category",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=201,
-     *          description="Success storing a new user",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="reviews_count", type="integer", maxLength=255, example=2)
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
-     *          )
-     *         ),
-     *      )
-     * )
-     */
-    public function reviewsCount($id)
-    {
-        return response()->json(['reviews_count' => count(Review::where('place_id', $id)->get())]);
-    }
-
-    /**
      * @OA\Post(
      *     path="/api/places/{id}/uploadImage",
      *     summary="Updates the category picture",
