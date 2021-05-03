@@ -64,16 +64,16 @@ class FavouriteController extends Controller
      *          @OA\Schema(type="integer", format="int64")
      *     ),
      *     @OA\Response(
-     *          response=201,
-     *          description="Success storing a new favourite",
-     *          @OA\JsonContent(type="object", ref="#/components/schemas/Place")
-     *     ),
-     *     @OA\Response(
-     *          response=304,
-     *          description="Not modified",
+     *          response=200,
+     *          description="OK",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Place has already been added")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success storing a new favourite",
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Place")
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -89,7 +89,7 @@ class FavouriteController extends Controller
         $request->validate(['place' => 'required|integer',]);
 
         if (Favourite::where('user_id', auth()->user()->id)->where('place_id', $request->get('place'))->first() !== null)
-            return response()->json(['message' => 'Place has already been added'],304);
+            return response()->json(['message' => 'Place has already been added']);
 
         auth()->user()->favoutirePlaces()->attach($request->get('place'));
         return response()->json(Place::findOrFail($request->get('place')), 201);
