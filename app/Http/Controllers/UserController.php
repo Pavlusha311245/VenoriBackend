@@ -115,6 +115,8 @@ class UserController extends Controller
     public function remove($id)
     {
         $user = User::findOrFail($id);
+        $user->favoutirePlaces()->detach();
+        $user->orders()->delete();
         $user->delete();
 
         if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
@@ -479,6 +481,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $user->favoutirePlaces()->detach();
+        $user->orders()->detach();
         $user->delete();
 
         if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
