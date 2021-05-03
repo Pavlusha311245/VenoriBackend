@@ -27,19 +27,17 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::apiResource('products', ProductController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('places', PlaceController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('reviews', ReviewController::class, ['except' => ['create', 'edit', 'remove']]);
-    Route::apiResource('favourites', FavouriteController::class,['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('schedules', ScheduleController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('comments', CommentController::class, ['except' => ['create', 'edit', 'remove']]);
 
     Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
+    Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@index');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
-    Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@showUserFavourites');
-    Route::get('/users/{id}/favourites', 'App\Http\Controllers\FavouriteController@show');
     Route::get('/places/{id}/schedule', 'App\Http\Controllers\ScheduleController@scheduleByPlaceId');
     Route::get('/places/{id}/reviews', 'App\Http\Controllers\ReviewController@reviewsByPlaceId');
     Route::get('/user/reviews', 'App\Http\Controllers\ReviewController@reviewsByUserId');
@@ -52,10 +50,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
     Route::post('/users/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
     Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordAuthUser');
+    Route::post('/user/favourites', 'App\Http\Controllers\FavouriteController@store');
     Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
     Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
+
+    Route::delete('/user/favourites', 'App\Http\Controllers\FavouriteController@destroy');
 });
 
 Route::group(['middleware' => 'logging'], function () {
