@@ -69,13 +69,15 @@ class PlaceController extends Controller
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
         $places = Place::all();
+
         if ($request->has('distance')) {
             $dist = $request->get('distance');
+
             $lat = auth()->user()->address_lat;
             $lon = auth()->user()->address_lon;
             $coordinates = $radiusAroundLocationService->coordinates($lat, $lon, $dist);
-            $places = Place::
-                  whereBetween('address_lon', [$coordinates['lon_start'], $coordinates['lon_end']])
+
+            $places = Place::whereBetween('address_lon', [$coordinates['lon_start'], $coordinates['lon_end']])
                 ->whereBetween('address_lat', [$coordinates['lat_start'], $coordinates['lat_end']])
                 ->get();
         }
@@ -101,6 +103,7 @@ class PlaceController extends Controller
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
+
         return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
@@ -372,6 +375,7 @@ class PlaceController extends Controller
         $place = Place::findOrFail($id);
 
         $menu = [];
+
         foreach ($place->products as $product)
             $menu[$product->category->name][] = $product;
 
