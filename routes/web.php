@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use App\Models\Place;
 use App\Models\User;
 use App\Models\Product;
@@ -77,6 +78,10 @@ Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], 
     });
     Route::get('/places/{id}/delete', function ($id) {
         return view('places.delete', ['place' => Place::findOrFail($id)]);
+    });
+
+    Route::get('/orders', function () {
+        return view('orders.index', ['orders' => Order::all()]);
     });
 
     Route::post('/users/create', 'App\Http\Controllers\UserController@create');
