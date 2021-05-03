@@ -5,6 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *      @OA\Xml(name="ProductsOfPlace"),
+ *      @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ *      @OA\Property(property="product_id", type="integer", readOnly=true, example=1),
+ *      @OA\Property(property="place_id", type="integer", readOnly=true, example=1),
+ *      @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+ *      @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true)
+ * )
+ *
+ * Class ProductsOfPlace
+ *
+ */
 class ProductsOfPlace extends Model
 {
     use HasFactory;

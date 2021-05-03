@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Order;
-use App\Models\Place;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use Illuminate\Http\JsonResponse;
 
 /**
  * Class ReservationService for Reservation logic
@@ -14,29 +16,20 @@ class ReservationService
     /**
      * Get array of Times
      *
-     * @param $place_id
+     * @param $work_start
+     * @param $work_end
      * @return array
      */
-    public function getTimes($place_id)
+    public function getTimes($work_start, $work_end)
     {
-        $place = Place::findOrFail($place_id);
+        $startTime = Carbon::parse($work_start);
+        $endTime = Carbon::parse($work_end);
 
-        $work_start = $place->work_start;
-        $work_end = $place->work_end;
-        $startTime = strtotime($work_start);
-        $endTime = strtotime($work_end);
+        $rangeTimes = CarbonInterval::minutes(30)->toPeriod($startTime, $endTime->addMinutes(-30));
 
-        $returnTimeFormat = ('12') ? 'g:i A' : 'G:i';
-        $current = time();
-        $addTime = strtotime('+' . '30 mins', $current);
-        $diffTimes = $addTime - $current;
-
-        $times = [];
-        while ($startTime < $endTime) {
-            $times[] = date($returnTimeFormat, $startTime);
-            $startTime += $diffTimes;
+        foreach ($rangeTimes as $time) {
+            $times[] = $time->format('g:i A');
         }
-        $times[] = date($returnTimeFormat, $startTime);
 
         return $times;
     }
@@ -44,36 +37,26 @@ class ReservationService
     /**
      * Get Bad Times
      *
-     * @param $staying
      * @param $place_id
      * @param $people
      * @param $times
-     * @return array
+     * @param $capacityOnPlace
+     * @param $date
+     * @return array|JsonResponse
      */
-    public function getBadTimes($place_id, $people, $staying, $times)
+    public function getBadTimes($place_id, $people, $times, $capacityOnPlace, $date)
     {
-        $half = 0.5;
-        $capacity_place = Place::findOrFail($place_id)->capacity;
-        $index = 0;
-        $qt_of_cycles = $staying + $half;
         $bad_times = [];
 
-        while ($qt_of_cycles != 0)
-        {
-            $time = date('G:i', strtotime($times[$index])); //0
-            $capacity_time =
-                Order::where('place_id', $place_id)
-                ->where('datetime', 'LIKE', '%' . $time . '%')
+        foreach ($times as $time) {
+            $peoples = Order::where('place_id', $place_id)
+                ->where('date', $date)
+                ->where('time', '<=', Carbon::parse($time)->format('g:i A'))
+                ->where('staying_end', '>', Carbon::parse($time)->format('g:i A'))
                 ->get('people');
-
-            $capacity = array_sum(array_column(json_decode($capacity_time), 'people'));
-
-            if (($capacity + $people) > $capacity_place) {
-                $bad_times[] = $times[array_search($times[$index], $times)];
-            }
-
-            $qt_of_cycles -= $half;
-            $index++;
+            $capacity = $peoples->sum('people');
+            if (($capacity + $people) > $capacityOnPlace)
+                $bad_times[] = $times[array_search($time, $times)];
         }
 
         return $bad_times;
@@ -88,18 +71,6 @@ class ReservationService
      */
     public function getAvailableTimes($bad_times, $times)
     {
-        if (!empty($bad_times)) {
-            foreach ($bad_times as $bad) {
-                foreach ($times as $key => $time) {
-                    if ($bad == $time) {
-                        unset($times[$key]);
-                        $times = array_values($times);
-                    }
-                }
-            }
-        }
-        $result_times[] = $times;
-
-        return $result_times;
+        return array_values(array_diff($times, $bad_times));
     }
 }

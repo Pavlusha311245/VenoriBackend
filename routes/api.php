@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
@@ -21,30 +22,46 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::resource('users', UserController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('places', PlaceController::class);
-    Route::resource('reviews', ReviewController::class);
-    Route::resource('favourites', FavouriteController::class);
-    Route::resource('schedules', ScheduleController::class);
+    Route::apiResource('users', UserController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('categories', CategoryController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('products', ProductController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('places', PlaceController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('reviews', ReviewController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('schedules', ScheduleController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('comments', CommentController::class, ['except' => ['create', 'edit', 'remove']]);
 
-    Route::get('/details', 'App\Http\Controllers\UserController@showProfile');
+    Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
+    Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@index');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
-    Route::get('/user/location', 'App\Http\Controllers\UserController@location');
     Route::get('/products/{name}', 'App\Http\Controllers\ProductController@getProduct');
+    Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
+    Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
+    Route::get('/places/{id}/schedule', 'App\Http\Controllers\ScheduleController@scheduleByPlaceId');
+    Route::get('/places/{id}/reviews', 'App\Http\Controllers\ReviewController@reviewsByPlaceId');
+    Route::get('/user/reviews', 'App\Http\Controllers\ReviewController@reviewsByUserId');
+    Route::get('/reviews/{id}/comments', 'App\Http\Controllers\CommentController@commentsByReviewId');
 
-    Route::post('/reservation/{place_id}', 'App\Http\Controllers\ReservationController@availableTime');
-    Route::post('/reserve/{place_id}', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/places/{place_id}/reservation', 'App\Http\Controllers\ReservationController@availableTime');
+    Route::post('/places/{place_id}/reserve', 'App\Http\Controllers\ReservationController@tableReserve');
+    Route::post('/places/{id}/uploadImage', 'App\Http\Controllers\PlaceController@uploadImage');
     Route::post('/orders/{order_id}', 'App\Http\Controllers\OrderController@cancelOrder');
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthController@logout');
+    Route::post('/users/{id}/uploadAvatar', 'App\Http\Controllers\UserController@uploadAvatar');
+    Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordAuthUser');
+    Route::post('/user/favourites', 'App\Http\Controllers\FavouriteController@store');
+    Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
+    Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
+
+    Route::put('/user/location', 'App\Http\Controllers\UserController@location');
+
+    Route::delete('/user/favourites', 'App\Http\Controllers\FavouriteController@destroy');
 });
 
 Route::group(['middleware' => 'logging'], function () {
     Route::post('/login', 'App\Http\Controllers\Auth\AuthController@login');
-    Route::post('/registration', 'App\Http\Controllers\Auth\AuthController@registration');
+    Route::post('/register', 'App\Http\Controllers\Auth\AuthController@register');
     Route::post('/forgot', 'App\Http\Controllers\Auth\AuthController@forgotPassword');
     Route::post('/reset', 'App\Http\Controllers\Auth\AuthController@resetPassword');
 });

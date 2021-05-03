@@ -17,14 +17,19 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->enum('status', ['In Progress', 'Rejected', 'Confirmed']);
             $table->decimal('price');
-            $table->dateTime('datetime');
+            $table->date('date');
             $table->unsignedInteger('people');
             $table->unsignedInteger('staying');
-            $table->dateTime('staying_end')->nullable();
+            $table->string('time');
+            $table->string('staying_end')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('place_id');
-            $table->foreign('place_id')->references('id')->on('places');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('place_id')->references('id')->on('places')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -7,6 +7,28 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @OA\Schema(
+ *      @OA\Xml(name="Place"),
+ *      @OA\Property(property="id", type="integer", readOnly=true, example=1),
+ *      @OA\Property(property="name", type="string", example="KFC"),
+ *      @OA\Property(property="image_url", type="string", example="storage\PlaceImages\KFC.png"),
+ *      @OA\Property(property="rating", type="number", example=4.23),
+ *      @OA\Property(property="reviewsCount", type="number", example=5),
+ *      @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+ *      @OA\Property(property="address_lat", type="number", example=53.913224),
+ *      @OA\Property(property="address_lon", type="number", example=27.467663),
+ *      @OA\Property(property="phone", type="string", maxLength=255, example="+375448675643"),
+ *      @OA\Property(property="description", type="string", example="KFC (short for Kentucky Fried Chicken) is an American fast food restaurant."),
+ *      @OA\Property(property="capacity", type="integer", example=45),
+ *      @OA\Property(property="table_price", type="number", example=44.99),
+ *      @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+ *      @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true)
+ * )
+ *
+ * Class Place
+ *
+ */
 class Place extends Model
 {
     use HasFactory;
@@ -19,14 +41,16 @@ class Place extends Model
     protected $fillable = [
         'name',
         'type',
-        'rating',
         'phone',
-        'review_id',
         'capacity',
+        'rating',
+        'reviewsCount',
+        'table_price',
         'description',
         'address_full',
         'address_lat',
-        'address_lon'
+        'address_lon',
+        'image_url'
     ];
 
     /**
@@ -54,18 +78,34 @@ class Place extends Model
      *
      * @return HasMany
      */
-    public function productsOfPlace()
+    public function products()
     {
-        return $this->hasMany(ProductsOfPlace::class);
+        return $this->belongsToMany(Product::class, 'products_of_places');
     }
 
     /**
      * Relationship with Review
      *
-     * @return HasOne
+     * @return HasMany
      */
-    public function review()
+    public function reviews()
     {
-        return $this->hasOne(Review::class);
+        return $this->hasMany(Review::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'favourites');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'place_id', 'id');
     }
 }
