@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Favourite;
 use App\Models\Place;
-use App\Models\Product;
-use App\Models\ProductsOfPlace;
-use App\Models\Review;
 use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\File;
 
@@ -40,12 +40,21 @@ class PlaceController extends Controller
      *          response=200,
      *          description="Success getting a list of all establishment",
      *          @OA\JsonContent(
-     *              @OA\Property(property="current_page", type="integer", example=1),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(type="object", ref="#/components/schemas/Place")
-     *              )
+     *              @OA\Property(property="id", type="integer", readOnly=true, example=1),
+     *              @OA\Property(property="name", type="string", example="KFC"),
+     *              @OA\Property(property="image_url", type="string", example="storage\PlaceImages\KFC.png"),
+     *              @OA\Property(property="rating", type="number", example=4.23),
+     *              @OA\Property(property="reviewsCount", type="number", example=5),
+     *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+     *              @OA\Property(property="address_lat", type="number", example=53.913224),
+     *              @OA\Property(property="address_lon", type="number", example=27.467663),
+     *              @OA\Property(property="phone", type="string", maxLength=255, example="+375448675643"),
+     *              @OA\Property(property="description", type="string", example="KFC (short for Kentucky Fried Chicken) is an American fast food restaurant."),
+     *              @OA\Property(property="capacity", type="integer", example=45),
+     *              @OA\Property(property="table_price", type="number", example=44.99),
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true),
+     *              @OA\Property(property="favourite", type="number", example=true),
      *          )
      *     ),
      *     @OA\Response(
@@ -59,18 +68,40 @@ class PlaceController extends Controller
      */
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
+        $places = Place::all();
         if ($request->has('distance')) {
             $dist = $request->get('distance');
-            $coordiantes = $radiusAroundLocationService->coordinates(auth()->user()->address_lat, auth()->user()->address_lon, $dist);
-            return Place::whereBetween('address_lon', [$coordiantes['lon_start'], $coordiantes['lon_end']])
-                ->whereBetween('address_lat', [$coordiantes['lat_start'], $coordiantes['lat_end']])
+            $lat = auth()->user()->address_lat;
+            $lon = auth()->user()->address_lon;
+            $coordinates = $radiusAroundLocationService->coordinates($lat, $lon, $dist);
+            $places = Place::
+                  whereBetween('address_lon', [$coordinates['lon_start'], $coordinates['lon_end']])
+                ->whereBetween('address_lat', [$coordinates['lat_start'], $coordinates['lat_end']])
                 ->get();
         }
 
         if ($request->has('name'))
-            return Place::where('name', 'LIKE', "%" . $request->name . "%")->get();
+            $places = Place::where('name', 'LIKE', "%" . $request->get('name') . "%")->get();
 
-        return Place::paginate(5);
+        foreach ($places as $place)
+            $place['favourite'] = Favourite::where('place_id', $place->id)->where('user_id', auth()->user()->id)->first() !== null;
+
+        return $this->paginate($places, 15);
+    }
+
+    /**
+     * Array pagination
+     * @param $items
+     * @param int $perPage
+     * @param null $page
+     * @param array $options
+     * @return LengthAwarePaginator
+     */
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
@@ -273,12 +304,21 @@ class PlaceController extends Controller
      *          response=200,
      *          description="Success getting information about 1 institution",
      *          @OA\JsonContent(
-     *              @OA\Property(property="current_page", type="integer", example=1),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(type="object", ref="#/components/schemas/Place")
-     *              )
+     *              @OA\Property(property="id", type="integer", readOnly=true, example=1),
+     *              @OA\Property(property="name", type="string", example="KFC"),
+     *              @OA\Property(property="image_url", type="string", example="storage\PlaceImages\KFC.png"),
+     *              @OA\Property(property="rating", type="number", example=4.23),
+     *              @OA\Property(property="reviewsCount", type="number", example=5),
+     *              @OA\Property(property="address_full", type="string", maxLength=255, example="Minsk"),
+     *              @OA\Property(property="address_lat", type="number", example=53.913224),
+     *              @OA\Property(property="address_lon", type="number", example=27.467663),
+     *              @OA\Property(property="phone", type="string", maxLength=255, example="+375448675643"),
+     *              @OA\Property(property="description", type="string", example="KFC (short for Kentucky Fried Chicken) is an American fast food restaurant."),
+     *              @OA\Property(property="capacity", type="integer", example=45),
+     *              @OA\Property(property="table_price", type="number", example=44.99),
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true),
+     *              @OA\Property(property="favourite", type="number", example=true),
      *          )
      *     ),
      *     @OA\Response(
@@ -292,7 +332,10 @@ class PlaceController extends Controller
      */
     public function show($id)
     {
-        return Place::findOrFail($id);
+        $place = Place::findOrFail($id);
+        $place['favourite'] = Favourite::where('place_id', $id)->where('user_id', auth()->user()->id)->first() !== null;
+
+        return $place;
     }
 
     /**
@@ -327,6 +370,7 @@ class PlaceController extends Controller
     {
         $place = Place::findOrFail($id);
 
+        $menu = [];
         foreach ($place->products as $product)
             $menu[$product->category->name][] = $product;
 
