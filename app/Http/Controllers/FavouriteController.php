@@ -86,7 +86,7 @@ class FavouriteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['place' => 'required|integer',]);
+        $request->validate(['place' => 'required|integer']);
 
         if (Favourite::where('user_id', auth()->user()->id)->where('place_id', $request->get('place'))->first() !== null)
             return response()->json(['message' => 'Place has already been added']);
@@ -137,9 +137,7 @@ class FavouriteController extends Controller
      */
     public function destroy(Request $request)
     {
-        $request->validate([
-            'place' => 'required|integer'
-        ]);
+        $request->validate(['place' => 'required|integer']);
 
         if (Favourite::where('place_id', $request->get('place'))->where('user_id', auth()->user()->id)->first() === null)
             return response()->json(['message' => 'Place does not exist in favorites'], 404);

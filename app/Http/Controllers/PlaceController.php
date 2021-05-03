@@ -191,6 +191,7 @@ class PlaceController extends Controller
 
         $this->imageService->delete($place->image_url);
 
+        $place->favourites()->delete();
         $place->delete();
 
         return redirect('/admin/places/')->with('message', 'Places was deleted');
