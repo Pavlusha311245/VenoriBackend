@@ -43,16 +43,14 @@
                     <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
                         <th style="width: 50px">Id</th>
                         <th>Status</th>
-                        <th>Type</th>
-                        <th>Rating</th>
-                        <th>Phone</th>
-                        <th>Capacity</th>
-                        <th>Table Price</th>
-                        <th>Description</th>
-                        <th>Address Full</th>
-                        <th>Address Lat</th>
-                        <th>Address Lon</th>
-                        <th>Image Url</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>People</th>
+                        <th>Staying</th>
+                        <th>Time</th>
+                        <th>Staying End</th>
+                        <th>User Id</th>
+                        <th>Place Id</th>
                         <th>Details</th>
                         <th>Remove</th>
                     </tr>
@@ -72,7 +70,7 @@
                                 <a href="/admin/orders/{{$order->id}}" class="btn btn-outline-primary btn-sm">Show</a>
                             </td>
                             <td>
-                                <a href="/admin/orders/{{$place->id}}/delete" class="btn btn-danger btn-sm">Remove</a>
+                                <a href="/admin/orders/{{$order->id}}/delete" class="btn btn-danger btn-sm">Remove</a>
                             </td>
                         </tr>
                     @endforeach
