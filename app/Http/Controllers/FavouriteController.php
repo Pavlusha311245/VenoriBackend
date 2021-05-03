@@ -29,7 +29,7 @@ class FavouriteController extends Controller
      *              @OA\Property(
      *                  property="data",
      *                  type="array",
-     *                  @OA\Items(type="object", ref="#/components/schemas/Favourite")
+     *                  @OA\Items(type="object", ref="#/components/schemas/Place")
      *              )
      *          )
      *     ),
