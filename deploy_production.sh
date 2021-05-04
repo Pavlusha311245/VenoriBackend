@@ -7,8 +7,14 @@ git pull origin master
 echo "=====PULLED====="
 
 echo "=====INSTALLING====="
-composer install
+composer install --optimize-autoloader --no-dev
 echo "=====INSTALLED====="
+
+echo "=====CONFIGURATION====="
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+echo "=====CONFIGURED====="
 
 echo "=====MIGRATING====="
 php artisan migrate
