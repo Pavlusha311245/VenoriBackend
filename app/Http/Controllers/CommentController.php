@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 /**
  * CommentController for adding, deleting, updating and showing comments
@@ -43,7 +44,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return Comment::paginate(5);
+        return Comment::paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -149,18 +150,18 @@ class CommentController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Comment not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Comment not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No comment found")
      *          )
      *     )
      * )
@@ -211,18 +212,18 @@ class CommentController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Comment not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Comment not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No comment found")
      *          )
      *     )
      * )
@@ -265,18 +266,18 @@ class CommentController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Comment not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Comment not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No comment found")
      *          )
      *     )
      * )
@@ -317,6 +318,14 @@ class CommentController extends Controller
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No review found")
      *          )
      *     )
      * )

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class OrderController for CRUD Orders
@@ -48,7 +49,7 @@ class OrderController extends Controller
         return Order::where('user_id', auth()->user()->id)
             ->whereIn('status', ['Rejected', 'Confirmed'])
             ->orderBy('updated_at', 'desc')
-            ->paginate(5);
+            ->paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -86,7 +87,7 @@ class OrderController extends Controller
 
         return Order::where('user_id', auth()->user()->id)
             ->where('status', 'In Progress')
-            ->paginate(5);
+            ->paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -113,18 +114,18 @@ class OrderController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Place not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Order not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No order found")
      *          )
      *     )
      * )

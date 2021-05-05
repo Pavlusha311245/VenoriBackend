@@ -6,6 +6,7 @@ use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Controller for create, remove, update and show schedules
@@ -45,7 +46,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::paginate(7);
+        return Schedule::paginate(Config::get('constants.pagination.scheduleCount'));
     }
 
     /**
@@ -149,18 +150,18 @@ class ScheduleController extends Controller
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Review not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Schedule not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No schedule found")
      *          )
      *     )
      * )
@@ -291,6 +292,14 @@ class ScheduleController extends Controller
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
+     *     )
      * )
      */
     public function scheduleByPlaceId($id)

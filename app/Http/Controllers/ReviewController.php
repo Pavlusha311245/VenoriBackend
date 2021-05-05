@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Services\Rating\PlaceRatingService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Controller for adding, removing, viewing and updating reviews
@@ -53,7 +54,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return Review::paginate(5);
+        return Review::paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -153,18 +154,18 @@ class ReviewController extends Controller
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Review not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No review found")
      *          )
      *     )
      * )
@@ -208,18 +209,18 @@ class ReviewController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Review not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No review found")
      *          )
      *     )
      * )
@@ -255,6 +256,14 @@ class ReviewController extends Controller
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
      *          )
      *     )
      * )
@@ -293,6 +302,14 @@ class ReviewController extends Controller
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
      *          )
      *     )
      * )

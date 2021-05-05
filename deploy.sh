@@ -4,22 +4,25 @@ cd /var/www/fullplate
 echo "=====PULLING====="
 git reset --hard origin/develop
 git pull origin develop
-echo "=====PULLED====="
 
 echo "=====INSTALLING====="
 composer install
-echo "=====INSTALLED====="
 
 echo "=====MIGRATING====="
-php artisan migrate
-echo "=====MIGRATED====="
+php artisan migrate --seed
+
+echo "=====CONFIGURATION====="
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+echo "=====SET STORAGE LINK====="
+php artisan storage:link
 
 echo "======GENERATING DOC======"
 php artisan l5-swagger:generate
-echo "======GENERATED======"
 
 echo "======OPTIMIZE======"
 php artisan optimize
-echo "======OPTIMIZED======"
 
 echo "Deploy script finished execution"

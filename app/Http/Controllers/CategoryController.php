@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class CategoryController for CRUD Categories
@@ -51,7 +52,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::paginate(15);
+        return Category::paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -74,14 +75,6 @@ class CategoryController extends Controller
      *          response=201,
      *          description="Success creating category",
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
-     *     ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
      *     ),
      *     @OA\Response(
      *          response=401,
@@ -115,9 +108,7 @@ class CategoryController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-
-        $url = $imageService->upload($request->file('image'), 'CategoryImages');
+        $url = $this->imageService->upload($request->file('image'), 'CategoryImages');
 
         $data = $request->all();
         $data['image_url'] = $url;
@@ -168,18 +159,18 @@ class CategoryController extends Controller
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
      *          )
      *     )
      * )
@@ -227,20 +218,20 @@ class CategoryController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
+     *          )
+     *     ),
      * )
      */
     public function uploadImage(Request $request, $id)
@@ -249,9 +240,7 @@ class CategoryController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-
-        $url = $imageService->upload($request->file('image'), 'CategoryImages');
+        $url = $this->imageService->upload($request->file('image'), 'CategoryImages');
 
         $category = Category::findOrFail($id);
         $category->update(['image_url' => $url]);
@@ -283,20 +272,20 @@ class CategoryController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
+     *          )
+     *     ),
      * )
      */
     public function destroy($id)
