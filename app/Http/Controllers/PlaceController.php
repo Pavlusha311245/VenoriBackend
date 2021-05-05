@@ -574,7 +574,7 @@ class PlaceController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/PlacesImages/236095676.png")
      *          ),
-     *     )
+     *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",

@@ -81,7 +81,7 @@ class ReviewController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     )
+     *     ),
      *     @OA\Response(
      *          response=422,
      *          description="Validation error",
@@ -152,7 +152,7 @@ class ReviewController extends Controller
      *          response=201,
      *          description="Success updating review information",
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
-     *     )
+     *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",

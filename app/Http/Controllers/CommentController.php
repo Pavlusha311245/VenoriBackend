@@ -264,7 +264,7 @@ class CommentController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Comment is deleted successfully")
      *          )
-     *     )
+     *     ),
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
