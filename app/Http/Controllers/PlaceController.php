@@ -89,7 +89,7 @@ class PlaceController extends Controller
         $places = $places->get();
 
         foreach ($places as $place)
-            $place['favourite'] = auth()->user()->favoutirePlaces()->find($request->get('place')) !== null;
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
 
         return $this->paginate($places, Config::get('constants.pagination.count'));
     }
