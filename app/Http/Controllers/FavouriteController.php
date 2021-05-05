@@ -139,10 +139,9 @@ class FavouriteController extends Controller
      *     ),
      *     @OA\Response(
      *          response=404,
-     *          description="Place does not exist in favorites",
+     *          description="Place does not exist in favourites",
      *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="Place does not exist in favorites")
+     *              @OA\Property(property="message", type="string", example="Place does not exist in favourites")
      *          )
      *     )
      * )
@@ -153,7 +152,7 @@ class FavouriteController extends Controller
 
         $userFavouritePlaces = auth()->user()->favoutirePlaces();
 
-        throw_if($userFavouritePlaces->find($request->get('place')) === null, new ModelNotFoundException('Place not found in favorites'));
+        throw_if($userFavouritePlaces->find($request->get('place')) === null, new ModelNotFoundException('Place not found in favourites'));
 
         $userFavouritePlaces->detach($request->get('place'));
 
