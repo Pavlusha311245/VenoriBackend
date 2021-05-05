@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
 /**
@@ -88,7 +89,7 @@ class PlaceController extends Controller
         foreach ($places as $place)
             $place['favourite'] = Favourite::where('place_id', $place->id)->where('user_id', auth()->user()->id)->first() !== null;
 
-        return $this->paginate($places, 15);
+        return $this->paginate($places, Config::get('constants.pagination.count'));
     }
 
     /**
@@ -126,8 +127,7 @@ class PlaceController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+        $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
         $data = $request->all();
         $data['image_url'] = $url;
@@ -172,8 +172,7 @@ class PlaceController extends Controller
                 File::delete($image_path);
             }
 
-            $imageService = new ImageService;
-            $url = $imageService->upload($request->file('image'), 'PlacesImages');
+            $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
             $data['image_url'] = $url;
         }
@@ -285,8 +284,7 @@ class PlaceController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+        $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
         $data = $request->all();
         $data['image_url'] = $url;

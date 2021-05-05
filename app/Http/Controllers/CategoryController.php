@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class CategoryController for CRUD Categories
@@ -51,7 +52,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::paginate(15);
+        return Category::paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -115,9 +116,7 @@ class CategoryController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-
-        $url = $imageService->upload($request->file('image'), 'CategoryImages');
+        $url = $this->imageService->upload($request->file('image'), 'CategoryImages');
 
         $data = $request->all();
         $data['image_url'] = $url;
@@ -249,9 +248,7 @@ class CategoryController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-
-        $url = $imageService->upload($request->file('image'), 'CategoryImages');
+        $url = $this->imageService->upload($request->file('image'), 'CategoryImages');
 
         $category = Category::findOrFail($id);
         $category->update(['image_url' => $url]);

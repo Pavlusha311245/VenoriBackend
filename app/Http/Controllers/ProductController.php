@@ -8,6 +8,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class ProductController for CRUD Products
@@ -54,7 +55,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::paginate(5);
+        return Product::paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -71,8 +72,7 @@ class ProductController extends Controller
             'category_id' => 'required|min:1'
         ]);
 
-        $imageService = new ImageService();
-        $url = $imageService->upload($request->file('image'), 'ProductImages');
+        $url = $this->imageService->upload($request->file('image'), 'ProductImages');
 
         $data = $request->all();
         $data['image_url'] = $url;
@@ -101,8 +101,7 @@ class ProductController extends Controller
             'category_id' => 'min:1',
         ]);
 
-        $imageService = new ImageService();
-        $url = $imageService->upload($request->file('image'), 'ProductImages');
+        $url = $this->imageService->upload($request->file('image'), 'ProductImages');
 
         $data = $request->all();
         $data['image_url'] = $url;
@@ -176,7 +175,6 @@ class ProductController extends Controller
         $request->validate([
             'products' => 'required|file|mimes:csv,txt',
         ]);
-
 
         $rows = array_map('str_getcsv', file($data));
         $header = array_shift($rows);
@@ -279,6 +277,7 @@ class ProductController extends Controller
         ]);
 
         $product = Product::create($request->all());
+
         return response($product, 201);
     }
 

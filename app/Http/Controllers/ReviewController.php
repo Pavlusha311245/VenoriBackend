@@ -7,6 +7,7 @@ use App\Models\Review;
 use App\Services\Rating\PlaceRatingService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Controller for adding, removing, viewing and updating reviews
@@ -53,7 +54,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return Review::paginate(5);
+        return Review::paginate(Config::get('constants.pagination.count'));
     }
 
     /**

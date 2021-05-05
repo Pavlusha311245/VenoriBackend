@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 /**
  * CommentController for adding, deleting, updating and showing comments
@@ -43,7 +44,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        return Comment::paginate(5);
+        return Comment::paginate(Config::get('constants.pagination.count'));
     }
 
     /**

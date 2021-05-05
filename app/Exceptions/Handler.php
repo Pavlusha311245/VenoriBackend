@@ -53,8 +53,12 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof ModelNotFoundException) {
-            return response()->json(['message'=> 'ModelNotFoundException handled for API' ], 400);
+            if ($exception->getModel() !== null)
+                return response()->json(['message' => 'No ' . lcfirst(substr($exception->getModel(), strrpos($exception->getModel(), '\\') + 1)) . ' found'], 404);
+
+            return response()->json(['message' => $exception->getMessage()]);
         }
+
         return parent::render($request, $exception);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Class OrderController for CRUD Orders
@@ -48,7 +49,7 @@ class OrderController extends Controller
         return Order::where('user_id', auth()->user()->id)
             ->whereIn('status', ['Rejected', 'Confirmed'])
             ->orderBy('updated_at', 'desc')
-            ->paginate(5);
+            ->paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -86,7 +87,7 @@ class OrderController extends Controller
 
         return Order::where('user_id', auth()->user()->id)
             ->where('status', 'In Progress')
-            ->paginate(5);
+            ->paginate(Config::get('constants.pagination.count'));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Controller for create, remove, update and show schedules
@@ -45,7 +46,7 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        return Schedule::paginate(7);
+        return Schedule::paginate(Config::get('constants.pagination.scheduleCount'));
     }
 
     /**

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Favourite;
 use App\Models\Place;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Controller used for add, delete, and show favorite places
@@ -44,7 +45,7 @@ class FavouriteController extends Controller
      */
     public function index()
     {
-        return response()->json(auth()->user()->favoutirePlaces()->paginate(5));
+        return response()->json(auth()->user()->favoutirePlaces()->paginate(Config::get('constants.pagination.count')));
     }
 
     /**
@@ -87,11 +88,14 @@ class FavouriteController extends Controller
     public function store(Request $request)
     {
         $request->validate(['place' => 'required|integer']);
+        $userFavouritePlaces = auth()->user()->favoutirePlaces();
 
-        if (Favourite::where('user_id', auth()->user()->id)->where('place_id', $request->get('place'))->first() !== null)
-            return response()->json(['message' => 'Place has already been added']);
+        if ($userFavouritePlaces->find($request->get('place')) !== null)
+            return response()->json(['message' => 'Favourite has already been added']);
 
-        auth()->user()->favoutirePlaces()->attach($request->get('place'));
+        Place::findOrFail($request->get('place'));
+        $userFavouritePlaces->attach($request->get('place'));
+
         return response()->json(Place::findOrFail($request->get('place')), 201);
     }
 
@@ -139,10 +143,12 @@ class FavouriteController extends Controller
     {
         $request->validate(['place' => 'required|integer']);
 
-        if (Favourite::where('place_id', $request->get('place'))->where('user_id', auth()->user()->id)->first() === null)
-            return response()->json(['message' => 'Place does not exist in favorites'], 404);
+        $userFavouritePlaces = auth()->user()->favoutirePlaces();
 
-        auth()->user()->favoutirePlaces()->detach($request->get('place'));
+        throw_if($userFavouritePlaces->find($request->get('place')) === null, new ModelNotFoundException('Place not found in favorites'));
+
+        $userFavouritePlaces->detach($request->get('place'));
+
         return response()->json(['message' => 'Favourite is deleted successfully']);
     }
 }
