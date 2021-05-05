@@ -141,7 +141,7 @@ class OrderController extends Controller
 
     private function updateOrders()
     {
-        return Order::where('date', '<', Carbon::now()->toDateString())
+        return Order::where('date', '<=', Carbon::now()->toDateString())
             ->where('staying_end', '<', Carbon::now()->format('g:i A'))
             ->where('status', 'In Progress')
             ->update(['status' => 'Confirmed']);
