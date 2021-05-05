@@ -82,6 +82,14 @@ class FavouriteController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place does not exist",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
      *     )
      * )
      */

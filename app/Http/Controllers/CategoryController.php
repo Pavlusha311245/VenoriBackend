@@ -77,14 +77,6 @@ class CategoryController extends Controller
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
@@ -167,18 +159,18 @@ class CategoryController extends Controller
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Category")
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
      *          )
      *     )
      * )
@@ -226,20 +218,20 @@ class CategoryController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
+     *          )
+     *     ),
      * )
      */
     public function uploadImage(Request $request, $id)
@@ -280,20 +272,20 @@ class CategoryController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Category not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
-     *     )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
+     *          )
+     *     ),
      * )
      */
     public function destroy($id)

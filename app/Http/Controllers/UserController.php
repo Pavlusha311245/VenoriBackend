@@ -243,6 +243,14 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
+     *          )
      *     )
      * )
      */
@@ -269,6 +277,14 @@ class UserController extends Controller
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
      *          )
      *     )
      * )
@@ -330,6 +346,14 @@ class UserController extends Controller
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
      *          )
      *     ),
      *     @OA\Response(
@@ -405,6 +429,14 @@ class UserController extends Controller
      *          )
      *     ),
      *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
+     *          )
+     *     ),
+     *     @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
@@ -462,18 +494,18 @@ class UserController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="User not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
      *          )
      *     )
      * )
@@ -550,9 +582,8 @@ class UserController extends Controller
             'address_lon' => 'required|numeric',
         ]);
 
-        $user = User::findOrFail(auth()->id());
+        $user = auth()->user();
         $user->update($userLocation);
-        $user->save();
 
         return response()->json($userLocation);
     }

@@ -329,6 +329,14 @@ class PlaceController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthenticated.")
      *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
      *     )
      * )
      */
@@ -364,6 +372,14 @@ class PlaceController extends Controller
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
      *          )
      *     )
      * )
@@ -440,6 +456,14 @@ class PlaceController extends Controller
      *          )
      *     ),
      *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
+     *     ),
+     *     @OA\Response(
      *          response=422,
      *          description="Validation error",
      *          @OA\JsonContent(
@@ -493,18 +517,18 @@ class PlaceController extends Controller
      *          )
      *     ),
      *     @OA\Response(
-     *          response=400,
-     *          description="Place not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
-     *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="error", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
      *          )
      *     )
      * )
@@ -521,13 +545,13 @@ class PlaceController extends Controller
     /**
      * @OA\Post(
      *     path="/api/places/{id}/uploadImage",
-     *     summary="Updates the category picture",
-     *     description="Updates the category picture",
-     *     operationId="categoryUploadImage",
-     *     tags={"categories"},
+     *     summary="Updates the place picture",
+     *     description="Updates the place picture",
+     *     operationId="placeUploadImage",
+     *     tags={"places"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
-     *          description="ID of category",
+     *          description="ID of place",
      *          in="path",
      *          name="id",
      *          required=true,
@@ -539,34 +563,34 @@ class PlaceController extends Controller
      *     ),
      *     @OA\RequestBody(
      *          required=false,
-     *          description="Pass data to add a new category image",
+     *          description="Pass data to add a new place image",
      *          @OA\JsonContent(
      *              @OA\Property(property="image", type="file", maxLength=255, example="(file path)"),
      *     )
      *     ),
      *     @OA\Response(
      *          response=201,
-     *          description="Success storing a new user",
+     *          description="Success updated place image",
      *          @OA\JsonContent(
      *              @OA\Property(property="image_url", type="string", maxLength=255, example="storage/PlacesImages/236095676.png")
      *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=400,
-     *          description="Place not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="ModelNotFoundException handled for API")
-     *          )
-     *     ),
+     *     )
      *     @OA\Response(
      *          response=401,
      *          description="Unauthenticated",
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated."),
      *          )
-     *         ),
-     *      )
+     *       ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
+     *       )
+     *    )
      * )
      */
     public function uploadImage(Request $request, $id)
@@ -575,9 +599,7 @@ class PlaceController extends Controller
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $imageService = new ImageService;
-
-        $url = $imageService->upload($request->file('image'), 'PlacesImages');
+        $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
         $place = Place::findOrFail($id);
         $place->update(['image_url' => $url]);
