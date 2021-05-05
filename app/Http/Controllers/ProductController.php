@@ -283,51 +283,6 @@ class ProductController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/products/{name}",
-     *     summary="Product info",
-     *     description="Getting product info",
-     *     operationId="productInfoGetProduct",
-     *     tags={"products"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Response(
-     *         response=201,
-     *         description="Success storing a new product",
-     *         @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="name", type="string", example="Milk"),
-     *              @OA\Property(property="weight", type="string", example="200ml"),
-     *              @OA\Property(property="price", type="number", example="user1@mail.com"),
-     *              @OA\Property(property="category_id", type="integer", example=1),
-     *              @OA\Property(property="image_url", type="string", example="app/public/ProductImages/248445071.png"),
-     *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="id", type="integer", example=3)
-     *        )
-     *    ),
-     *    @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=404,
-     *          description="Product not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="No product found")
-     *          )
-     *     )
-     * )
-     */
-    public function getProduct($name)
-    {
-        return response()->json(Product::findOrFail($name));
-    }
-
-    /**
-     * @OA\Get(
      *     path="/api/products/{id}",
      *     summary="Product show",
      *     description="Showing product by id",
