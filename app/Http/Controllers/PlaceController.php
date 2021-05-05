@@ -136,9 +136,8 @@ class PlaceController extends Controller
 
         $product = Place::create($data);
 
-        if ($product) {
+        if ($product)
             return redirect('/admin/places')->with('message', 'Create successful');
-        }
 
         return redirect('/create')->withErrors('message', 'Create failed');
     }
