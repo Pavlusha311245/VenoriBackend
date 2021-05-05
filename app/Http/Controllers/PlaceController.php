@@ -129,12 +129,12 @@ class PlaceController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $placeInfo = $request->all();
+        $placeInfo['image_url'] = $url;
 
-        $product = Place::create($data);
+        $place = Place::create($placeInfo);
 
-        if ($product) {
+        if ($place) {
             return redirect('/admin/places')->with('message', 'Create successful');
         }
 
@@ -161,12 +161,12 @@ class PlaceController extends Controller
             'image' => 'nullable|image|mimes:jpg,png'
         ]);
 
-        $product = Place::findOrFail($id);
+        $place = Place::findOrFail($id);
 
-        $data = $request->all();
+        $placeInfo = $request->all();
 
-        if (isset($data['image'])) {
-            $image_path = $product->image_url;
+        if (isset($placeInfo['image'])) {
+            $image_path = $place->image_url;
 
             if (File::exists($image_path)) {
                 File::delete($image_path);
@@ -174,11 +174,11 @@ class PlaceController extends Controller
 
             $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-            $data['image_url'] = $url;
+            $placeInfo['image_url'] = $url;
         }
 
-        $product->update($data);
-        $product->save();
+        $place->update($placeInfo);
+        $place->save();
 
         return redirect('/admin/places/' . $id)->with('message', 'Place was updated');
     }
@@ -286,10 +286,10 @@ class PlaceController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $placeInfo = $request->all();
+        $placeInfo['image_url'] = $url;
 
-        $place = Place::create($data);
+        $place = Place::create($placeInfo);
 
         return response()->json($place, 201);
     }
