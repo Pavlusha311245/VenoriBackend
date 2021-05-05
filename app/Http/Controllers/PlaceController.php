@@ -69,7 +69,7 @@ class PlaceController extends Controller
      */
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
-        $places = Place::all();
+        $places = Place::query();
 
         if ($request->has('distance')) {
             $dist = $request->get('distance');
@@ -78,16 +78,18 @@ class PlaceController extends Controller
             $lon = auth()->user()->address_lon;
             $coordinates = $radiusAroundLocationService->coordinates($lat, $lon, $dist);
 
-            $places = Place::whereBetween('address_lon', [$coordinates['lon_start'], $coordinates['lon_end']])
+            $places->whereBetween('address_lon', [$coordinates['lon_start'], $coordinates['lon_end']])
                 ->whereBetween('address_lat', [$coordinates['lat_start'], $coordinates['lat_end']])
                 ->get();
         }
 
         if ($request->has('name'))
-            $places = Place::where('name', 'LIKE', "%" . $request->get('name') . "%")->get();
+            $places->where('name', 'LIKE', "%" . $request->get('name') . "%")->get();
+
+        $places = $places->get();
 
         foreach ($places as $place)
-            $place['favourite'] = Favourite::where('place_id', $place->id)->where('user_id', auth()->user()->id)->first() !== null;
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($request->get('place')) !== null;
 
         return $this->paginate($places, Config::get('constants.pagination.count'));
     }
