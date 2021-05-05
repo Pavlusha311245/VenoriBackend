@@ -53,9 +53,14 @@ class ProductController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Product::paginate(Config::get('constants.pagination.count'));
+        $products = Product::query();
+
+        if ($request->has('name'))
+            $products->where('name', 'LIKE', "%" . $request->get('name') . "%");
+
+        return $products->paginate(Config::get('constants.pagination.count'));
     }
 
     /**
@@ -64,7 +69,7 @@ class ProductController extends Controller
      */
     public function create(Request $request)
     {
-        $validData = $request->validate([
+        $validateProductData = $request->validate([
             'name' => 'required|min:2',
             'weight' => 'required|min:1',
             'price' => 'required|min:1',
@@ -74,14 +79,12 @@ class ProductController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'ProductImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $validateProductData['image_url'] = $url;
 
-        $product = Product::create($data);
+        $product = Product::create($validateProductData);
 
-        if ($product) {
+        if ($product)
             return redirect('/admin/products')->with('message', 'Create successful');
-        }
 
         return redirect('/create')->withErrors('message', 'Create failed');
     }
@@ -93,7 +96,7 @@ class ProductController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $request->validate([
+        $validateProductData = $request->validate([
             'name' => 'min:2',
             'weight' => 'min:1',
             'price' => 'min:1',
@@ -103,13 +106,11 @@ class ProductController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'ProductImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $validateProductData['image_url'] = $url;
 
         $product = Product::findOrFail($id);
 
-        $product->update($data);
-        $product->save();
+        $product->update($validateProductData);
 
         return redirect('/admin/products/'.$id)->with('message', 'Product was updated');
     }
@@ -268,15 +269,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateProductData = $request->validate([
             'name' => 'required',
             'weight' => 'required',
             'price' => 'required',
             'category_id' => 'required',
-            'image_url' => 'required'
+            'image' => 'mimes:png,jpg',
         ]);
 
-        $product = Product::create($request->all());
+        $url = $this->imageService->upload($request->file('image'), 'ProductImages');
+
+        $validateProductData['image_url'] = $url;
+
+        $product = Product::create($validateProductData);
 
         return response($product, 201);
     }
