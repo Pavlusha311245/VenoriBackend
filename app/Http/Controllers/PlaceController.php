@@ -89,7 +89,7 @@ class PlaceController extends Controller
         $places = $places->get();
 
         foreach ($places as $place)
-            $place['favourite'] = auth()->user()->favoutirePlaces()->find($request->get('place')) !== null;
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
 
         return $this->paginate($places, Config::get('constants.pagination.count'));
     }
@@ -136,9 +136,8 @@ class PlaceController extends Controller
 
         $product = Place::create($data);
 
-        if ($product) {
+        if ($product)
             return redirect('/admin/places')->with('message', 'Create successful');
-        }
 
         return redirect('/create')->withErrors('message', 'Create failed');
     }
