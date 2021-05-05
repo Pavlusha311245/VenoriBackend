@@ -86,10 +86,28 @@ class PlaceController extends Controller
         if ($request->has('name'))
             $places->where('name', 'LIKE', "%" . $request->get('name') . "%")->get();
 
-        foreach ($places->get() as $place)
-            $place['favourite'] = Favourite::where('place_id', $place->id)->where('user_id', auth()->user()->id)->first() !== null;
+        $places = $places->get();
 
-        return $places->paginate(Config::get('constants.pagination.count'));
+        foreach ($places as $place)
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($request->get('place')) !== null;
+
+        return $this->paginate($places, Config::get('constants.pagination.count'));
+    }
+
+    /**
+     * Array pagination
+     * @param $items
+     * @param int $perPage
+     * @param null $page
+     * @param array $options
+     * @return LengthAwarePaginator
+     */
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
