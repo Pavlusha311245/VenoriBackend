@@ -320,12 +320,10 @@ class CategoryController extends Controller
      *          description="Success getting a list of all places by category",
      *          @OA\JsonContent(
      *              @OA\Property(property="current_page", type="integer", example=1),
-     *              @OA\Items(
-     *                  @OA\Property(
+     *              @OA\Property(
      *                  property="data",
      *                  type="array",
      *                  @OA\Items(type="object", ref="#/components/schemas/Place")
-     *                  )
      *              )
      *          )
      *     ),
