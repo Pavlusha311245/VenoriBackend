@@ -98,7 +98,7 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
     });
 
     Route::get('/orders', function () {
-        return view('orders.index', ['orders' => Order::all()]);
+        return view('orders.index', ['orders' => auth()->user()->managedPlaces()->orders()]);
     });
 
     Route::post('/places/create', 'App\Http\Controllers\PlaceController@create');

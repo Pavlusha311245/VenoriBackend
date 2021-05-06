@@ -22,7 +22,7 @@
             <ul class="navbar-nav">
 
                 @if(\Illuminate\Support\Facades\Auth::check())
-                    @if(\Illuminate\Support\Facades\Auth::user()->hasRole('Admin'))
+                    @if(auth()->user()->hasRole('Admin'))
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/dashboard">Dashboard</a>
                         </li>
@@ -33,14 +33,16 @@
                             <a class="nav-link" href="/admin/managersConfirmation">Managers confirmation</a>
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/products">Products</a>
-                    </li>
+                    @if(auth()->user()->hasRole('Manager'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/orders">Orders</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/products">Products</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/places">Places</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/orders">Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/user/resetPassword">Reset password</a>
@@ -93,6 +95,9 @@
             }, 5000);
         });
     });
+
+
+
 
 
 
