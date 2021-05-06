@@ -177,8 +177,17 @@ class AuthController extends Controller
             'password' => 'required|min:8'
         ]);
 
-        if (auth()->attempt($request->only(['email', 'password'])))
-            return redirect('/admin/dashboard')->with('success', 'Success login');
+        if (auth()->attempt($request->only(['email', 'password']))) {
+            if (auth()->user()->hasRole('User')) {
+                auth()->logout();
+                return redirect('/login')->withErrors([
+                    'error' => 'You don\'t have access'
+                ]);
+            }
+            else
+                return redirect('/')->with('success', 'Success login');
+        }
+
 
         return redirect('/login')->withErrors([
             'error' => 'Invalid login or password'
@@ -297,7 +306,8 @@ class AuthController extends Controller
      *     )
      * )
      */
-    public function resetPasswordAuthUser(Request $request) {
+    public function resetPasswordAuthUser(Request $request)
+    {
         $request->validate([
             'password' => 'required|min:8'
         ]);
@@ -312,7 +322,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return Application|RedirectResponse|Redirector
      */
-    public function resetPasswordView(Request $request) {
+    public function resetPasswordView(Request $request)
+    {
         $request->validate([
             'password' => 'required|min:8|confirmed'
         ]);

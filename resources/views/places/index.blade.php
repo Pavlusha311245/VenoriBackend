@@ -32,7 +32,7 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
-
+    {{auth()->user()->favouritePlaces}}
     <div class="d-flex justify-content-center" style="height: 750px">
         <div style="height: min-content">
             @if(count($places)==0)
@@ -43,16 +43,9 @@
                     <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
                         <th style="width: 50px">Id</th>
                         <th>Name</th>
-                        <th>Type</th>
                         <th>Rating</th>
-                        <th>Phone</th>
                         <th>Capacity</th>
-                        <th>Table Price</th>
-                        <th>Description</th>
                         <th>Address Full</th>
-                        <th>Address Lat</th>
-                        <th>Address Lon</th>
-                        <th>Image Url</th>
                         <th>Details</th>
                         <th>Remove</th>
                     </tr>
@@ -60,16 +53,9 @@
                         <tr class="table-row">
                             <td style="text-align: center" id="place_id">{{$place['id']}}</td>
                             <td id="place_name">{{$place['name']}}</td>
-                            <td id="place_type">{{$place['type']}}</td>
                             <td id="place_rating">{{$place['rating']}}</td>
-                            <td id="place_phone">{{$place['phone']}}</td>
                             <td id="place_capacity">{{$place['capacity']}}</td>
-                            <td id="place_price">{{$place['table_price']}}</td>
-                            <td id="place_description">{{$place['description']}}</td>
                             <td id="place_address_full">{{$place['address_full']}}</td>
-                            <td id="place_address_lat">{{number_format($place['address_lat'], 6)}}</td>
-                            <td id="place_address_lon">{{number_format($place['address_lon'], 6)}}</td>
-                            <td id="place_image_url">{{$place['image_url']}}</td>
                             <td>
                                 <a href="/admin/places/{{$place->id}}" class="btn btn-outline-primary btn-sm">Show</a>
                             </td>
@@ -82,14 +68,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td style="text-align: center"><a href="/admin/places/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="30" height="30"/></a></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>

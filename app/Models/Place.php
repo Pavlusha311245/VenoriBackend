@@ -100,6 +100,13 @@ class Place extends Model
     {
         return $this->belongsToMany(User::class, 'favourites');
     }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function managers()
+    {
+        return $this->belongsToMany(User::class, 'places_managers');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

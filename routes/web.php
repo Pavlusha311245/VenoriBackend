@@ -23,10 +23,38 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+Route::middleware('auth:web')->prefix('admin')->group(function () {
+    Route::middleware('role:Admin')->group(function () {
+        Route::get('/dashboard', function () {
+            return view('dashboard');
+        })->name('dashboard');
+
+        Route::get('/users', function () {
+            return view('users.index', ['users' => User::all()]);
+        });
+        Route::get('/users/create', function () {
+            return view('users.create', ['roles' => Role::all()]);
+        });
+        Route::get('/users/{id}', function ($id) {
+            return view('users.show', ['user' => User::findOrFail($id)]);
+        });
+        Route::get('/users/{id}/edit', function ($id) {
+            return view('users.edit', ['user' => User::findOrFail($id)]);
+        });
+        Route::get('/users/{id}/delete', function ($id) {
+            return view('users.delete', ['user' => User::findOrFail($id)]);
+        });
+
+        Route::get('/managersConfirmation', function () {
+            return view('managerConfirmation',
+                ['unconfirmed' => \Illuminate\Support\Facades\DB::table('places_managers')
+                    ->where('confirm', '=', false)->get()]);
+        });
+
+        Route::post('/users/create', 'App\Http\Controllers\UserController@create');
+        Route::post('/users/{id}/edit', 'App\Http\Controllers\UserController@edit');
+        Route::post('/users/{id}/delete', 'App\Http\Controllers\UserController@remove');
+    });
 
     Route::get('/products', function () {
         return view('products.index', ['products' => Product::all()]);
@@ -48,24 +76,13 @@ Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], 
         return view('auth.reset');
     });
 
-    Route::get('/users', function () {
-        return view('users.index', ['users' => User::all()]);
-    });
-    Route::get('/users/create', function () {
-        return view('users.create', ['roles' => Role::all()]);
-    });
-    Route::get('/users/{id}', function ($id) {
-        return view('users.show', ['user' => User::findOrFail($id)]);
-    });
-    Route::get('/users/{id}/edit', function ($id) {
-        return view('users.edit', ['user' => User::findOrFail($id)]);
-    });
-    Route::get('/users/{id}/delete', function ($id) {
-        return view('users.delete', ['user' => User::findOrFail($id)]);
-    });
-
     Route::get('/places', function () {
-        return view('places.index', ['places' => Place::all()]);
+        $places = Place::all();
+
+        if (\auth()->user()->hasRole('Manager'))
+            $places = auth()->user()->managedPlaces;
+
+        return view('places.index', ['places' => $places]);
     });
     Route::get('/places/create', function () {
         return view('places.create', ['places' => Place::all()]);
@@ -84,10 +101,6 @@ Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], 
         return view('orders.index', ['orders' => Order::all()]);
     });
 
-    Route::post('/users/create', 'App\Http\Controllers\UserController@create');
-    Route::post('/users/{id}/edit', 'App\Http\Controllers\UserController@edit');
-    Route::post('/users/{id}/delete', 'App\Http\Controllers\UserController@remove');
-
     Route::post('/places/create', 'App\Http\Controllers\PlaceController@create');
     Route::post('/places/{id}/edit', 'App\Http\Controllers\PlaceController@edit');
     Route::post('/places/{id}/delete', 'App\Http\Controllers\PlaceController@remove');
@@ -97,6 +110,9 @@ Route::group(['middleware' => ['auth:web', 'role:Admin'], 'prefix' => 'admin'], 
     Route::post('/products/{id}/delete', 'App\Http\Controllers\ProductController@remove');
 
     Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordView');
+    Route::post('/user/managed/{id}', 'App\Http\Controllers\PlaceController@addPlaceToManagement');
+
+    Route::delete('/user/managed/{id}', 'App\Http\Controllers\PlaceController@removePlaceFromManagement');
 });
 
 Route::get('/login', function () {
