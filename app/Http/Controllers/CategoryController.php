@@ -354,9 +354,9 @@ class CategoryController extends Controller
     /**
      * @OA\Post(
      *     path="/api/categories/{category_id}/places/{place_id]",
-     *     summary="Adds a new place in selected cateogry",
-     *     description="Adds a new place in selected cateogry",
-     *     operationId="cateogyAddPlace",
+     *     summary="Adds a new place in selected category",
+     *     description="Adds a new place in selected category",
+     *     operationId="categoyAddPlace",
      *     tags={"categories"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
@@ -412,6 +412,7 @@ class CategoryController extends Controller
             return response()->json(['message' => 'The place has already been assigned the selected category'], 400);
 
         $category->places()->attach($place_id);
+
         return response()->json(Place::findOrFail($place_id), 201);
     }
 
@@ -470,6 +471,7 @@ class CategoryController extends Controller
         throw_if($category->places()->find($place_id) === null, new ModelNotFoundException('Place does not exist in selected category'));
 
         $category->places()->detach($place_id);
+
         return response()->json(['message' => 'Place successfully removed in selected category']);
     }
 }
