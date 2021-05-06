@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Place;
 use App\Services\ImageService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
@@ -347,5 +349,127 @@ class CategoryController extends Controller
     public function getPlaces($id)
     {
         return response()->json(Category::findOrFail($id)->places()->paginate(Config::get('constants.paginations.count')));
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/categories/{category_id}/places/{place_id]",
+     *     summary="Adds a new place in selected cateogry",
+     *     description="Adds a new place in selected cateogry",
+     *     operationId="cateogyAddPlace",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="category_id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Parameter(
+     *          description="ID of place",
+     *          in="path",
+     *          name="place_id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response=201,
+     *          description="Success added place to category",
+     *          @OA\JsonContent(type="object", ref="#/components/schemas/Place")
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Place exist in selected category",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="The place has already been assigned the selected category"),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated."),
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
+     *     )
+     * )
+     */
+    public function addCategoryForPlace($category_id, $place_id)
+    {
+        $category = Category::findOrFail($category_id);
+
+        if ($category->places()->find($place_id) !== null)
+            return response()->json(['message' => 'The place has already been assigned the selected category'], 400);
+
+        $category->places()->attach($place_id);
+        return response()->json(Place::findOrFail($place_id), 201);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/categories/{category_id}/place/{place_id}}",
+     *     summary="Remove place from category",
+     *     description="Remove place from category",
+     *     operationId="categoriesDeletePlace",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="category_id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Parameter(
+     *          description="ID of place",
+     *          in="path",
+     *          name="place_id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success deleting place from category",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Place successfully removed in selected category")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
+     *          )
+     *     )
+     * )
+     */
+    public function removePlaceFromCategory($category_id, $place_id)
+    {
+        $category = Category::findOrFail($category_id);
+
+        throw_if($category->places()->find($place_id) === null, new ModelNotFoundException('Place does not exist in selected category'));
+
+        $category->places()->detach($place_id);
+        return response()->json(['message' => 'Place successfully removed in selected category']);
     }
 }
