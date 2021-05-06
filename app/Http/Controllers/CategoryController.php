@@ -298,4 +298,54 @@ class CategoryController extends Controller
 
         return response()->json(['message' => 'Category is deleted successfully']);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/categories/{id}/places",
+     *     summary="Category info",
+     *     description="Getting a list of all places by category",
+     *     operationId="categoriesGetPlaces",
+     *     tags={"categories"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of category",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a list of all places by category",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="array",
+     *                  @OA\Items(type="object", ref="#/components/schemas/Place")
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Category not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No category found")
+     *          )
+     *     )
+     * )
+     */
+    public function getPlaces($id)
+    {
+        return response()->json(Category::findOrFail($id)->places()->paginate(Config::get('constants.paginations.count')));
+    }
 }
