@@ -356,7 +356,7 @@ class CategoryController extends Controller
      *     path="/api/categories/{category_id}/places/{place_id]",
      *     summary="Adds a new place in selected category",
      *     description="Adds a new place in selected category",
-     *     operationId="categoyAddPlace",
+     *     operationId="categoryAddPlace",
      *     tags={"categories"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
