@@ -269,7 +269,7 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatePlaceData = $request->validate([
             'name' => 'required|max:255|unique:places',
             'type' => 'required|max:255',
             'address_full' => 'required|string',
@@ -284,10 +284,9 @@ class PlaceController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-        $placeInfo = $request->all();
-        $placeInfo['image_url'] = $url;
+        $validatePlaceData['image_url'] = $url;
 
-        $place = Place::create($placeInfo);
+        $place = Place::create($validatePlaceData);
 
         return response()->json($place, 201);
     }
