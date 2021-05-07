@@ -52,13 +52,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordAuthUser');
     Route::post('/user/favourites', 'App\Http\Controllers\FavouriteController@store');
     Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
-    Route::post('/categories/{category_id}/places/{place_id}', 'App\Http\Controllers\CategoryController@addCategoryForPlace');
+    Route::post('/categories/{category_id}/place/{place_id}', 'App\Http\Controllers\CategoryController@addCategoryForPlace');
     Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 
     Route::delete('/user/favourites', 'App\Http\Controllers\FavouriteController@destroy');
-    Route::delete('/categories/{category_id}/places/{place_id}', 'App\Http\Controllers\CategoryController@removePlaceFromCategory');
+    Route::delete('/categories/{category_id}/place/{place_id}', 'App\Http\Controllers\CategoryController@removePlaceFromCategory');
 });
 
 Route::group(['middleware' => 'logging'], function () {
