@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Place;
 use App\Services\ImageService;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -348,7 +351,28 @@ class CategoryController extends Controller
      */
     public function getPlaces($id)
     {
-        return response()->json(Category::findOrFail($id)->places()->paginate(Config::get('constants.paginations.count')));
+        $places = Category::findOrFail($id)->places()->get();
+
+        foreach ($places as $place)
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
+
+        return response()->json($this->paginate($places, Config::get('constants.pagination.count')));
+    }
+
+    /**
+     * Array pagination
+     * @param $items
+     * @param int $perPage
+     * @param null $page
+     * @param array $options
+     * @return LengthAwarePaginator
+     */
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
