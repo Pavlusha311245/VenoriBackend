@@ -116,7 +116,7 @@ class PlaceController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
+        $validatePlaceData = $request->validate([
             'name' => 'required|max:255',
             'type' => 'required|max:255',
             'address_full' => 'required|string',
@@ -131,14 +131,12 @@ class PlaceController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-        $placeInfo = $request->all();
-        $placeInfo['image_url'] = $url;
+        $validatePlaceData['image_url'] = $url;
 
-        $place = Place::create($placeInfo);
+        $place = Place::create($validatePlaceData);
 
-        if ($place) {
+        if ($place)
             return redirect('/admin/places')->with('message', 'Create successful');
-        }
 
         return redirect('/create')->withErrors('message', 'Create failed');
     }
@@ -150,7 +148,7 @@ class PlaceController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $request->validate([
+        $validatePlaceData = $request->validate([
             'name' => 'max:255',
             'type' => 'max:255',
             'address_full' => 'string',
@@ -165,8 +163,6 @@ class PlaceController extends Controller
 
         $place = Place::findOrFail($id);
 
-        $placeInfo = $request->all();
-
         if (isset($placeInfo['image'])) {
             $image_path = $place->image_url;
 
@@ -176,10 +172,10 @@ class PlaceController extends Controller
 
             $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-            $placeInfo['image_url'] = $url;
+            $validatePlaceData['image_url'] = $url;
         }
 
-        $place->update($placeInfo);
+        $place->update($validatePlaceData);
         $place->save();
 
         return redirect('/admin/places/' . $id)->with('message', 'Place was updated');
