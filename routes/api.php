@@ -33,8 +33,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@index');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
-    Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
-    Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
+    Route::get('/orders', 'App\Http\Controllers\OrderController@getOrders');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
     Route::get('/places/{id}/schedule', 'App\Http\Controllers\ScheduleController@scheduleByPlaceId');
