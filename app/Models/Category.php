@@ -39,7 +39,13 @@ class Category extends Model
      *
      * @return HasMany
      */
-    public function products(){
+    public function products()
+    {
         return $this->hasMany(Product::class, 'category_id', 'id');
+    }
+
+    public function places()
+    {
+        return $this->belongsToMany(Place::class, 'categories_of_places');
     }
 }

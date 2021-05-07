@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Favourite;
 use App\Models\Place;
 use App\Services\ImageService;
@@ -71,6 +72,9 @@ class PlaceController extends Controller
     {
         $places = Place::query();
 
+        if ($request->has('category'))
+            $places = Category::findOrFail($request->get('category'))->places();
+
         if ($request->has('distance')) {
             $dist = $request->get('distance');
 
@@ -89,7 +93,7 @@ class PlaceController extends Controller
         $places = $places->get();
 
         foreach ($places as $place)
-            $place['favourite'] = auth()->user()->favoutirePlaces()->find($request->get('place')) !== null;
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
 
         return $this->paginate($places, Config::get('constants.pagination.count'));
     }

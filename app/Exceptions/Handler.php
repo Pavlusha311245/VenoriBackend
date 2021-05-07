@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
             if ($exception->getModel() !== null)
                 return response()->json(['message' => 'No ' . lcfirst(substr($exception->getModel(), strrpos($exception->getModel(), '\\') + 1)) . ' found'], 404);
 
-            return response()->json(['message' => $exception->getMessage()]);
+            return response()->json(['message' => $exception->getMessage()], 404);
         }
 
         return parent::render($request, $exception);
