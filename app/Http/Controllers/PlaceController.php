@@ -163,7 +163,7 @@ class PlaceController extends Controller
 
         $place = Place::findOrFail($id);
 
-        if (isset($placeInfo['image'])) {
+        if (isset($validatePlaceData['image'])) {
             $image_path = $place->image_url;
 
             if (File::exists($image_path)) {
