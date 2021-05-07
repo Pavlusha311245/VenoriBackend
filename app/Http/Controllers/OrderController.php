@@ -75,8 +75,11 @@ class OrderController extends Controller
 
         $orders = $orders->get();
 
-        foreach ($orders as $order)
-            $order['place'] = $order->place()->get();
+        foreach ($orders as $order) {
+            $place = $order->place;
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
+            $order['place'] = $place;
+        }
 
         return $this->paginate($orders, Config::get('constants.pagination.count'));
     }
