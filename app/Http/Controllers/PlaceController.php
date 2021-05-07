@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Favourite;
 use App\Models\Place;
 use App\Services\ImageService;
@@ -70,6 +71,9 @@ class PlaceController extends Controller
     public function index(Request $request, RadiusAroundLocationService $radiusAroundLocationService)
     {
         $places = Place::query();
+
+        if ($request->has('category'))
+            $places = Category::findOrFail($request->get('category'))->places();
 
         if ($request->has('distance')) {
             $dist = $request->get('distance');
