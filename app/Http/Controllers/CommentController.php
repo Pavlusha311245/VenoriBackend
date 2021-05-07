@@ -289,49 +289,4 @@ class CommentController extends Controller
 
         return response()->json(['message' => 'Comment is deleted successfully']);
     }
-
-    /**
-     * @OA\Get(
-     *     path="/api/reviews/{id}/comments",
-     *     summary="Get review comments",
-     *     description="Getting a review comments",
-     *     operationId="commentsReview",
-     *     tags={"comments"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Parameter(
-     *          description="ID of review",
-     *          in="path",
-     *          name="id",
-     *          required=true,
-     *          example=1,
-     *          @OA\Schema(type="integer", format="int64")
-     *     ),
-     *     @OA\Response(
-     *          response=200,
-     *          description="Success getting a review comments",
-     *          @OA\JsonContent(
-     *              @OA\Items(ref="#/components/schemas/Comment")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=404,
-     *          description="Review not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="No review found")
-     *          )
-     *     )
-     * )
-     */
-    public function commentsByReviewId($id)
-    {
-        return Comment::where('review_id', $id)->get();
-    }
 }
