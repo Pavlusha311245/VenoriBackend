@@ -377,7 +377,7 @@ class CategoryController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/categories/{category_id}/places/{place_id]",
+     *     path="/api/categories/{category_id}/place/{place_id}",
      *     summary="Adds a new place in selected category",
      *     description="Adds a new place in selected category",
      *     operationId="categoryAddPlace",
@@ -442,7 +442,7 @@ class CategoryController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/api/categories/{category_id}/place/{place_id}}",
+     *     path="/api/categories/{category_id}/place/{place_id}",
      *     summary="Remove place from category",
      *     description="Remove place from category",
      *     operationId="categoriesDeletePlace",
