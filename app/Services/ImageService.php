@@ -18,7 +18,7 @@ class ImageService
      */
     public function upload($image, $collection)
     {
-        $new_name = rand() . '.' . $image->getClientOriginalExtension();
+        $new_name = md5(file_get_contents($image)) . '.' . $image->getClientOriginalExtension();
         $savePath = public_path('storage/' . $collection);
 
         if (!File::exists($savePath))
@@ -37,4 +37,5 @@ class ImageService
     {
         File::delete($pathToImage);
     }
+
 }
