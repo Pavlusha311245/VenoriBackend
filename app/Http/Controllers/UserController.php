@@ -622,7 +622,7 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function reviewsByUserId()
+    public function getReviews()
     {
         return auth()->user()->reviews()->paginate(Config::get('constants.paginate.count'));
     }
