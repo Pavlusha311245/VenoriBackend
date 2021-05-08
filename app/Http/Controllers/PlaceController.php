@@ -120,7 +120,7 @@ class PlaceController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
+        $validatePlaceData = $request->validate([
             'name' => 'required|max:255',
             'type' => 'required|max:255',
             'address_full' => 'required|string',
@@ -135,12 +135,11 @@ class PlaceController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $validatePlaceData['image_url'] = $url;
 
-        $product = Place::create($data);
+        $place = Place::create($validatePlaceData);
 
-        if ($product)
+        if ($place)
             return redirect('/admin/places')->with('message', 'Create successful');
 
         return redirect('/create')->withErrors('message', 'Create failed');
@@ -153,7 +152,7 @@ class PlaceController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $request->validate([
+        $validatePlaceData = $request->validate([
             'name' => 'max:255',
             'type' => 'max:255',
             'address_full' => 'string',
@@ -166,12 +165,10 @@ class PlaceController extends Controller
             'image' => 'nullable|image|mimes:jpg,png'
         ]);
 
-        $product = Place::findOrFail($id);
+        $place = Place::findOrFail($id);
 
-        $data = $request->all();
-
-        if (isset($data['image'])) {
-            $image_path = $product->image_url;
+        if (isset($validatePlaceData['image'])) {
+            $image_path = $place->image_url;
 
             if (File::exists($image_path)) {
                 File::delete($image_path);
@@ -179,11 +176,11 @@ class PlaceController extends Controller
 
             $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-            $data['image_url'] = $url;
+            $validatePlaceData['image_url'] = $url;
         }
 
-        $product->update($data);
-        $product->save();
+        $place->update($validatePlaceData);
+        $place->save();
 
         return redirect('/admin/places/' . $id)->with('message', 'Place was updated');
     }
@@ -276,7 +273,7 @@ class PlaceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatePlaceData = $request->validate([
             'name' => 'required|max:255|unique:places',
             'type' => 'required|max:255',
             'address_full' => 'required|string',
@@ -291,10 +288,9 @@ class PlaceController extends Controller
 
         $url = $this->imageService->upload($request->file('image'), 'PlacesImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $validatePlaceData['image_url'] = $url;
 
-        $place = Place::create($data);
+        $place = Place::create($validatePlaceData);
 
         return response()->json($place, 201);
     }
