@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Favourite;
 use App\Models\Place;
+use App\Models\Review;
 use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
@@ -610,5 +611,51 @@ class PlaceController extends Controller
         $place->update(['image_url' => $url]);
 
         return response()->json(['image_url' => $url]);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/places/{id}/reviews",
+     *     summary="Get place reviews",
+     *     description="Getting place reviews",
+     *     operationId="reviewsPlaceById",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of place",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a place reviews",
+     *          @OA\JsonContent(
+     *              @OA\Items(ref="#/components/schemas/Review")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Place not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No place found")
+     *          )
+     *     )
+     * )
+     */
+    public function getReviews($id)
+    {
+        return Place::findOrFail($id)->reviews()->paginate(Config::get('constants.pagination.count'));
     }
 }
