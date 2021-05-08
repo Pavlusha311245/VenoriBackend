@@ -272,4 +272,49 @@ class ReviewController extends Controller
     {
         return Review::where('user_id', auth()->user()->id)->get();
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/reviews/{id}/comments",
+     *     summary="Get review comments",
+     *     description="Getting a review comments",
+     *     operationId="commentsReview",
+     *     tags={"comments"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="ID of review",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example=1,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a review comments",
+     *          @OA\JsonContent(
+     *              @OA\Items(ref="#/components/schemas/Comment")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Review not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No review found")
+     *          )
+     *     )
+     * )
+     */
+    public function getComments($id)
+    {
+        return Review::findOrFail($id)->comments()->paginate(Config::get('constants.pagination.count'));
+    }
 }
