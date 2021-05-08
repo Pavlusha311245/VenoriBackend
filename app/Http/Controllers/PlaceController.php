@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Favourite;
 use App\Models\Place;
-use App\Models\Review;
 use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
