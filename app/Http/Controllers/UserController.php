@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use League\Flysystem\Config;
 use Spatie\Permission\Models\Role;
 
 /**
@@ -586,5 +588,42 @@ class UserController extends Controller
         $user->update($userLocation);
 
         return response()->json($userLocation);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/user/reviews",
+     *     summary="Get user reviews",
+     *     description="Getting auth user reviews",
+     *     operationId="reviewsAuthUser",
+     *     tags={"reviews"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success getting a auth user reviews",
+     *          @OA\JsonContent(
+     *              @OA\Items(ref="#/components/schemas/Review")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="User not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="No user found")
+     *          )
+     *     )
+     * )
+     */
+    public function getReviews()
+    {
+        return auth()->user()->reviews()->paginate(Config::get('constants.paginate.count'));
     }
 }

@@ -74,7 +74,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Place::class, 'favourites');
     }
 
-    public function orders() {
+    public function orders()
+    {
         return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }
