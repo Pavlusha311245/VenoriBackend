@@ -146,6 +146,7 @@ class OrderController extends Controller
             ->where('user_id', auth()->user()->id)
             ->where('id', $order_id)
             ->update(['status' => 'Rejected']);
+
         return response()->json(['message' => 'Order is canceled successfully']);
     }
 

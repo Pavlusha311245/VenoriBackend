@@ -238,63 +238,25 @@ class ReviewController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/api/user/reviews",
-     *     summary="Get user reviews",
-     *     description="Getting auth user reviews",
-     *     operationId="reviewsAuthUser",
-     *     tags={"reviews"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Response(
-     *          response=200,
-     *          description="Success getting a auth user reviews",
-     *          @OA\JsonContent(
-     *              @OA\Items(ref="#/components/schemas/Review")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=404,
-     *          description="User not found",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="message", type="string", example="No user found")
-     *          )
-     *     )
-     * )
-     */
-    public function reviewsByUserId()
-    {
-        return Review::where('user_id', auth()->user()->id)->get();
-    }
-
-    /**
-     * @OA\Get(
-     *     path="/api/places/{id}/reviews",
-     *     summary="Get place reviews",
-     *     description="Getting place reviews",
-     *     operationId="reviewsPlaceById",
-     *     tags={"reviews"},
+     *     path="/api/reviews/{id}/comments",
+     *     summary="Get review comments",
+     *     description="Getting a review comments",
+     *     operationId="commentsReview",
+     *     tags={"comments"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
-     *          description="ID of place",
+     *          description="ID of review",
      *          in="path",
      *          name="id",
      *          required=true,
      *          example=1,
      *          @OA\Schema(type="integer", format="int64")
      *     ),
-     *
      *     @OA\Response(
      *          response=200,
-     *          description="Success getting a place reviews",
+     *          description="Success getting a review comments",
      *          @OA\JsonContent(
-     *              @OA\Items(ref="#/components/schemas/Review")
+     *              @OA\Items(ref="#/components/schemas/Comment")
      *          )
      *     ),
      *     @OA\Response(
@@ -306,17 +268,16 @@ class ReviewController extends Controller
      *     ),
      *     @OA\Response(
      *          response=404,
-     *          description="Place not found",
+     *          description="Review not found",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="message", type="string", example="No place found")
+     *              @OA\Property(property="message", type="string", example="No review found")
      *          )
      *     )
      * )
      */
-
-    public function reviewsByPlaceId($id)
+    public function getComments($id)
     {
-        return Review::where('place_id', $id)->get();
+        return Review::findOrFail($id)->comments()->paginate(Config::get('constants.pagination.count'));
     }
 }
