@@ -596,7 +596,7 @@ class UserController extends Controller
      *     summary="Get user reviews",
      *     description="Getting auth user reviews",
      *     operationId="reviewsAuthUser",
-     *     tags={"reviews"},
+     *     tags={"users"},
      *     security={ {"bearer": {} }},
      *     @OA\Response(
      *          response=200,
