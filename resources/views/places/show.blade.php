@@ -48,10 +48,6 @@
                     <div>Address Lon</div>
                     <div>{{number_format($place->address_lon, 15)}}</div>
                 </div>
-                <div class="d-flex column justify-content-between" style="margin: 5px 0">
-                    <div>Image Url</div>
-                    <div>{{$place->image_url}}</div>
-                </div>
                 <div class="d-flex justify-content-between">
                     <a href="/admin/places/" class="btn btn-secondary" style="width: 100px">Go back</a>
                     <a href="/admin/places/{{$place->id}}/edit" class="btn btn-primary">Update</a>

@@ -32,50 +32,62 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
-    {{auth()->user()->favouritePlaces}}
-    <div class="d-flex justify-content-center" style="height: 750px">
-        <div style="height: min-content">
-            @if(count($places)==0)
-                <h2>There is no data to form the table</h2>
-                <p style="text-align: center"><a href="/admin/places/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="50" height="50"/></a></p>
-            @else
-                <table style="margin: 100px 0; min-width: 100%;">
-                    <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
-                        <th style="width: 50px">Id</th>
-                        <th>Name</th>
-                        <th>Rating</th>
-                        <th>Capacity</th>
-                        <th>Address Full</th>
-                        <th>Details</th>
-                        <th>Remove</th>
-                    </tr>
-                    @foreach($places as $place)
-                        <tr class="table-row">
-                            <td style="text-align: center" id="place_id">{{$place['id']}}</td>
-                            <td id="place_name">{{$place['name']}}</td>
-                            <td id="place_rating">{{$place['rating']}}</td>
-                            <td id="place_capacity">{{$place['capacity']}}</td>
-                            <td id="place_address_full">{{$place['address_full']}}</td>
-                            <td>
-                                <a href="/admin/places/{{$place->id}}" class="btn btn-outline-primary btn-sm">Show</a>
-                            </td>
-                            <td>
-                                <a href="/admin/places/{{$place->id}}/delete" class="btn btn-danger btn-sm">Remove</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    <tr class="table-row">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="text-align: center"><a href="/admin/places/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="30" height="30"/></a></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @endif
-                </table>
-        </div>
+    <div class="container">
+        <h1 style="text-align: center">Places</h1>
+        @foreach($places as $place)
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne"
+                                style="background-image: url({{asset($place->image_url)}}); background-repeat: no-repeat;
+                                    background-position: center; background-size: contain">
+                            {{$place->name}}
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+                         data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Rating
+                                    <span class="badge badge-primary badge-pill">{{$place->rating}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Capacity
+                                    <span class="badge badge-primary badge-pill">{{$place->capacity}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Address
+                                    <span class="badge badge-primary badge-pill">{{$place->address_full}}</span>
+                                </li>
+                            </ul>
+                            @foreach($place['menu'] as $category => $products)
+                                <div>
+                                    <h3>{{$category}}</h3>
+                                    <ul class="list-group">
+                                        @foreach($products as $product)
+                                            <li class="list-group-item"><img src="{{asset($product->image_url)}}"
+                                                                             width="30"
+                                                                             height="30"/><a
+                                                    href="/admin/products/{{$product->id}}"
+                                                    style="padding: 10px; color: #6cb2eb; text-decoration: none">{{$product->name}}</a>
+                                            </li>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">Weight: {{$product->weight}}</li>
+                                                <li class="list-group-item">Price: {{$product->price}}</li>
+                                            </ul>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+        <div style="text-align: center; background: white; padding: 5px"><a href="/admin/places/create"><img
+                    src="https://img.icons8.com/nolan/64/plus.png" width="30" height="30"/></a></div>
     </div>
-
 @endsection

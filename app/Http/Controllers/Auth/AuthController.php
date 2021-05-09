@@ -183,8 +183,7 @@ class AuthController extends Controller
                 return redirect('/login')->withErrors([
                     'error' => 'You don\'t have access'
                 ]);
-            }
-            else
+            } else
                 return redirect('/')->with('success', 'Success login');
         }
 

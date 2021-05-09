@@ -21,10 +21,6 @@
                     <div>{{$products->price}}</div>
                 </div>
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
-                    <div>ImageUrl</div>
-                    <div>{{$products->image_url}}</div>
-                </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
                     <div>CategoryId</div>
                     <div>{{$products->category_id}}</div>
                 </div>

@@ -56,9 +56,6 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
         Route::post('/users/{id}/delete', 'App\Http\Controllers\UserController@remove');
     });
 
-    Route::get('/products', function () {
-        return view('products.index', ['products' => Product::all()]);
-    });
     Route::get('/products/create', function () {
         return view('products.create', ['products' => Product::all()]);
     });
@@ -79,8 +76,17 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
     Route::get('/places', function () {
         $places = Place::all();
 
-        if (\auth()->user()->hasRole('Manager'))
+        if (auth()->user()->hasRole('Manager'))
             $places = auth()->user()->managedPlaces;
+
+        foreach ($places as $place) {
+            $menu = [];
+
+            foreach ($place->products as $product)
+                $menu[$product->category->name][] = $product;
+
+            $place['menu'] = $menu;
+        }
 
         return view('places.index', ['places' => $places]);
     });
