@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  * @OA\Schema(
@@ -31,7 +32,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Place extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
+
+    protected $cacheFor = 180;
 
     /**
      * The attributes that are mass assignable.
