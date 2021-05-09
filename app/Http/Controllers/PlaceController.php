@@ -614,7 +614,7 @@ class PlaceController extends Controller
      *     summary="Get place reviews",
      *     description="Getting place reviews",
      *     operationId="reviewsPlaceById",
-     *     tags={"reviews"},
+     *     tags={"places"},
      *     security={ {"bearer": {} }},
      *     @OA\Parameter(
      *          description="ID of place",

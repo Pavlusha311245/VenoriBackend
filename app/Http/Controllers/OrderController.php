@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Http\Request;
 
 /**
  * Class OrderController for CRUD Orders
@@ -16,14 +20,26 @@ class OrderController extends Controller
     /**
      * @OA\Get(
      *     path="/api/orders",
-     *     summary="Orders history",
-     *     description="Getting booking history of orders",
-     *     operationId="ordersGetBookingHistory",
+     *     summary="Order info",
+     *     description="Getting orders by params",
+     *     operationId="ordersGet",
      *     tags={"orders"},
      *     security={ {"bearer": {} }},
+     *     @OA\Parameter(
+     *          description="param active",
+     *          in="path",
+     *          name="active",
+     *          required=false,
+     *     ),
+     *     @OA\Parameter(
+     *          description="param history",
+     *          in="path",
+     *          name="history",
+     *          required=false,
+     *     ),
      *     @OA\Response(
      *          response=200,
-     *          description="Success getting booking history of orders",
+     *          description="Success getting orders by params (example: active contains all orders with status In Progress)",
      *          @OA\JsonContent(
      *              @OA\Property(property="current_page", type="integer", example=1),
      *              @OA\Property(
@@ -42,52 +58,46 @@ class OrderController extends Controller
      *     )
      * )
      */
-    public function getBookingHistory()
+    public function getOrders(Request $request)
     {
         $this->updateOrders();
 
-        return Order::where('user_id', auth()->user()->id)
-            ->whereIn('status', ['Rejected', 'Confirmed'])
-            ->orderBy('updated_at', 'desc')
-            ->paginate(Config::get('constants.pagination.count'));
+        $orders = Order::query();
+        $orders->where('user_id', auth()->user()->id);
+
+        if (!($request->has('history') && $request->has('active'))) {
+            if ($request->has('history'))
+                $orders->whereIn('status', ['Rejected', 'Confirmed']);
+
+            if ($request->has('active'))
+                $orders->where('status', 'In Progress');
+        }
+
+        $orders = $orders->get();
+
+        foreach ($orders as $order) {
+            $place = $order->place;
+            $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
+            $order['place'] = $place;
+        }
+
+        return $this->paginate($orders, Config::get('constants.pagination.count'));
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/booking_history",
-     *     summary="Order info",
-     *     description="Getting active orders",
-     *     operationId="ordersGetBookingHistory",
-     *     tags={"orders"},
-     *     security={ {"bearer": {} }},
-     *     @OA\Response(
-     *          response=200,
-     *          description="Success getting active orders",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="current_page", type="integer", example=1),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="array",
-     *                  @OA\Items(type="object", ref="#/components/schemas/Order")
-     *              )
-     *          )
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="error", type="string", example="Unauthenticated.")
-     *          )
-     *     )
-     * )
+     * Array pagination
+     * @param $items
+     * @param int $perPage
+     * @param null $page
+     * @param array $options
+     * @return LengthAwarePaginator
      */
-    public function getActiveOrders()
+    public function paginate($items, $perPage = 5, $page = null, $options = [])
     {
-        $this->updateOrders();
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
 
-        return Order::where('user_id', auth()->user()->id)
-            ->where('status', 'In Progress')
-            ->paginate(Config::get('constants.pagination.count'));
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
     }
 
     /**
