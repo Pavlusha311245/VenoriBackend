@@ -65,7 +65,7 @@ class OrderController extends Controller
         $orders = Order::query();
         $orders->where('user_id', auth()->user()->id);
 
-        if (!$request->has('history') && $request->has('active')) {
+        if (!($request->has('history') && $request->has('active'))) {
             if ($request->has('history'))
                 $orders->whereIn('status', ['Rejected', 'Confirmed']);
 
