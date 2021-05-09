@@ -52,7 +52,7 @@ class Order extends Model
      * @return HasOne
      */
     public function place(){
-        return $this->hasOne(Place::class);
+        return $this->belongsTo(Place::class);
     }
 
     /**
