@@ -33,14 +33,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@index');
     Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
-    Route::get('/booking_history', 'App\Http\Controllers\OrderController@getBookingHistory');
-    Route::get('/orders', 'App\Http\Controllers\OrderController@getActiveOrders');
+    Route::get('/orders', 'App\Http\Controllers\OrderController@getOrders');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');
     Route::get('/places/{id}/schedule', 'App\Http\Controllers\ScheduleController@scheduleByPlaceId');
-    Route::get('/places/{id}/reviews', 'App\Http\Controllers\ReviewController@reviewsByPlaceId');
-    Route::get('/user/reviews', 'App\Http\Controllers\ReviewController@reviewsByUserId');
-    Route::get('/reviews/{id}/comments', 'App\Http\Controllers\CommentController@commentsByReviewId');
+    Route::get('/places/{id}/reviews', 'App\Http\Controllers\PlaceController@getReviews');
+    Route::get('/user/reviews', 'App\Http\Controllers\UserController@getReviews');
+    Route::get('/reviews/{id}/comments', 'App\Http\Controllers\ReviewController@getComments');
     Route::get('/categories/{id}/places', 'App\Http\Controllers\CategoryController@getPlaces');
 
     Route::post('/places/{place_id}/reservation', 'App\Http\Controllers\ReservationController@availableTime');
@@ -52,11 +51,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordAuthUser');
     Route::post('/user/favourites', 'App\Http\Controllers\FavouriteController@store');
     Route::post('/categories/{id}/uploadImage', 'App\Http\Controllers\CategoryController@uploadImage');
+    Route::post('/categories/{category_id}/place/{place_id}', 'App\Http\Controllers\CategoryController@addCategoryForPlace');
     Route::post('/products/import', 'App\Http\Controllers\ProductController@import');
 
     Route::put('/user/location', 'App\Http\Controllers\UserController@location');
 
     Route::delete('/user/favourites', 'App\Http\Controllers\FavouriteController@destroy');
+    Route::delete('/categories/{category_id}/place/{place_id}', 'App\Http\Controllers\CategoryController@removePlaceFromCategory');
 });
 
 Route::group(['middleware' => 'logging'], function () {

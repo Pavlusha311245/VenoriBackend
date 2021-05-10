@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use League\Flysystem\Config;
+use Rennokki\QueryCache\Traits\QueryCacheable;
 
 /**
  *
@@ -23,7 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AppInfo extends Model
 {
-    use HasFactory;
+    use HasFactory, QueryCacheable;
+
+    protected $cacheFor = 180;
 
     /**
      * The attributes that are mass assignable.
