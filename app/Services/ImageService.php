@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ImageService uploading image it in storage
@@ -24,7 +25,8 @@ class ImageService
         if (!File::exists($savePath))
             File::makeDirectory($savePath);
 
-        $image->move($savePath, $new_name);
+        if (!$this->isCheckImage($collection, $new_name))
+            $image->move($savePath, $new_name);
 
         return 'storage/' . $collection . '/' . $new_name;
     }
@@ -38,4 +40,12 @@ class ImageService
         File::delete($pathToImage);
     }
 
+    /**
+     * The private method whether an the image exists in storage
+     * @param $collection
+     * @param $nameImage
+     */
+    private function isCheckImage($collection, $imageName){
+         return Storage::disk('public')->exists($collection . '/' . $imageName);
+    }
 }
