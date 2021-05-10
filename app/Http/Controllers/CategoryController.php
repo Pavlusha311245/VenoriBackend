@@ -108,17 +108,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateCategory = $request->validate([
             'name' => 'required|string|unique:categories|max:255',
             'image' => 'required|image|mimes:jpg,png'
         ]);
 
-        $url = $this->imageService->upload($request->file('image'), 'CategoryImages');
+        $url = $this->imageService->upload($validateCategory['image'], 'CategoryImages');
 
-        $data = $request->all();
-        $data['image_url'] = $url;
+        $validateCategory['image_url'] = $url;
 
-        $category = Category::create($data);
+        $category = Category::create($validateCategory);
 
         return response($category, 201);
     }
