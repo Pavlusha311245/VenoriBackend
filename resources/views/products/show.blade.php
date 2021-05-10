@@ -25,7 +25,7 @@
                     <div>{{$products->category_id}}</div>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <a href="/admin/products/" class="btn btn-secondary" style="width: 100px">Go back</a>
+                    <a href="/admin/places/" class="btn btn-secondary" style="width: 100px">Go back</a>
                     <a href="/admin/products/{{$products->id}}/edit" class="btn btn-primary">Update</a>
                 </div>
             </div>

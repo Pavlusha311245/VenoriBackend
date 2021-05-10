@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use App\Models\Product;
 use App\Services\ImageService;
 use Illuminate\Contracts\Foundation\Application;
@@ -67,7 +68,7 @@ class ProductController extends Controller
      * @param Request $request
      * @return Application|RedirectResponse|Redirector
      */
-    public function create(Request $request)
+    public function create(Request $request, $place_id)
     {
         $validateProductData = $request->validate([
             'name' => 'required|min:2',
@@ -82,6 +83,9 @@ class ProductController extends Controller
         $validateProductData['image_url'] = $url;
 
         $product = Product::create($validateProductData);
+
+        $place = Place::findOrFail($place_id);
+        $place->products()->attach($product->id);
 
         if ($product)
             return redirect('/admin/products')->with('message', 'Create successful');
@@ -112,21 +116,26 @@ class ProductController extends Controller
 
         $product->update($validateProductData);
 
-        return redirect('/admin/products/'.$id)->with('message', 'Product was updated');
+        return redirect('/admin/products/' . $id)->with('message', 'Product was updated');
     }
 
     /**
      * @param $id
      * @return Application|RedirectResponse|Redirector
      */
-    public function remove($id)
+    public function remove($place_id, $product_id)
     {
-        $product = Product::findOrFail($id);
-        $product->delete();
+        $place = Place::select(['id'])->findOrFail($place_id);
+        $place->products()->detach($product_id);
 
-        $this->imageService->delete($product->image_url);
+        if ($place->products()->find($product_id) === null) {
+            $product = Product::findOrFail($product_id);
+            $product->delete();
 
-        return redirect('/admin/products/')->with('message', 'Products was deleted');
+            $this->imageService->delete($product->image_url);
+        }
+
+        return redirect('/admin/places/')->with('message', 'Products was deleted');
     }
 
     /**
@@ -170,7 +179,8 @@ class ProductController extends Controller
      *      )
      * )
      */
-    public function import(Request $request){
+    public function import(Request $request)
+    {
         $data = $request->file('products');
 
         $request->validate([
@@ -180,11 +190,11 @@ class ProductController extends Controller
         $rows = array_map('str_getcsv', file($data));
         $header = array_shift($rows);
 
-        foreach ($rows as $row){
+        foreach ($rows as $row) {
             $products_file[] = array_combine($header, $row);
         }
 
-        foreach ($rows as $row){
+        foreach ($rows as $row) {
             $products = [
                 'name' => $row[0],
                 'weight' => $row[1],

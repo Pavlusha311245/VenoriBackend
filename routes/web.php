@@ -110,10 +110,9 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
     Route::post('/places/create', 'App\Http\Controllers\PlaceController@create');
     Route::post('/places/{id}/edit', 'App\Http\Controllers\PlaceController@edit');
     Route::post('/places/{id}/delete', 'App\Http\Controllers\PlaceController@remove');
-
-    Route::post('/products/create', 'App\Http\Controllers\ProductController@create');
-    Route::post('/products/{id}/edit', 'App\Http\Controllers\ProductController@edit');
-    Route::post('/products/{id}/delete', 'App\Http\Controllers\ProductController@remove');
+    Route::post('/places/{place_id}/products/create', 'App\Http\Controllers\ProductController@create');
+    Route::post('/products/{product_id}/edit', 'App\Http\Controllers\ProductController@edit');
+    Route::post('/places/{place_id}/products/{product_id}/delete', 'App\Http\Controllers\ProductController@remove');
 
     Route::post('/user/resetPassword', 'App\Http\Controllers\Auth\AuthController@resetPasswordView');
     Route::post('/user/managed/{id}', 'App\Http\Controllers\PlaceController@addPlaceToManagement');

@@ -32,7 +32,7 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
-
+    {{dd($orders)}}
     <div class="d-flex justify-content-center" style="height: 750px">
         <div style="height: min-content">
             @if(count($orders)==0)
