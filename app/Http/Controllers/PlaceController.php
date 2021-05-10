@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Favourite;
 use App\Models\Place;
 use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;

@@ -23,9 +23,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  */
 class Category extends Model
 {
-    use HasFactory, QueryCacheable;
-
-    protected $cacheFor = 180;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
