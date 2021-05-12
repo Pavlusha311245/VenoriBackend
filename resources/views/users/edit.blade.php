@@ -58,9 +58,9 @@
                     <h3>Roles</h3>
                     <div class="roles">
                         <select name="role">
-                            <option>{{$user->roles[0]->name}}</option>
+                            <option>{{$user->roles()->first()->name}}</option>
                             @foreach(\Spatie\Permission\Models\Role::all() as $role)
-                                @if($user->roles[0]->name!==$role->name)
+                                @if($user->roles()->first()->name!==$role->name)
                                     <option value="{{$role->name}}">{{$role->name}}</option>
                                 @endif
                             @endforeach
