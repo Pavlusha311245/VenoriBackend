@@ -197,9 +197,9 @@ class PlaceController extends Controller
 
         $this->imageService->delete($place->image_url);
 
-        $place->favourites()->delete();
-        $place->schedules()->delete();
+        $place->products()->detach();
         $place->managers()->detach();
+        $place->categories()->detach();
         $place->delete();
 
         return redirect('/admin/places/')->with('message', 'Places was deleted');
@@ -568,9 +568,9 @@ class PlaceController extends Controller
     public function destroy($id)
     {
         $place = Place::findOrFail($id);
-        $place->favourites()->delete();
-        $place->schedules()->delete();
+        $place->products()->detach();
         $place->managers()->detach();
+        $place->categories()->detach();
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully']);

@@ -102,6 +102,7 @@ class Place extends Model
     {
         return $this->belongsToMany(User::class, 'favourites');
     }
+
     /**
      * @return BelongsToMany
      */
@@ -116,5 +117,13 @@ class Place extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class, 'place_id', 'id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'categories_of_places');
     }
 }
