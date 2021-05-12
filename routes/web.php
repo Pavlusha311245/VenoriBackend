@@ -41,12 +41,6 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
             return view('users.delete', ['user' => User::findOrFail($id)]);
         });
 
-        Route::get('/managersConfirmation', function () {
-            return view('managerConfirmation',
-                ['unconfirmed' => \Illuminate\Support\Facades\DB::table('places_managers')
-                    ->where('confirm', '=', false)->get()]);
-        });
-
         Route::post('/users/create', 'App\Http\Controllers\UserController@create');
         Route::post('/users/{id}/edit', 'App\Http\Controllers\UserController@edit');
         Route::post('/users/{id}/delete', 'App\Http\Controllers\UserController@remove');
@@ -61,7 +55,7 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
         return view('products.show', ['products' => Product::findOrFail($id)]);
     });
     Route::get('/products/{id}/edit', function ($id) {
-        return view('products.edit', ['products' => Product::findOrFail($id)]);
+        return view('products.edit', ['products' => Product::findOrFail($id)], [ 'categories' => Category::all()]);
     });
     Route::get('/places/{place_id}/products/{product_id}/delete', function ($place_id, $product_id) {
         return view('products.delete', ['product' => Product::findOrFail($product_id), 'place_id' => Place::findOrFail($place_id)->id]);

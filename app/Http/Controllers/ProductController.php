@@ -101,12 +101,13 @@ class ProductController extends Controller
      */
     public function edit(Request $request, $id)
     {
+
         $validateProductData = $request->validate([
             'name' => 'min:2',
             'weight' => 'min:1',
             'price' => 'min:1',
             'image' => 'mimes:png,jpg',
-            'category_id' => 'min:1',
+            'category_id' => 'min:1'
         ]);
 
         $url = $this->imageService->upload($request->file('image'), 'ProductImages');
