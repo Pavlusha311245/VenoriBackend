@@ -25,10 +25,6 @@ Route::get('/', function () {
 
 Route::middleware('auth:web')->prefix('admin')->group(function () {
     Route::middleware('role:Admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
-
         Route::get('/users', function () {
             return view('users.index', ['users' => User::all()]);
         });

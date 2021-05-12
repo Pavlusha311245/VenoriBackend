@@ -24,9 +24,6 @@
                 @if(\Illuminate\Support\Facades\Auth::check())
                     @if(auth()->user()->hasRole('Admin'))
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="/admin/users">Users</a>
                         </li>
                         <li class="nav-item">

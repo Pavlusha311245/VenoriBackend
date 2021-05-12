@@ -51,7 +51,7 @@
                     <div id="panelsStayOpen-collapse{{$place->id}}" class="accordion-collapse collapse show"
                          aria-labelledby="panelsStayOpen-heading{{$place->id}}">
                         <div class="accordion-body">
-                            <table class="table">
+                            <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">Order ID</th>

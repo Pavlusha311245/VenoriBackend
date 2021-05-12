@@ -108,8 +108,14 @@
                                     </div>
                                 @endforeach
                             @endif
-                            <div style="text-align: center"><a href="/admin/places/{{$place->id}}/products/create">Add
-                                    product</a></div>
+                            <div class="d-flex row justify-content-center">
+                                <div style="max-width: 200px; text-align: center">
+                                    <a href="/admin/places/{{$place->id}}/products/create" class="btn btn-secondary"
+                                    style="margin-bottom: 5px">Add
+                                        product</a>
+                                    <a href="/admin/places/{{$place->id}}/delete" class="btn btn-danger">Remove place</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
