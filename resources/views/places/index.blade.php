@@ -32,7 +32,10 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
-    <div class="container">
+    <div class="container" style="margin: 100px auto">
+        @if(session('message'))
+            <div class="alert alert-success" style="margin-top: 20px">{{session('message')}}</div>
+        @endif
         <h1 style="text-align: center">Places</h1>
         <div class="accordion" id="accordionPanelsStayOpenExample">
             @foreach($places as $place)
@@ -50,19 +53,19 @@
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span>Rating <img
-                                            src="{{asset('/img/star.svg')}}"
+                                            src="{{asset('storage/img/star.svg')}}"
                                             width="15" height="15"></span>
                                     <span class="badge bg-primary rounded-pill">{{$place->rating}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span>Capacity <img
-                                            src="{{asset('/img/people.svg')}}"
+                                            src="{{asset('storage/img/people.svg')}}"
                                             width="15" height="15"></span>
                                     <span class="badge bg-primary rounded-pill">{{$place->capacity}}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <span>Address <img
-                                            src="{{asset('/img/address.svg')}}"
+                                            src="{{asset('storage/img/address.svg')}}"
                                             width="15" height="15"></span>
                                     <span class="badge bg-primary rounded-pill">{{$place->address_full}}</span>
                                 </li>
@@ -89,17 +92,15 @@
                                                         <a href="/admin/products/{{$product->id}}/edit"
                                                            class="btn btn-sm btn-primary">
                                                             <img
-                                                                src="{{asset('/img/refresh.svg')}}"
+                                                                src="{{asset('storage/img/refresh.svg')}}"
                                                                 width="15" height="15"/>
                                                         </a>
-                                                        <form id="deleteProduct{{$product->id}}" method="post" action="/admin/places/{{$place->id}}/products/{{$product->id}}/delete">
-                                                        <button type="submit"
-                                                            form="deleteProduct{{$product->id}}"
-                                                            class="btn btn-sm btn-danger">
+                                                        <a href="/admin/places/{{$place->id}}/products/{{$product->id}}/delete"
+                                                           class="btn btn-sm btn-danger">
                                                             <img
-                                                                src="{{asset('/img/rubbish-bin.svg')}}"
+                                                                src="{{asset('storage/img/rubbish-bin.svg')}}"
                                                                 width="15" height="15"/>
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -107,6 +108,8 @@
                                     </div>
                                 @endforeach
                             @endif
+                            <div style="text-align: center"><a href="/admin/places/{{$place->id}}/products/create">Add
+                                    product</a></div>
                         </div>
                     </div>
                 </div>

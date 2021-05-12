@@ -21,7 +21,7 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
 
-        .orders:not(:first-child):hover {
+        .places:not(:first-child):hover {
             background-color: rgba(149, 97, 226, 0.5);
         }
 
@@ -32,44 +32,66 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
-    {{dd($orders)}}
-    <div class="d-flex justify-content-center" style="height: 750px">
-        <div style="height: min-content">
-            @if(count($orders)==0)
-                <h2>There is no data to form the table</h2>
-                <p style="text-align: center"><a href="/admin/orders/create"><img
-                            src="https://img.icons8.com/nolan/64/plus.png" width="50" height="50"/></a></p>
-            @else
-                <table style="margin: 100px 0; min-width: 100%;">
-                    <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
-                        <th style="width: 50px">Id</th>
-                        <th>Status</th>
-                        <th>Price</th>
-                        <th>Date</th>
-                        <th>People</th>
-                        <th>Time</th>
-                        <th>Details</th>
-                        <th>Remove</th>
-                    </tr>
-                    @foreach($orders as $order)
-                        <tr class="table-row">
-                            <td style="text-align: center" id="order_id">{{$order['id']}}</td>
-                            <td id="order_status">{{$order['status']}}</td>
-                            <td id="order_price">{{$order['price']}}</td>
-                            <td id="order_date">{{$order['date']}}</td>
-                            <td id="order_people">{{$order['people']}}</td>
-                            <td id="order_time">{{$order['time']}}-{{$order['staying_end']}}</td>
-                            <td>
-                                <a href="/admin/orders/{{$order->id}}" class="btn btn-outline-primary btn-sm">Show</a>
-                            </td>
-                            <td>
-                                <a href="/admin/orders/{{$order->id}}/delete" class="btn btn-danger btn-sm">Remove</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    @endif
-                </table>
+    <div class="container" style="margin: 100px auto">
+        @if(session('message'))
+            <div class="alert alert-success" style="margin-top: 20px">{{session('message')}}</div>
+        @endif
+        <h1 style="text-align: center">Orders</h1>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            {{--            {{dd($places->get()[0]->orders()->where('status', 'In Progress')->get())}}--}}
+            @foreach($places->get() as $place)
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading{{$place->id}}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapse{{$place->id}}" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapse{{$place->id}}">
+                            {{$place->name}}
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse{{$place->id}}" class="accordion-collapse collapse show"
+                         aria-labelledby="panelsStayOpen-heading{{$place->id}}">
+                        <div class="accordion-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Order ID</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Client ID</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($place->orders()->get() as $order)
+                                    @switch($order->status)
+                                        @case('In Progress')
+                                        <tr class="table-primary">
+                                        @break
+                                        @case('Confirmed')
+                                        <tr class="table-success">
+                                        @break
+                                        @case('Rejected')
+                                        <tr class="table-danger">
+                                            @break
+                                            @endswitch
+                                            <th scope="row">{{$order->id}}</th>
+                                            <td>{{$order->status}}</td>
+                                            <td>{{$order->price}}</td>
+                                            <td>{{$order->date}}</td>
+                                            <td>{{$order->time}}-{{$order->staying_end}}</td>
+                                            <td>{{$order->user()->first()->first_name}} {{$order->user()->first()->second_name}}</td>
+                                            <td>{{$order->user()->first()->id}}</td>
+                                        </tr>
+                                        @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
-
 @endsection
+

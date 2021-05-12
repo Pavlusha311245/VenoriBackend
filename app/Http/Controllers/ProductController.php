@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProductController for CRUD Products
@@ -88,7 +89,7 @@ class ProductController extends Controller
         $place->products()->attach($product->id);
 
         if ($product)
-            return redirect('/admin/products')->with('message', 'Create successful');
+            return redirect('/admin/places')->with('message', 'Create successful');
 
         return redirect('/create')->withErrors('message', 'Create failed');
     }
@@ -120,20 +121,21 @@ class ProductController extends Controller
     }
 
     /**
-     * @param $id
+     * @param $place_id
+     * @param $product_id
      * @return Application|RedirectResponse|Redirector
      */
     public function remove($place_id, $product_id)
     {
         $place = Place::select(['id'])->findOrFail($place_id);
+        $image = $place->products()->find($product_id)->image_url;
         $place->products()->detach($product_id);
 
-        if ($place->products()->find($product_id) === null) {
-            $product = Product::findOrFail($product_id);
-            $product->delete();
+        $product = Product::findOrFail($product_id);
+        $product->delete();
 
+        if (!DB::table('products_of_places')->where('image_url', $image)->exists())
             $this->imageService->delete($product->image_url);
-        }
 
         return redirect('/admin/places/')->with('message', 'Products was deleted');
     }

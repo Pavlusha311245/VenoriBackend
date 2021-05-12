@@ -36,8 +36,8 @@
                 {{Form::password('confirm_password',['class' => 'form-control', 'placeholder' => 'Repeat password'])}}
             </div>
             <div class="form-row">
-                <h2>Role</h2>
-                <select>
+                {{Form::label('rolePicker', 'Role')}}
+                <select class="form-select" id="rolePicker">
                     @foreach($roles as $role)
                         <option value="{{$role->name}}">{{$role->name}}</option>
                     @endforeach

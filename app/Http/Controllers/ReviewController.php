@@ -102,15 +102,22 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateReviewData = $request->validate([
             'title' => 'required|string',
             'rating' => 'required|numeric|min:1|max:5',
             'description' => 'required|string',
-            'place_id' => 'required',
-            'user_id' => 'required|unique:reviews'
+            'place_id' => 'required'
         ]);
 
-        $review = Review::create($request->all());
+        Place::findOrFail($request->get('place_id'));
+
+        if (Review::where('place_id', $request->get('place_id'))
+                ->where('user_id', auth()->user()->id)->first() !== null)
+            return response()->json(['message' => 'Review already exists'], 400);
+
+        $validateReviewData['user_id'] = auth()->user()->id;
+
+        $review = Review::create($validateReviewData);
 
         $this->placeRatingService->updatePlaceRatingAndReviewsCount($review);
 
@@ -124,7 +131,12 @@ class ReviewController extends Controller
      */
     public function show($id)
     {
-        return Review::findOrFail($id);
+        $review = Review::findOrFail($id);
+
+        if ($review->user_id != auth()->user()->id)
+            return response()->json(['message' => 'Access denied']);
+
+        return $review;
     }
 
     /**
@@ -172,13 +184,16 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        $request->validate([
+        $validateReviewData = $request->validate([
             'title' => 'string',
             'rating' => 'numeric|min:1|max:5',
             'description' => 'string',
         ]);
 
-        $review->update($request->all());
+        if ($review->user_id !== auth()->user()->id)
+            return response()->json(['message' => 'Access denied'], 400);
+
+        $review->update($validateReviewData);
 
         $this->placeRatingService->updatePlaceRatingAndReviewsCount($review);
 
@@ -228,6 +243,10 @@ class ReviewController extends Controller
     public function destroy($id)
     {
         $review = Review::findOrFail($id);
+
+        if ($review->user_id !== auth()->user()->id)
+            return response()->json(['message' => 'Access denied'], 400);
+
         $review->comments()->delete();
         $review->delete();
 

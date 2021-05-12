@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Order;
+use App\Models\Category;
 use App\Models\Place;
 use App\Models\User;
 use App\Models\Product;
@@ -56,8 +56,10 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
         Route::post('/users/{id}/delete', 'App\Http\Controllers\UserController@remove');
     });
 
-    Route::get('/products/create', function () {
-        return view('products.create', ['products' => Product::all()]);
+    Route::get('/places/{place_id}/products/create', function ($place_id) {
+        return view('products.create', ['products' => Product::all(),
+            'categories' => Category::select(['id', 'name'])->get(),
+            'place_id' => $place_id]);
     });
     Route::get('/products/{id}', function ($id) {
         return view('products.show', ['products' => Product::findOrFail($id)]);
@@ -65,8 +67,8 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
     Route::get('/products/{id}/edit', function ($id) {
         return view('products.edit', ['products' => Product::findOrFail($id)]);
     });
-    Route::get('/products/{id}/delete', function ($id) {
-        return view('products.delete', ['products' => Product::findOrFail($id)]);
+    Route::get('/places/{place_id}/products/{product_id}/delete', function ($place_id, $product_id) {
+        return view('products.delete', ['product' => Product::findOrFail($product_id), 'place_id' => Place::findOrFail($place_id)->id]);
     });
 
     Route::get('/user/resetPassword', function () {
@@ -104,7 +106,7 @@ Route::middleware('auth:web')->prefix('admin')->group(function () {
     });
 
     Route::get('/orders', function () {
-        return view('orders.index', ['orders' => auth()->user()->managedPlaces()->orders()]);
+        return view('orders.index', ['places' => auth()->user()->managedPlaces()]);
     });
 
     Route::post('/places/create', 'App\Http\Controllers\PlaceController@create');
