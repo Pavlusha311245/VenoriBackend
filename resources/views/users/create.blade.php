@@ -37,7 +37,7 @@
             </div>
             <div class="form-row">
                 {{Form::label('rolePicker', 'Role')}}
-                <select class="form-select" id="rolePicker">
+                <select class="form-select" id="rolePicker" name="role">
                     @foreach($roles as $role)
                         <option value="{{$role->name}}">{{$role->name}}</option>
                     @endforeach
