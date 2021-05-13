@@ -9,7 +9,7 @@ echo "=====INSTALLING====="
 composer install --optimize-autoloader --no-dev
 
 echo "=====MIGRATING====="
-php artisan migrate --seed
+php artisan migrate
 
 echo "=====CONFIGURATION====="
 php artisan config:cache
