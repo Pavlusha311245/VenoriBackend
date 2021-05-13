@@ -57,24 +57,14 @@
                 <div class="form-row">
                     <h3>Roles</h3>
                     <div class="roles">
-                        @foreach($user->roles as $role)
-                            <div class="hasRole">
-                                <label class="role" for="role{{$role->name}}">{{$role->name}}</label>
-                                <input type="hidden" value="{{$role->name}}" name="role[]" id="role{{$role->name}}">
-                            </div>
-                        @endforeach
-                        <button type="button" class="btn btn-primary" id="addRoleBtn">+</button>
-                        <div class="addRole hide">
-                            <select>
-                                @foreach(\Spatie\Permission\Models\Role::all() as $role)
-                                    @if(!$user->hasRole($role->name))
-                                        <option value="{{$role->name}}">{{$role->name}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            <button type="button" class="btn btn-success" id="createRoleBtn">✓</button>
-                            <button type="button" class="btn btn-danger" id="cancelCreationRoleBtn">✘</button>
-                        </div>
+                        <select name="role">
+                            <option>{{$user->roles()->first()->name}}</option>
+                            @foreach(\Spatie\Permission\Models\Role::all() as $role)
+                                @if($user->roles()->first()->name!==$role->name)
+                                    <option value="{{$role->name}}">{{$role->name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between">
@@ -85,53 +75,4 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        let roles = document.querySelectorAll('.role');
-        roles.forEach(role => {
-            role.addEventListener('click', function () {
-                let inputRole = document.querySelector('#' + role.getAttribute('for'));
-                inputRole.remove();
-                role.remove();
-            })
-        });
-
-        let addRoleBlock = document.querySelector('.addRole');
-        let rolesBlock = document.querySelector('.roles');
-
-        let addRoleBtn = document.querySelector('#addRoleBtn');
-        let cancelCreationRoleBtn = document.querySelector('#cancelCreationRoleBtn');
-
-        function ToggleCreationRole() {
-            addRoleBtn.classList.toggle('hide');
-            addRoleBlock.classList.toggle('hide');
-        }
-
-        addRoleBtn.addEventListener('click', () => {
-            ToggleCreationRole();
-        });
-
-        cancelCreationRoleBtn.addEventListener('click', () => {
-            ToggleCreationRole();
-        });
-
-        let createRoleBtn = document.querySelector('#createRoleBtn');
-
-        const onBlockClick = (evt) => {
-            console.log(evt.target);
-            evt.target.removeEventListener('click', onBlockClick);
-            // evt.target.remove();
-        }
-        createRoleBtn.addEventListener('click', function () {
-            ToggleCreationRole();
-            let selectedRole = document.querySelector('select').value;
-            let block = document.createElement('div');
-            block.classList.add('hasRole');
-            block.innerHTML = "<label class='role' for='role'>" + selectedRole + "</label>" +
-                "<input type='hidden' value='" + selectedRole + "' name='role[]' id='role" + selectedRole + "'>";
-            block.addEventListener('click', onBlockClick);
-            addRoleBtn.before(block);
-        });
-
-
-    </script>
 @endsection

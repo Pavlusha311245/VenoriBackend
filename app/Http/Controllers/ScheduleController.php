@@ -168,12 +168,7 @@ class ScheduleController extends Controller
      */
     public function update(Request $request, Schedule $schedule)
     {
-        $request->validate([
-            'place_id' => 'numeric|min:1',
-        ]);
-
         $schedule->update([
-            'place_id' => $request->get('place_id'),
             'work_start' => Carbon::parse($request->get('work_start'))->format('g:i A'),
             'work_end' => Carbon::parse($request->get('work_end'))->format('g:i A'),
         ]);

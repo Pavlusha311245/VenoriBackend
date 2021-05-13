@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1402b15-e7b9-4055-8746-9ba764c6a661",
+		"_postman_id": "ee000654-d3b8-4789-8c8e-1838d9fcc7a3",
 		"name": "MainApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -45,17 +45,18 @@
 								{
 									"key": "password_confirmation",
 									"value": "1234567890",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "{{api}}/registration",
+							"raw": "{{devApi}}/register",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
-								"registration"
+								"register"
 							]
 						}
 					},
@@ -88,9 +89,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{api}}/login",
+							"raw": "{{devApi}}/login",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"login"
@@ -110,8 +111,7 @@
 							{
 								"key": "Accept",
 								"value": "application/json",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
@@ -125,19 +125,12 @@
 							]
 						},
 						"url": {
-							"raw": "{{api}}/forgot",
+							"raw": "{{devApi}}/forgot",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"forgot"
-							],
-							"query": [
-								{
-									"key": "email",
-									"value": "zavadskiy.pavel2002@outlook.com",
-									"disabled": true
-								}
 							]
 						}
 					},
@@ -146,16 +139,6 @@
 				{
 					"name": "Reset password",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiI0ZTRjODY5NTZlZDQwODZjNjI2NGE1MWEyNTYwMjk3ZDRhNGRmZDllNDIxZjQ5MDE3MDY1NDdhYTQwNzdhODk1ZjAyNjE1N2RmZGE2YWY0NCIsImlhdCI6MTYxNzYxODQyNi41MTQ3OTIsIm5iZiI6MTYxNzYxODQyNi41MTQ4MDQsImV4cCI6MTY0OTE1NDQyNi4yODQ0NTksInN1YiI6IjEiLCJzY29wZXMiOltdfQ.lYj4i-h_FRS2KYWCFg5BtQbuiX8CexoR55K0s5j5GeggSMLofmNhuT3A-X1p-juojmHTFsal7SQr3tmUP07WXOLV3zWwYZ1YZkhAnhtQ7EdF1_I8y-2WKYWasIiccViN6eX_kEzA25d62gZuOuyzbojnbWpqLQ-L59u3sZpEzSyGdUFXur57BCgC-vjC2If-2TRXz4D3zkh6rumyMuU0QWaLybbbbV-NwqGmz_Z9gkAydkK-0ru_SdJ-4Lc0fDhqGm_Z9ygkKqwzAWJW6A-Y-ssy7ls5cih71ApsINGWytSMCTTNiG6cBjbzha_AmRaty7zdqTYRSuGoADiStO1Iqrw1UYksGVyeKpnwojCK1PB5NZLu18zS2sSnQC7BprSipH6x9ouJ74_IF4ksjtmNYOvMlUi6fHEwFIGkxp0eUzhp_FBfRAROQlf--WiKAfCEFtGH8I_ASYJbySMDFFQd7W0yD6U4fN5rvjEPPdkyG_372Wi8nEJIsRCsgH4DMlQ1F4Q4CXJOo_wbTvMdQB5I-csu6-Eu9KxlJ7Spgy4oFUtys4sKI_8Ma_QxTZsshIvMdXRD238X00eVVdYfhlHUCMeFcwH9TTr3exWcl_t7_Tfg6DzVnhetCGOMlGAfAAeBBsX-PE_24ET5jiVixZCY2LFBNRi9cwFjH7eJVO2Gcy0",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -169,7 +152,7 @@
 							"formdata": [
 								{
 									"key": "token",
-									"value": "$2y$10$7yQ4ihTOXYprEutdqKGjP.vsu1OLtCHovO.qzaMU3kdbPhRcTXmY.",
+									"value": "$2y$10$Nudp/JBbNkMz.WVOQvxDxeO5Sx2HlTYv6N8i/J.pZaExHYpLha0jq",
 									"type": "text"
 								},
 								{
@@ -180,9 +163,9 @@
 							]
 						},
 						"url": {
-							"raw": "{{api}}/reset",
+							"raw": "{{devApi}}/reset",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"reset"
@@ -192,24 +175,54 @@
 					"response": []
 				},
 				{
-					"name": "Logout",
+					"name": "Reset password (Auth user)",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
 								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzEzMTk2MC1jYjUyLTRlNDEtYjExYi03NjVkM2VmZmVmODAiLCJqdGkiOiJhMTZjYzJiNDNlMDA2Y2IwNjRkZGU3NzA1ZDQxYTBkYWU4MTJhMmU5OGRmN2JlNWQ5MDE3ZDg4ZWZiOTNkNGFjYzM1OTJiYzUxYmQyMmI2ZCIsImlhdCI6MTYxNzEwNDA1NS42OTcyOTQsIm5iZiI6MTYxNzEwNDA1NS42OTcyOTgsImV4cCI6MTY0ODY0MDA1NS42NTkzMDgsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.OTBBymJOUjmgwWwJFb4fake50WObb52tP2jXyLb8W07iO3cbRWf2qO6x4eFfNNOdH7eReoTTBrhbeIGLxWwWux0LEUe26ygISXfM26R5XKcHmODJckByr9wtyema_kp8wu95tmmgrqF632O6fE5Bip8DrGEztVN4zCzGy6UoTd_Z1__aiKe8vkJKm3LyqDMI_BpVqEQGYoyOyne_g1DRF17v6TKZlosW92sh8OvgxEQhcKNq3eA9Ze9Tk9lKo6cGDYKyzWlcrTuRngk3yY9v_nAw8U6lmfPkV0yk61XKOY5iWuY6kiQYJ0KOfcYvh-gwf9kiqLvFlfMTDqmYIsNKQxf273Ga3sC3TSzq2fc_Khf1nGlh7WyG4ImVglfo1izEaqh7A3VabkzRUhlOZ-UCM5snW7KHlWnaezW8lYW6CwBY94cgI70RfPkSWqhmnrio_Frd4pZJ-1ldkmz1FZm9LKRSrkAlI2PlioorcVp0bDa_7S1xLdfaQO3_ynObICo-c3KogiYwQo4k_zbOg8W6G94Aow4OezImzsiTlM1ymd4FZfm99RI0SGNCUMZQrFd0TS2YzZAClo_eyS0ecZwKV-em1oDaf_lMlz2QUQVXsHz7yqa9sU0VtAboePJ3ATd38igSkaHhVGzCOvjBob_0qOf8OIYHrqTclxx5GhOIKdY",
-									"type": "string"
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
 								}
 							]
 						},
-						"method": "GET",
-						"header": [],
 						"url": {
-							"raw": "{{api}}/logout",
+							"raw": "{{devApi}}/user/resetPassword",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/logout",
+							"host": [
+								"{{devApi}}"
 							],
 							"path": [
 								"logout"
@@ -224,48 +237,46 @@
 			"name": "Places",
 			"item": [
 				{
-					"name": "All places",
+					"name": "Get all place",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{api}}/places",
+							"raw": "{{devApi}}/places",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"places"
+							],
+							"query": [
+								{
+									"key": "distance",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "KF",
+									"disabled": true
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Show detail",
+					"name": "Get place",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [
 							{
@@ -279,9 +290,9 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{api}}/places/1",
+							"raw": "{{devApi}}/places/1",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"places",
@@ -292,18 +303,83 @@
 					"response": []
 				},
 				{
+					"name": "Get place menu",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1/menu",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get place schedule",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1/schedule",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get place reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1/reviews",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Create place",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -317,45 +393,60 @@
 							"formdata": [
 								{
 									"key": "name",
-									"value": "Бургер кинг",
+									"value": "MC Doner",
 									"type": "text"
 								},
 								{
 									"key": "type",
-									"value": "фаст фуд",
+									"value": "Turkish cuisine",
 									"type": "text"
 								},
 								{
 									"key": "capacity",
-									"value": "500",
+									"value": "100",
 									"type": "text"
 								},
 								{
 									"key": "phone",
-									"value": "+375296851452",
+									"value": "+375(152)442266",
 									"type": "text"
 								},
 								{
 									"key": "description",
-									"value": "Very good fast food",
+									"value": "Turkish cuisine",
 									"type": "text"
 								},
 								{
-									"key": "schedule",
-									"value": "{\n  \"monday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"tuesday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"wednesday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"thursday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"friday\": {\n    \"start\": \"8:00\",\n    \"end\": \"00:00\"\n  },\n  \"saturday\": {\n    \"start\": \"10:00\",\n    \"end\": \"18:00\"\n  },\n  \"sunday\": {\n    \"start\": \"\",\n    \"end\": \"\"\n  }\n}",
+									"key": "table_price",
+									"value": "200.00",
 									"type": "text"
+								},
+								{
+									"key": "address_full",
+									"value": "Belarus,Hrodno region,Hrodno,st. Dubko 17",
+									"type": "text"
+								},
+								{
+									"key": "address_lat",
+									"value": "53.70168384779328",
+									"type": "text"
+								},
+								{
+									"key": "address_lon",
+									"value": "23.8340952561924",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/pavlusha/Загрузки/maxresdefault3.jpg"
 								}
-							],
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							]
 						},
 						"url": {
-							"raw": "{{api}}/places",
+							"raw": "{{devApi}}/places",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"places"
@@ -365,36 +456,42 @@
 					"response": []
 				},
 				{
-					"name": "Delete place",
+					"name": "Update place image",
 					"request": {
-						"method": "DELETE",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/pavlusha/Загрузки/sleek--themes-master/coffee-png-11552953340zk1jjnd7x0.png"
+								}
+							]
+						},
 						"url": {
-							"raw": "{{api}}/places/1",
+							"raw": "{{devApi}}/places/1/uploadImage",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"places",
-								"1"
+								"1",
+								"uploadImage"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Search by name",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update place",
+					"name": "Update place info",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -406,7 +503,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\" : \"+375297854697\"\n}",
+							"raw": "{\n    \"capacity\" : 80\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -414,9 +511,33 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/places/1",
+							"raw": "{{devApi}}/places/1",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete place",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1",
+							"host": [
+								"{{devApi}}"
 							],
 							"path": [
 								"places",
@@ -432,27 +553,51 @@
 			"name": "Orders",
 			"item": [
 				{
-					"name": "Get Booking History",
+					"name": "Get all orders",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiIxNjJkMzVmNGE1NThlNjE3ODljNjY0Y2FkMGYyYWQxZjFjNTA4NDA5YzVkNTU2ZjFmZDE2MTNlYjE0NGUwMDllYjQ0ZDQ3YTQzNmRlZDBlZiIsImlhdCI6MTYxNzIwMjI3MC4xNDgwNTYsIm5iZiI6MTYxNzIwMjI3MC4xNDgwNTksImV4cCI6MTY0ODczODI3MC4xMDk3NjksInN1YiI6IjEiLCJzY29wZXMiOltdfQ.aoHFYm26A8mDHzWAEk7yqmdXC56PzPvVpKt801eIPaJeoVTqeyTbBMMnpyHiACYg_JVUHYBSW6gnHnT9IzBN-W5h5egqxCg9F8mYMKT41hs7ikXslFCBR-L3wtNKlzsVq7pzDJZHw31JM9iqt2EMJXI-Jot55LLVXkeeJdHsvS9Lrz27nY_LWKPJ6hXoV-nlor0eFPTeD5S8oQzaY9xbt21E-784CDtwUrv1qTDfg0aa6KQw2R0eyD0M6-_GlE_L8C-S6-exgOnEOqqZuYEX7XCjd35Q5K18CXd9LvYXo1i7LZsTzEfHL3DpCBPRg_SZkSSc4-Accl-5GreOhqdMw9SHRosTOI-gZF3spIHXM968H8r0Ru5MbS-72Q-2B561Ckl3EHUNWBkR5qEpiO0T5Byk90OgZk6ywyGxzJojbyswbwDQ8RnSsmTnkz_Hsq8CYQbv4-rx-P5NObqV9LC2ubd_RNKAqwYTL7ct-0bFMcc-dFIzCiPb59k7qaMQ-pHXjnicutmMRkoqlxVAfZUqo8coJ7Ilv4hAL9qL0sr6I_tQUVnT1lM0RXmIqYfsZw0f8uDE6ksML2JJIJRTIi79C8zzQyyNy2Iqbb57O7lAjjRfMTmjzoqTFrOXJJ-y1jbP7cMSywF4T2D6r_2MYHC8iZSKGn-ru12uOK88jIgD1Kw",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/booking_history",
+							"raw": "{{api80}}/orders?active&history",
 							"host": [
-								"{{api}}"
+								"{{api80}}"
 							],
 							"path": [
-								"booking_history"
+								"orders"
+							],
+							"query": [
+								{
+									"key": "active",
+									"value": null
+								},
+								{
+									"key": "history",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/orders/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"orders",
+								"1"
 							]
 						}
 					},
@@ -464,24 +609,20 @@
 			"name": "Reviews",
 			"item": [
 				{
-					"name": "Show all",
+					"name": "Get all reviews",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzMjJmYi00MDdhLTQxZDItOWMwMy0zNTI3Yzk3MWJiYjUiLCJqdGkiOiI4ZjQ2NzQ2YjQ2ODZmYzUxYzFjYTIzYjhjZGRmZGUyYmU5OGFlNmE2NmE2MjM0ZTQ4NWRmY2M0OTA3MDA1ODlmY2I2ODZlY2Y2MWUxNzRjMSIsImlhdCI6MTYxNzc5MTIwNy43NTg3NTEsIm5iZiI6MTYxNzc5MTIwNy43NTg3NTUsImV4cCI6MTY0OTMyNzIwNy42OTkwOTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.ekDnTw5uPPkg5EgNDWNX1OhYLmw6miliX0godgHiGGFOzHnaKIvafl9rJbK6QhLPScW8Hw4_04ErMHgcqn21QwCWcgilHmJSqurpLJKuWNNVDSeXk47AiT2AElT-99FtjC2i5DbX9z_WVUGpFqtQ9HJGnNqQ9S-HIOOlL1ca2BxBtCXmr0wzOhmnB7DJJIwesVkXRaQ9BeGwgDVW8cmzU-GT9qQ1jdbYNq7kAOHPJZ1n8XIXEUVpttJREbI7nX2txaRkdBIqku2LUJYRtAp4pA6u4c8tfJYE256KsuEZKG11KuPiq1q3WH1a39RiXAclM3McieL6v0i2O8w532LkeF9BTMverLE50vuw6oLJQSZxZCp4n-RQUQKbscsH-UosnPq8Sipr81kGVzDiYaVRaH8ABM3tFMGp_W-yqbfy1y2WHk3alYAIGhmwHuaCkZjk77KqMXO2QU8c0B7d5ZESyMMhJ-RcxCm30Gf3oQyVMSNyeLrzr_Cq4vfhf_6KADaqXMcmHW2eMgrSFGKscNpE06Dllju7TnY49KgkCs8gZMzDxl90DqhAs_EQotGXIynluoynubK0hADPHFqGINZFmSJxpadOye4L-EdOXgO-dwBn4i8AT2ci2cac-w0UNAWOMcj7KgfmjpFNMmvO1jhxiTDzu6lfHuDkIfMNiq2nTzw",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{api}}/reviews",
+							"raw": "{{devApi}}/reviews",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"reviews"
@@ -491,14 +632,20 @@
 					"response": []
 				},
 				{
-					"name": "Show details",
+					"name": "Get review",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{api}}/reviews/1",
+							"raw": "{{devApi}}/reviews/1",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"reviews",
@@ -509,26 +656,47 @@
 					"response": []
 				},
 				{
-					"name": "Add review",
+					"name": "Get reviews comments",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIxMmE5My0xYzE1LTRjZDktYWMyMC04YjMyNDMyZWUyNmIiLCJqdGkiOiIxNDMwNTMxMTVmZTQwNzE3NGVkNjA0Y2NkZTUzZGQwOTI4NzM5ZjYxMGJkZGYzNzMzMTE3NzdiMGRlZTU3N2EwZjU2NjE4MGUzNjU4M2I3NCIsImlhdCI6MTYxNzcxNjEwMy44NjI5NjgsIm5iZiI6MTYxNzcxNjEwMy44NjI5NzIsImV4cCI6MTY0OTI1MjEwMy44MTc5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.kWVTgqkOKkZla_0j63HzaxJiR2tQFMVpAPQct2rB5buhTHYuIICkj9f7x1qblUZMKLVaTSll8cK-qqWIhR3hiD_uE8GCF5dSqtZjgccdSwy1v1mxKPWgUAEy67pnTZUcSQaDf8JetWW8F8MAbodVl2IGx9joh43eQHMZRp3vMibn-XOBvKrTe3Vs6Me3WoJZ6JyNmOTWL8JZGBF9zI-fIwok8MNQB6Z6V0JTy6TPzbh5Fxs63f4iX4tBiWsMMrs7zxYKajkQQoPUvsIJXo8H9JDY-bty-NXt_dQfU_tcKGIBEBkTDFv7b_PZtD8Ht2RtNaZl4vuraAoiVfxl0PTvQZVUHj703bqVX_KMb7DYyEr51eCzvQsgsLJmw4x1tWdyuTtEJVz3mBHMDQYzGvLunPz88IsxCyXQuy9Cp9BlQp6TTf8PZ_tdp6_tMEU3WGh6QO5eDhKu3VxTIgAWw_HQ8Lo6V75JnwFk7DSVvmd28H6Uj4gjWQzXIYRtTG4HqhZVrJZfMc-3uvv-WcxkTqnFDpPQ9WAn6gWsAyMpve0saZIUAs8WK5puEym5EozAq0gSQLr2-tBYk4DkNcO0IF9uWcBwWHr0SmKgIJxjjVMd96muZKuAPpU95--CMw8TOuUyRIe9AJDgEpz0eP22eoK2DNDVO_8NXG_UEAXatBmR1EU",
-									"type": "string"
-								}
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/reviews/1/comments",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews",
+								"1",
+								"comments"
 							]
-						},
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add review by auth user",
+					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": [
 								{
 									"key": "title",
-									"value": "gsfzg",
+									"value": "Great food",
 									"type": "text"
 								},
 								{
@@ -538,25 +706,20 @@
 								},
 								{
 									"key": "description",
-									"value": "frgxtcyj",
+									"value": "Very good place. Recommend!",
 									"type": "text"
 								},
 								{
 									"key": "place_id",
 									"value": "1",
 									"type": "text"
-								},
-								{
-									"key": "user_id",
-									"value": "3",
-									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{api}}/reviews",
+							"raw": "{{devApi}}/reviews",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"reviews"
@@ -568,18 +731,14 @@
 				{
 					"name": "Update review",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIxMmE5My0xYzE1LTRjZDktYWMyMC04YjMyNDMyZWUyNmIiLCJqdGkiOiIxNDMwNTMxMTVmZTQwNzE3NGVkNjA0Y2NkZTUzZGQwOTI4NzM5ZjYxMGJkZGYzNzMzMTE3NzdiMGRlZTU3N2EwZjU2NjE4MGUzNjU4M2I3NCIsImlhdCI6MTYxNzcxNjEwMy44NjI5NjgsIm5iZiI6MTYxNzcxNjEwMy44NjI5NzIsImV4cCI6MTY0OTI1MjEwMy44MTc5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.kWVTgqkOKkZla_0j63HzaxJiR2tQFMVpAPQct2rB5buhTHYuIICkj9f7x1qblUZMKLVaTSll8cK-qqWIhR3hiD_uE8GCF5dSqtZjgccdSwy1v1mxKPWgUAEy67pnTZUcSQaDf8JetWW8F8MAbodVl2IGx9joh43eQHMZRp3vMibn-XOBvKrTe3Vs6Me3WoJZ6JyNmOTWL8JZGBF9zI-fIwok8MNQB6Z6V0JTy6TPzbh5Fxs63f4iX4tBiWsMMrs7zxYKajkQQoPUvsIJXo8H9JDY-bty-NXt_dQfU_tcKGIBEBkTDFv7b_PZtD8Ht2RtNaZl4vuraAoiVfxl0PTvQZVUHj703bqVX_KMb7DYyEr51eCzvQsgsLJmw4x1tWdyuTtEJVz3mBHMDQYzGvLunPz88IsxCyXQuy9Cp9BlQp6TTf8PZ_tdp6_tMEU3WGh6QO5eDhKu3VxTIgAWw_HQ8Lo6V75JnwFk7DSVvmd28H6Uj4gjWQzXIYRtTG4HqhZVrJZfMc-3uvv-WcxkTqnFDpPQ9WAn6gWsAyMpve0saZIUAs8WK5puEym5EozAq0gSQLr2-tBYk4DkNcO0IF9uWcBwWHr0SmKgIJxjjVMd96muZKuAPpU95--CMw8TOuUyRIe9AJDgEpz0eP22eoK2DNDVO_8NXG_UEAXatBmR1EU",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"rating\": \"4\"\n}",
@@ -590,41 +749,37 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/reviews/12",
+							"raw": "{{devApi}}/reviews/1",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"reviews",
-								"12"
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete review",
+					"name": "Remove review",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIxMmE5My0xYzE1LTRjZDktYWMyMC04YjMyNDMyZWUyNmIiLCJqdGkiOiIxNDMwNTMxMTVmZTQwNzE3NGVkNjA0Y2NkZTUzZGQwOTI4NzM5ZjYxMGJkZGYzNzMzMTE3NzdiMGRlZTU3N2EwZjU2NjE4MGUzNjU4M2I3NCIsImlhdCI6MTYxNzcxNjEwMy44NjI5NjgsIm5iZiI6MTYxNzcxNjEwMy44NjI5NzIsImV4cCI6MTY0OTI1MjEwMy44MTc5LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.kWVTgqkOKkZla_0j63HzaxJiR2tQFMVpAPQct2rB5buhTHYuIICkj9f7x1qblUZMKLVaTSll8cK-qqWIhR3hiD_uE8GCF5dSqtZjgccdSwy1v1mxKPWgUAEy67pnTZUcSQaDf8JetWW8F8MAbodVl2IGx9joh43eQHMZRp3vMibn-XOBvKrTe3Vs6Me3WoJZ6JyNmOTWL8JZGBF9zI-fIwok8MNQB6Z6V0JTy6TPzbh5Fxs63f4iX4tBiWsMMrs7zxYKajkQQoPUvsIJXo8H9JDY-bty-NXt_dQfU_tcKGIBEBkTDFv7b_PZtD8Ht2RtNaZl4vuraAoiVfxl0PTvQZVUHj703bqVX_KMb7DYyEr51eCzvQsgsLJmw4x1tWdyuTtEJVz3mBHMDQYzGvLunPz88IsxCyXQuy9Cp9BlQp6TTf8PZ_tdp6_tMEU3WGh6QO5eDhKu3VxTIgAWw_HQ8Lo6V75JnwFk7DSVvmd28H6Uj4gjWQzXIYRtTG4HqhZVrJZfMc-3uvv-WcxkTqnFDpPQ9WAn6gWsAyMpve0saZIUAs8WK5puEym5EozAq0gSQLr2-tBYk4DkNcO0IF9uWcBwWHr0SmKgIJxjjVMd96muZKuAPpU95--CMw8TOuUyRIe9AJDgEpz0eP22eoK2DNDVO_8NXG_UEAXatBmR1EU",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{api}}/reviews/15",
+							"raw": "{{devApi}}/reviews/1",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"reviews",
-								"15"
+								"1"
 							]
 						}
 					},
@@ -636,24 +791,20 @@
 			"name": "Schedules",
 			"item": [
 				{
-					"name": "Show all",
+					"name": "Get all schedules",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzNDM1MS0zNzRiLTQ4MGYtOTFmNi01MmU2ZDYxNmVjODYiLCJqdGkiOiIxZTJhNGE2YzVkZWVkN2U1MTQzMDFhMTEzZmE0NzE4NWJkNDY0YjEyMjE4MjdjMTFjODQ1ODI5Yzc0MTVhOGNjMTU3MGJhZWU2NDZhNGNhNCIsImlhdCI6MTYxNzc5NjY0NS41NjM0NCwibmJmIjoxNjE3Nzk2NjQ1LjU2MzQ0NCwiZXhwIjoxNjQ5MzMyNjQ1LjUxODkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.feAKML6RaaeLy786drb20p1uH7amyX7bpYvmPM9ZmLguLG-Vp5BXhfxI1rPvLzEIh4vriX4fs8aOAIjDiC7aWGb7BI9SfWeanaRhfpL47DKVD20Lu_sgiSvoFzs2ryYA_sjvtKNiB50puyU_y7oEhvBjalg5X3G2BwjCPoayfs43jCNo32sfEIzCw6EEcXLFw9WCe2-UC_7C7GcXrvF5eqEXVMZYynbxzkwbTEg4IXC2sKUuPZgDtV5hTpFx-t1Ehk5rVD3qJrVijcN6w4s2_MTBlp7QM2swN-hWNqxOTqDhh5JzwHVLCHVZWsixm0j8Tmz84kEVu2lMbul1Edt2cF_JnVehRpTnfz6591CY_0CbyBxUFWZ3ydC9CDcvRICgD7x-icKr1zT-YrMlX7ZyjTNRYgb7Y7r7VCx3iErzzrqhd0Qt2ocbdWm4jwH_BXfaNWylR30iudTSdu9dDLaWDNdKWGQDInWKUIS2mcvqncYRLObmlBJSVEP_FOP4e2ySE3Ebjbvk5SdapQU5UNOkvZXZy_aVN5qRBKucI2e-9tCe5yyvxT-f7507fqBtZ8Gget6qV64tGtuaUOJoxdg2G8FWA5BgPMhi2VfjdPbotXm18WOmulMDZSp-TkJt1EkqNFbRxaYJUfFue57aqEc-KU9FzsTmJwx0mZdr31Myuys",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{api}}/schedules",
+							"raw": "{{devApi}}/schedules",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"schedules"
@@ -663,24 +814,14 @@
 					"response": []
 				},
 				{
-					"name": "Show details",
+					"name": "Show schedule day",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzM2ZjOS01Yjc5LTQ2NGEtYWZmMS0xNDdkYzU1ZWE1NDgiLCJqdGkiOiI4MGZhMTdjMWMxYzhmZWI2YjEyZmQ2NjU4MzUxZTIzZjE0NTdjNWFiYzIyMTcwMjk3Mjg4NzliYjJkMDk2MGRmMWRmYWM0MDdlNzk3YjIzNiIsImlhdCI6MTYxNzc5NjA0MS45Nzk4NjgsIm5iZiI6MTYxNzc5NjA0MS45Nzk4NzIsImV4cCI6MTY0OTMzMjA0MS45MzI0MDEsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.jYIYg9sW1GJv82Y_AMdvbaV3Fo-S8zFDkS6YucfFtaw8kXGYm2vHha5-fbX0Hj9EtTWPcWG0VJ7k1kbCDNp0kJnhE1XDMOy2IsvdY4T6fYhHiOcZEdxFwZPXqh9FaqwdzG7m-f20JixjTNHbngQ46y7itvqp2HCVkRbvAxuJBP1Vlv0ZVCfcSIqnpPAc0qnkKxmDPz1ifx_ZIhPhpUW4J3JvCkQXKX6dJjq4n4UCV-ZBf8kYSUvWBYG6Q4tBRW79M8Q6sbqVH70ce42P9vYBpMdvTzyGWDIH_gORgtH3KrmlrDNtXC-8wCXywycKXlQ35IXTlYZC0cPYqJamefQ__M1EMyZEXs-0aPmG3ni3Y8rUNmJo9P5v4hyE8c0bHG1QHmQxOCj9AtbafacGZ49jWfmChrosH1igwNdHXRxuLr2Nc8u0MyHouxY-5oNNirHDC_owJQMPKKegMcHRrqHO2lr8ZRTWPfMEvcBShbkMuluRYc2zYKI_Z_VhCcIjQrDs2oYKXUluYFHiOjqOowIy8uUxWTK-pPdV3G9T6YZuEEcktPMKOQ_MXTgt5TOwnBMKBiWxbrEQEWdotsoewqP1ppSD9AtSR1qanQOZEn1pbOQ9uRKKfL1eQJgm3GZQh_5YkvQoaPqBq5GArltTrjOuSV-0ZfhRVNt6M6oXiL239dQ",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/schedules/1",
+							"raw": "{{devApi}}/schedules/1",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"schedules",
@@ -691,18 +832,8 @@
 					"response": []
 				},
 				{
-					"name": "Create schedule",
+					"name": "Add day to schedule",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzNDM1MS0zNzRiLTQ4MGYtOTFmNi01MmU2ZDYxNmVjODYiLCJqdGkiOiIxZTJhNGE2YzVkZWVkN2U1MTQzMDFhMTEzZmE0NzE4NWJkNDY0YjEyMjE4MjdjMTFjODQ1ODI5Yzc0MTVhOGNjMTU3MGJhZWU2NDZhNGNhNCIsImlhdCI6MTYxNzc5NjY0NS41NjM0NCwibmJmIjoxNjE3Nzk2NjQ1LjU2MzQ0NCwiZXhwIjoxNjQ5MzMyNjQ1LjUxODkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.feAKML6RaaeLy786drb20p1uH7amyX7bpYvmPM9ZmLguLG-Vp5BXhfxI1rPvLzEIh4vriX4fs8aOAIjDiC7aWGb7BI9SfWeanaRhfpL47DKVD20Lu_sgiSvoFzs2ryYA_sjvtKNiB50puyU_y7oEhvBjalg5X3G2BwjCPoayfs43jCNo32sfEIzCw6EEcXLFw9WCe2-UC_7C7GcXrvF5eqEXVMZYynbxzkwbTEg4IXC2sKUuPZgDtV5hTpFx-t1Ehk5rVD3qJrVijcN6w4s2_MTBlp7QM2swN-hWNqxOTqDhh5JzwHVLCHVZWsixm0j8Tmz84kEVu2lMbul1Edt2cF_JnVehRpTnfz6591CY_0CbyBxUFWZ3ydC9CDcvRICgD7x-icKr1zT-YrMlX7ZyjTNRYgb7Y7r7VCx3iErzzrqhd0Qt2ocbdWm4jwH_BXfaNWylR30iudTSdu9dDLaWDNdKWGQDInWKUIS2mcvqncYRLObmlBJSVEP_FOP4e2ySE3Ebjbvk5SdapQU5UNOkvZXZy_aVN5qRBKucI2e-9tCe5yyvxT-f7507fqBtZ8Gget6qV64tGtuaUOJoxdg2G8FWA5BgPMhi2VfjdPbotXm18WOmulMDZSp-TkJt1EkqNFbRxaYJUfFue57aqEc-KU9FzsTmJwx0mZdr31Myuys",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
 							{
@@ -721,30 +852,20 @@
 								},
 								{
 									"key": "work_start",
-									"value": "10:00",
-									"type": "text"
-								},
-								{
-									"key": "work_end",
-									"value": "16:00",
-									"type": "text"
-								},
-								{
-									"key": "lunch_start",
 									"value": "",
 									"type": "text"
 								},
 								{
-									"key": "lunch_end",
+									"key": "work_end",
 									"value": "",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{api}}/schedules",
+							"raw": "{{devApi}}/schedules",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"schedules"
@@ -756,21 +877,17 @@
 				{
 					"name": "Update schedule",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzIzNDM1MS0zNzRiLTQ4MGYtOTFmNi01MmU2ZDYxNmVjODYiLCJqdGkiOiIxZTJhNGE2YzVkZWVkN2U1MTQzMDFhMTEzZmE0NzE4NWJkNDY0YjEyMjE4MjdjMTFjODQ1ODI5Yzc0MTVhOGNjMTU3MGJhZWU2NDZhNGNhNCIsImlhdCI6MTYxNzc5NjY0NS41NjM0NCwibmJmIjoxNjE3Nzk2NjQ1LjU2MzQ0NCwiZXhwIjoxNjQ5MzMyNjQ1LjUxODkxLCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.feAKML6RaaeLy786drb20p1uH7amyX7bpYvmPM9ZmLguLG-Vp5BXhfxI1rPvLzEIh4vriX4fs8aOAIjDiC7aWGb7BI9SfWeanaRhfpL47DKVD20Lu_sgiSvoFzs2ryYA_sjvtKNiB50puyU_y7oEhvBjalg5X3G2BwjCPoayfs43jCNo32sfEIzCw6EEcXLFw9WCe2-UC_7C7GcXrvF5eqEXVMZYynbxzkwbTEg4IXC2sKUuPZgDtV5hTpFx-t1Ehk5rVD3qJrVijcN6w4s2_MTBlp7QM2swN-hWNqxOTqDhh5JzwHVLCHVZWsixm0j8Tmz84kEVu2lMbul1Edt2cF_JnVehRpTnfz6591CY_0CbyBxUFWZ3ydC9CDcvRICgD7x-icKr1zT-YrMlX7ZyjTNRYgb7Y7r7VCx3iErzzrqhd0Qt2ocbdWm4jwH_BXfaNWylR30iudTSdu9dDLaWDNdKWGQDInWKUIS2mcvqncYRLObmlBJSVEP_FOP4e2ySE3Ebjbvk5SdapQU5UNOkvZXZy_aVN5qRBKucI2e-9tCe5yyvxT-f7507fqBtZ8Gget6qV64tGtuaUOJoxdg2G8FWA5BgPMhi2VfjdPbotXm18WOmulMDZSp-TkJt1EkqNFbRxaYJUfFue57aqEc-KU9FzsTmJwx0mZdr31Myuys",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"work_start\": \"8:00\",\n    \"work_end\": \"18:00\",\n    \"lunch_start\": \"12:00\",\n    \"lunch_end\": \"13:00\"\n}",
+							"raw": "{\n    \"work_start\": \"8:00\",\n    \"work_end\": \"18:00\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -778,13 +895,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/schedules/1",
+							"raw": "{{devApi}}/schedules/7",
 							"host": [
-								"{{api}}"
+								"{{devApi}}"
 							],
 							"path": [
 								"schedules",
-								"1"
+								"7"
 							]
 						}
 					},
@@ -796,7 +913,7 @@
 			"name": "Comments",
 			"item": [
 				{
-					"name": "Show",
+					"name": "Get all comments",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -807,17 +924,11 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/comments",
-							"protocol": "http",
+							"raw": "{{devApi}}/comments",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"comments"
 							]
 						}
@@ -825,37 +936,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/comments/2",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"comments",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create",
+					"name": "Add comment by authorized user",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -886,17 +967,11 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/comments",
-							"protocol": "http",
+							"raw": "{{devApi}}/comments",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"comments"
 							]
 						}
@@ -904,7 +979,7 @@
 					"response": []
 				},
 				{
-					"name": "Update",
+					"name": "Update comment",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -924,19 +999,37 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/comments/4",
-							"protocol": "http",
+							"raw": "{{devApi}}/comments/4",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"comments",
 								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove comment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/comments/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"comments",
+								"2"
 							]
 						}
 					},
@@ -948,7 +1041,7 @@
 			"name": "Favourites",
 			"item": [
 				{
-					"name": "Show",
+					"name": "Show user favourites",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -959,17 +1052,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/favourites",
-							"protocol": "http",
+							"raw": "{{devApi}}/user/favourites",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
+								"user",
 								"favourites"
 							]
 						}
@@ -977,37 +1065,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/favourites/2",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"favourites",
-								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create",
+					"name": "Add place to user favourites",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -1023,37 +1081,40 @@
 								{
 									"key": "user_id",
 									"value": "2",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "place_id",
 									"value": "1",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/favourites",
-							"protocol": "http",
+							"raw": "{{devApi}}/user/favourites?place=2",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
+								"user",
 								"favourites"
+							],
+							"query": [
+								{
+									"key": "place",
+									"value": "2"
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "ShowUserFavourites",
+					"name": "Remove place to user favourites",
 					"request": {
-						"method": "GET",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Accept",
@@ -1062,19 +1123,19 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/favourites/3",
-							"protocol": "http",
+							"raw": "{{devApi}}/user/favourites?place=2",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
-								"favourites",
-								"3"
+								"user",
+								"favourites"
+							],
+							"query": [
+								{
+									"key": "place",
+									"value": "2"
+								}
 							]
 						}
 					},
@@ -1097,42 +1158,12 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/users",
-							"protocol": "http",
+							"raw": "{{devApi}}/users",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://127.0.0.1:8000/api/users/1",
-							"protocol": "http",
-							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
-							],
-							"port": "8000",
-							"path": [
-								"api",
-								"users",
-								"1"
 							]
 						}
 					},
@@ -1150,28 +1181,76 @@
 							}
 						],
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/users/3",
-							"protocol": "http",
+							"raw": "{{devApi}}/users/1",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"users",
-								"3"
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update",
+					"name": "UserLocation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "PUT",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiIwYWQ3MDdjNjg3OTg3MjhjMWQ0MWI0ZGY2MjFhZTMwZWUwMmI5ZDBiZmZlZDZlZjcxYmQwNWJiODRmOGNjNzNiYWFiMjA3NjczYTFjYjg5OSIsImlhdCI6MTYxNzYyMTgxOC4wMzE3NDYsIm5iZiI6MTYxNzYyMTgxOC4wMzE3NTIsImV4cCI6MTY0OTE1NzgxNy45NzU2OTQsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.mATJXEQ1k2z1XUx5enTj7kpEOAKiC3x5KEp_R97CouA_8PaJffnTS4cHK1pZFVPkaj1jztg45xAtiyVQr732lDHEs2QdFNwIImU5f9vmFlRnhPahKGB0mJKV6cwKjfLFzWRg4o3pFV-dinyQ6KGZUOj35dqFc1ip2TjdXAJwy41pjJB8UHHXZnwiUuUL5r_9rslvz0CYAQ8XcURxxS0Xg5k6RSX6r6v-snCI4fbWT_3aoCOTjqp-p6wD8fuMLghkNWmNybCPbvrq5yPDgefWA5rUwKliqrPe5MtM9fNpNYW3NBWEDaKpv3yWChRFfNFBFhx-7AFBQUksNh-NjR8_9TccUBUOsf5pL4PTfLwT0P4RuGJjUbg2W42eNKLXqrDnqwFOrlzmPFg-h0633rEN68V-aKpqwG5ZyuYZS923MhcrVhJgRwpVuUAnl__DxsFkobQ3hrkkM0XEmWfWcdTy0HTD9Qvq-cJwiXcduVKY9b79J9OctALKUQHds49K5gK4mLZDEM8xpF6djKnM2B1Xcd6AsN-Gy6RuVLQ06p6u36WMkcH7sIM7zA7wXowkJTcIylfTWNHIjoIKIOd_0PWkcygPlB0gOqc3XQES5PiAt-LkIG2dFKEuBGfVqQo2b6p1X3gvX8fFpJyYjh79T33YsADtx-AXYYZ7nzqGXy_JhQc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "address_full",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_lat",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_lon",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/user/location",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all reviews",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
 						"header": [
 							{
 								"key": "Accept",
@@ -1180,28 +1259,16 @@
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"first_name\" : \"Anton\",\n    \"second_name\" : \"Yulbarysau\",\n    \"email\" : \"asd@mail.ru\",\n    \"password\" : \"sjgosjgo\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"mode": "formdata",
+							"formdata": []
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/users/1",
-							"protocol": "http",
+							"raw": "{{devApi}}/reviews",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
-								"users",
-								"1"
+								"reviews"
 							]
 						}
 					},
@@ -1244,19 +1311,113 @@
 							]
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/users/",
-							"protocol": "http",
+							"raw": "{{devApi}}/users/",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"{{devApi}}"
 							],
-							"port": "8000",
 							"path": [
-								"api",
 								"users",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users/1/uploadAvatar",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"uploadAvatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\" : \"Anton\",\n    \"second_name\" : \"Yulbarysau\",\n    \"email\" : \"asd@mail.ru\",\n    \"password\" : \"sjgosjgo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/users/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Location",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/user/location",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/users/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users",
+								"2"
 							]
 						}
 					},
@@ -1265,46 +1426,517 @@
 			]
 		},
 		{
-			"name": "UserLocation",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiIwYWQ3MDdjNjg3OTg3MjhjMWQ0MWI0ZGY2MjFhZTMwZWUwMmI5ZDBiZmZlZDZlZjcxYmQwNWJiODRmOGNjNzNiYWFiMjA3NjczYTFjYjg5OSIsImlhdCI6MTYxNzYyMTgxOC4wMzE3NDYsIm5iZiI6MTYxNzYyMTgxOC4wMzE3NTIsImV4cCI6MTY0OTE1NzgxNy45NzU2OTQsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.mATJXEQ1k2z1XUx5enTj7kpEOAKiC3x5KEp_R97CouA_8PaJffnTS4cHK1pZFVPkaj1jztg45xAtiyVQr732lDHEs2QdFNwIImU5f9vmFlRnhPahKGB0mJKV6cwKjfLFzWRg4o3pFV-dinyQ6KGZUOj35dqFc1ip2TjdXAJwy41pjJB8UHHXZnwiUuUL5r_9rslvz0CYAQ8XcURxxS0Xg5k6RSX6r6v-snCI4fbWT_3aoCOTjqp-p6wD8fuMLghkNWmNybCPbvrq5yPDgefWA5rUwKliqrPe5MtM9fNpNYW3NBWEDaKpv3yWChRFfNFBFhx-7AFBQUksNh-NjR8_9TccUBUOsf5pL4PTfLwT0P4RuGJjUbg2W42eNKLXqrDnqwFOrlzmPFg-h0633rEN68V-aKpqwG5ZyuYZS923MhcrVhJgRwpVuUAnl__DxsFkobQ3hrkkM0XEmWfWcdTy0HTD9Qvq-cJwiXcduVKY9b79J9OctALKUQHds49K5gK4mLZDEM8xpF6djKnM2B1Xcd6AsN-Gy6RuVLQ06p6u36WMkcH7sIM7zA7wXowkJTcIylfTWNHIjoIKIOd_0PWkcygPlB0gOqc3XQES5PiAt-LkIG2dFKEuBGfVqQo2b6p1X3gvX8fFpJyYjh79T33YsADtx-AXYYZ7nzqGXy_JhQc",
-							"type": "string"
+			"name": "Category",
+			"item": [
+				{
+					"name": "Show all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories"
+							]
 						}
-					]
+					},
+					"response": []
 				},
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"location\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Show details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devApi}}/categories/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api}}/user/location",
-					"host": [
-						"{{api}}"
-					],
-					"path": [
-						"user",
-						"location"
-					]
+				{
+					"name": "Get places",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/2/places",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2",
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Pizza",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/categories",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add places in selected category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/1/place/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"1",
+								"place",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Drinks\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/categories/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove place from category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/1/places/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"1",
+								"places",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "Reservation",
+			"item": [
+				{
+					"name": "Reserve table",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "date",
+									"value": "2021-05-02",
+									"type": "text"
+								},
+								{
+									"key": "people",
+									"value": "90",
+									"type": "text"
+								},
+								{
+									"key": "staying",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "3:00 PM",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1/reserve",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"reserve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Available time",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "date",
+									"value": "2021-05-01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "people",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "staying",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1/reservation",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Infos",
+			"item": [
+				{
+					"name": "Get infos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/get_info",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"get_info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/api/products",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/products/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Americano",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "250ml",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api80}}/products",
+							"host": [
+								"{{api80}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api80}}/products/4",
+							"host": [
+								"{{api80}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/products/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzZiNWM3Yi05Njg3LTQwZGItOWNkZS0wY2FmZDYwOWM4NGUiLCJqdGkiOiI5ZDk1ZTlkMWQzZmU4N2Q1NzQyZDIxNDgwOWU1NDk0Nzc3OTU5YzA0NzBjN2RhOWFjZjcyYzI1NTViMDJmYjc4NDgxMmM2ZTY3YWNlNWUyZCIsImlhdCI6MTYyMDg5NDUyMi44NTU2MDksIm5iZiI6MTYyMDg5NDUyMi44NTU2MTQsImV4cCI6MTY1MjQzMDUyMi43NjM4MzcsInN1YiI6IjMiLCJzY29wZXMiOltdfQ.bYBbeWaPqvNdFXuY2GDGV03W2Rj3BBDO2oKc5hRBjTLOYaQB1DOhm3K7Ur-Ue77ZAQYHshx4BD41d0_rRQexPC44HG5-ROxVJE2uAFAx4UdJiZd6WeeMHGQmXXwHnzQHCzrZZhPNI11Bkg5ig-LIlnEB1j6cPZz8DFVwnXu6eikSiNCP_b-kwKFOCUU7H_BtZzV4-txQ21NuTcvVpB6fbRDV-sn-NAFiFzO2m1ZMFll20YRU8ofAg5KB8I1z4QWBDqeuevjJyX-QaNUSi35evkJZ85CEUABCsIyuqFTl8cqZ-yd_s1QdM3nyEfXRIll_Ne_CwDpw8Vb8slYKa_YgYOVIaJBeaDpC0gh-JFykTQjSytg_OXIm4nW-muytq1g5zZLDiZGbfADGCxSv8tASu3lvlaMtx8DGOGcqGuQDrTK52oj492lJZO7jAjnJqrl31yhpHiTa_xFI4hc2JtBGEC8WuVLyYvo9BkSfluYCwHh3pt6YHaYt-p-ZoSlxJSiZBkdNKh6m3W1WOXQJCBZ8LdvFcQvRnevOi0KarYRoRuldnETfdto0seCb-0bugUMhD_uhzvYWDQ3wta2bPV4KCeQtW54vL3YfVZhKm74WuhPaROVZ-JEyVrtOqUMWnZaaqoekocbDmeZ5OeglqTHFsYpPevlK_LUcE43IPpGjlB4",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -1329,6 +1961,14 @@
 		{
 			"key": "api",
 			"value": "http://localhost:8000/api"
+		},
+		{
+			"key": "devApi",
+			"value": "http://dev2.cogniteq.com:3110/api"
+		},
+		{
+			"key": "api80",
+			"value": "http://localhost/api"
 		}
 	]
 }

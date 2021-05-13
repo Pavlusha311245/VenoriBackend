@@ -32,71 +32,97 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     </style>
-
-    <div class="d-flex justify-content-center" style="height: 750px">
-        <div style="height: min-content">
-            @if(count($places)==0)
-                <h2>There is no data to form the table</h2>
-                <p style="text-align: center"><a href="/admin/places/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="50" height="50"/></a></p>
-            @else
-                <table style="margin: 100px 0; min-width: 100%;">
-                    <tr style="background-color: rgba(122,117,226,0.5); text-align: center;">
-                        <th style="width: 50px">Id</th>
-                        <th>Name</th>
-                        <th>Type</th>
-                        <th>Rating</th>
-                        <th>Phone</th>
-                        <th>Capacity</th>
-                        <th>Table Price</th>
-                        <th>Description</th>
-                        <th>Address Full</th>
-                        <th>Address Lat</th>
-                        <th>Address Lon</th>
-                        <th>Image Url</th>
-                        <th>Details</th>
-                        <th>Remove</th>
-                    </tr>
-                    @foreach($places as $place)
-                        <tr class="table-row">
-                            <td style="text-align: center" id="place_id">{{$place['id']}}</td>
-                            <td id="place_name">{{$place['name']}}</td>
-                            <td id="place_type">{{$place['type']}}</td>
-                            <td id="place_rating">{{$place['rating']}}</td>
-                            <td id="place_phone">{{$place['phone']}}</td>
-                            <td id="place_capacity">{{$place['capacity']}}</td>
-                            <td id="place_price">{{$place['table_price']}}</td>
-                            <td id="place_description">{{$place['description']}}</td>
-                            <td id="place_address_full">{{$place['address_full']}}</td>
-                            <td id="place_address_lat">{{number_format($place['address_lat'], 6)}}</td>
-                            <td id="place_address_lon">{{number_format($place['address_lon'], 6)}}</td>
-                            <td id="place_image_url">{{$place['image_url']}}</td>
-                            <td>
-                                <a href="/admin/places/{{$place->id}}" class="btn btn-outline-primary btn-sm">Show</a>
-                            </td>
-                            <td>
-                                <a href="/admin/places/{{$place->id}}/delete" class="btn btn-danger btn-sm">Remove</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    <tr class="table-row">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="text-align: center"><a href="/admin/places/create"><img src="https://img.icons8.com/nolan/64/plus.png" width="30" height="30"/></a></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    @endif
-                </table>
+    <div class="container" style="margin: 100px auto">
+        @if(session('message'))
+            <div class="alert alert-success" style="margin-top: 20px">{{session('message')}}</div>
+        @endif
+        <h1 style="text-align: center">Places</h1>
+        <div class="accordion" id="accordionPanelsStayOpenExample">
+            @foreach($places as $place)
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-heading{{$place->id}}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#panelsStayOpen-collapse{{$place->id}}" aria-expanded="true"
+                                aria-controls="panelsStayOpen-collapse{{$place->id}}">
+                            {{$place->name}}
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapse{{$place->id}}" class="accordion-collapse collapse show"
+                         aria-labelledby="panelsStayOpen-heading{{$place->id}}">
+                        <div class="accordion-body">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Rating <img
+                                            src="{{asset('storage/img/star.svg')}}"
+                                            width="15" height="15"></span>
+                                    <span class="badge bg-primary rounded-pill">{{$place->rating}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Capacity <img
+                                            src="{{asset('storage/img/people.svg')}}"
+                                            width="15" height="15"></span>
+                                    <span class="badge bg-primary rounded-pill">{{$place->capacity}}</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>Address <img
+                                            src="{{asset('storage/img/address.svg')}}"
+                                            width="15" height="15"></span>
+                                    <span class="badge bg-primary rounded-pill">{{$place->address_full}}</span>
+                                </li>
+                            </ul>
+                            @if($place['menu'] == [])
+                                <div style="text-align: center"><strong>No products</strong></div>
+                            @else
+                                @foreach($place['menu'] as $category => $products)
+                                    <div>
+                                        <h3>{{$category}}</h3>
+                                        <div class="row">
+                                            @foreach($products as $product)
+                                                <div class="col-sm"><img src="{{asset($product->image_url)}}"
+                                                                         width="30"
+                                                                         height="30" style="margin: 10px"/><a
+                                                        href="/admin/products/{{$product->id}}"
+                                                        style="padding: 10px; color: #6cb2eb; text-decoration: none">
+                                                        {{$product->name}}</a>
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">Weight: {{$product->weight}}</li>
+                                                        <li class="list-group-item">Price: {{$product->price}}</li>
+                                                    </ul>
+                                                    <div class="btn-group" role="group" style="padding: 10px">
+                                                        <a href="/admin/products/{{$product->id}}/edit"
+                                                           class="btn btn-sm btn-primary">
+                                                            <img
+                                                                src="{{asset('storage/img/refresh.svg')}}"
+                                                                width="15" height="15"/>
+                                                        </a>
+                                                        <a href="/admin/places/{{$place->id}}/products/{{$product->id}}/delete"
+                                                           class="btn btn-sm btn-danger">
+                                                            <img
+                                                                src="{{asset('storage/img/rubbish-bin.svg')}}"
+                                                                width="15" height="15"/>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                            <div class="d-flex row justify-content-center">
+                                <div style="max-width: 200px; text-align: center">
+                                    <a href="/admin/places/{{$place->id}}/products/create" class="btn btn-secondary"
+                                    style="margin-bottom: 5px">Add
+                                        product</a>
+                                    <a href="/admin/places/{{$place->id}}/delete" class="btn btn-danger">Remove place</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
-    </div>
 
+        <div style="text-align: center; background: white; padding: 5px"><a href="/admin/places/create"><img
+                    src="https://img.icons8.com/nolan/64/plus.png" width="30" height="30"/></a></div>
+    </div>
 @endsection

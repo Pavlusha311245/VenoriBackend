@@ -33,8 +33,12 @@
                     {{Form::file('image',['class' => 'form-control', 'name' => 'image', 'placeholder' => 'Image'])}}
                 </div>
                 <div class="form-row">
-                    {{Form::label('category_id','CategoryId')}}
-                    {{Form::text('category_id', $products->category_id ,['class' => 'form-control', 'placeholder' => 'CategoryId'])}}
+                    {{Form::label('categoryPicker', 'Category')}}
+                    <select class="form-select" name="category_id" id="categoryPicker">
+                        @foreach($categories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="d-flex justify-content-between">
                     <a href="/admin/products/{{$products->id}}" class="btn btn-secondary">Go back</a>

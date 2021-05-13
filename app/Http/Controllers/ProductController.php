@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Place;
 use App\Models\Product;
 use App\Services\ImageService;
 use Illuminate\Contracts\Foundation\Application;
@@ -9,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class ProductController for CRUD Products
@@ -67,7 +69,7 @@ class ProductController extends Controller
      * @param Request $request
      * @return Application|RedirectResponse|Redirector
      */
-    public function create(Request $request)
+    public function create(Request $request, $place_id)
     {
         $validateProductData = $request->validate([
             'name' => 'required|min:2',
@@ -83,8 +85,11 @@ class ProductController extends Controller
 
         $product = Product::create($validateProductData);
 
+        $place = Place::findOrFail($place_id);
+        $place->products()->attach($product->id);
+
         if ($product)
-            return redirect('/admin/products')->with('message', 'Create successful');
+            return redirect('/admin/places')->with('message', 'Create successful');
 
         return redirect('/create')->withErrors('message', 'Create failed');
     }
@@ -96,12 +101,13 @@ class ProductController extends Controller
      */
     public function edit(Request $request, $id)
     {
+
         $validateProductData = $request->validate([
             'name' => 'min:2',
             'weight' => 'min:1',
             'price' => 'min:1',
             'image' => 'mimes:png,jpg',
-            'category_id' => 'min:1',
+            'category_id' => 'min:1'
         ]);
 
         $url = $this->imageService->upload($request->file('image'), 'ProductImages');
@@ -112,21 +118,27 @@ class ProductController extends Controller
 
         $product->update($validateProductData);
 
-        return redirect('/admin/products/'.$id)->with('message', 'Product was updated');
+        return redirect('/admin/products/' . $id)->with('message', 'Product was updated');
     }
 
     /**
-     * @param $id
+     * @param $place_id
+     * @param $product_id
      * @return Application|RedirectResponse|Redirector
      */
-    public function remove($id)
+    public function remove($place_id, $product_id)
     {
-        $product = Product::findOrFail($id);
+        $place = Place::select(['id'])->findOrFail($place_id);
+        $image = $place->products()->find($product_id)->image_url;
+        $place->products()->detach($product_id);
+
+        $product = Product::findOrFail($product_id);
         $product->delete();
 
-        $this->imageService->delete($product->image_url);
+        if (!DB::table('products_of_places')->where('image_url', $image)->exists())
+            $this->imageService->delete($product->image_url);
 
-        return redirect('/admin/products/')->with('message', 'Products was deleted');
+        return redirect('/admin/places/')->with('message', 'Products was deleted');
     }
 
     /**
@@ -170,7 +182,8 @@ class ProductController extends Controller
      *      )
      * )
      */
-    public function import(Request $request){
+    public function import(Request $request)
+    {
         $data = $request->file('products');
 
         $request->validate([
@@ -180,11 +193,11 @@ class ProductController extends Controller
         $rows = array_map('str_getcsv', file($data));
         $header = array_shift($rows);
 
-        foreach ($rows as $row){
+        foreach ($rows as $row) {
             $products_file[] = array_combine($header, $row);
         }
 
-        foreach ($rows as $row){
+        foreach ($rows as $row) {
             $products = [
                 'name' => $row[0],
                 'weight' => $row[1],
@@ -273,15 +286,20 @@ class ProductController extends Controller
             'name' => 'required',
             'weight' => 'required',
             'price' => 'required',
+            'place_id' => 'required',
             'category_id' => 'required',
             'image' => 'mimes:png,jpg',
         ]);
+
+        $place = Place::findOrFail($request->get('place_id'));
 
         $url = $this->imageService->upload($request->file('image'), 'ProductImages');
 
         $validateProductData['image_url'] = $url;
 
         $product = Product::create($validateProductData);
+
+        $place->products()->attach($product->id);
 
         return response($product, 201);
     }
@@ -452,6 +470,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $product->places()->detach();
         $product->delete();
 
         $this->imageService->delete($product->image_url);

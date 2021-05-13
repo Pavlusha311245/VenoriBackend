@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Favourite;
 use App\Models\Place;
+use App\Models\User;
 use App\Services\ImageService;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -15,6 +18,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
+use Throwable;
 
 /**
  * Controller for adding, deleting, updating and viewing catering establishments
@@ -196,11 +200,40 @@ class PlaceController extends Controller
 
         $this->imageService->delete($place->image_url);
 
-        $place->favourites()->delete();
+        $place->products()->detach();
+        $place->managers()->detach();
+        $place->categories()->detach();
         $place->delete();
 
         return redirect('/admin/places/')->with('message', 'Places was deleted');
     }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return int
+     */
+    public function addPlaceToManagement($id)
+    {
+        $managedPlaces = auth()->user()->managedPlaces;
+
+        auth()->user()->managedPlaces()->attach($id);
+    }
+
+    /**
+     * @param Place $id
+     * @throws Throwable
+     */
+    public function removePlaceFromManagement(Place $id)
+    {
+        $managedPlaces = auth()->user()->managedPlaces;
+
+        if ($managedPlaces->find($id) === null)
+            return redirect()->withErrors('message', 'Such a place does not exist in the managed');
+
+        auth()->user()->managedPlaces()->detach($id);
+    }
+
 
     /**
      * @OA\Post(
@@ -538,7 +571,9 @@ class PlaceController extends Controller
     public function destroy($id)
     {
         $place = Place::findOrFail($id);
-        $place->schedules()->delete();
+        $place->products()->detach();
+        $place->managers()->detach();
+        $place->categories()->detach();
         $place->delete();
 
         return response()->json(['message' => 'Place is deleted successfully']);

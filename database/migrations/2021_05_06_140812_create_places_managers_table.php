@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAppInfosTable extends Migration
+class CreatePlacesManagersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAppInfosTable extends Migration
      */
     public function up()
     {
-        Schema::create('app_infos', function (Blueprint $table) {
+        Schema::create('places_managers', function (Blueprint $table) {
             $table->id();
-            $table->text('about');
-            $table->text('contact');
-            $table->text('terms');
-            $table->text('privacy_policy');
+            $table->unsignedBigInteger('manager_id');
+            $table->foreign('manager_id')->references('id')->on('users');
             $table->unsignedBigInteger('place_id');
             $table->foreign('place_id')->references('id')->on('places');
             $table->timestamps();
@@ -32,6 +30,6 @@ class CreateAppInfosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('app_infos');
+        Schema::dropIfExists('places_managers');
     }
 }

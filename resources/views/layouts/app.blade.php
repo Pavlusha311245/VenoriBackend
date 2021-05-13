@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">VENORI</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -22,20 +22,18 @@
             <ul class="navbar-nav">
 
                 @if(\Illuminate\Support\Facades\Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/dashboard">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/users">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/products">Products</a>
-                    </li>
+                    @if(auth()->user()->hasRole('Admin'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/users">Users</a>
+                        </li>
+                    @endif
+                    @if(auth()->user()->hasRole('Manager'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin/orders">Orders</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/places">Places</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/orders">Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/user/resetPassword">Reset password</a>
@@ -88,15 +86,11 @@
             }, 5000);
         });
     });
+
+
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
-        crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8"
         crossorigin="anonymous"></script>
 </body>
 </html>

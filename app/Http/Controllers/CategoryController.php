@@ -295,7 +295,7 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        $category->products()->delete();
+        $category->places()->detach();
         $category->delete();
 
         $this->imageService->delete($category->image_url);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Rennokki\QueryCache\Traits\QueryCacheable;
@@ -95,7 +96,7 @@ class Place extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function users()
     {
@@ -103,10 +104,34 @@ class Place extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
+     */
+    public function managers()
+    {
+        return $this->belongsToMany(User::class, 'places_managers');
+    }
+
+    /**
+     * @return HasMany
      */
     public function schedules()
     {
         return $this->hasMany(Schedule::class, 'place_id', 'id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'categories_of_places');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function infos()
+    {
+        return $this->hasMany(AppInfo::class);
     }
 }

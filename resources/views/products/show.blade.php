@@ -21,15 +21,11 @@
                     <div>{{$products->price}}</div>
                 </div>
                 <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
-                    <div>ImageUrl</div>
-                    <div>{{$products->image_url}}</div>
-                </div>
-                <div class="d-flex column justify-content-between" style="margin-bottom: 15px">
                     <div>CategoryId</div>
                     <div>{{$products->category_id}}</div>
                 </div>
                 <div class="d-flex justify-content-between">
-                    <a href="/admin/products/" class="btn btn-secondary" style="width: 100px">Go back</a>
+                    <a href="/admin/places/" class="btn btn-secondary" style="width: 100px">Go back</a>
                     <a href="/admin/products/{{$products->id}}/edit" class="btn btn-primary">Update</a>
                 </div>
             </div>

@@ -78,6 +78,7 @@ class UserController extends Controller
             'password' => 'required|min:8',
             'role' => 'required|string'
         ]);
+        $validData['password'] = bcrypt($validData['password']);
 
         $roleName = $request->get('role');
         $user = User::create($validData);
@@ -516,7 +517,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->favoutirePlaces()->detach();
-        $user->orders()->detach();
         $user->delete();
 
         if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')

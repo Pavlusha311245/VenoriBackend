@@ -13,7 +13,7 @@
                 </div>
             @endif
             <h2>Create a new product</h2>
-            {!! Form::open(['action' => ['App\Http\Controllers\ProductController@create'], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
+            {!! Form::open(['action' => ['App\Http\Controllers\ProductController@create', $place_id], 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
             @csrf
             <div class="form-row">
                 {{Form::label('name','Name')}}
@@ -32,8 +32,12 @@
                 {{Form::file('image',['class' => 'form-control', 'name' => 'image', 'placeholder' => 'Image'])}}
             </div>
             <div class="form-row">
-                {{Form::label('category_id','CategoryId')}}
-                {{Form::text('category_id','', ['class' => 'form-control', 'placeholder' => 'CategoryId'])}}
+                {{Form::label('categoryPicker', 'Category')}}
+                <select class="form-select" name="category_id" id="categoryPicker">
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}">{{$category->name}}</option>
+                    @endforeach
+                </select>
             </div>
 
             {{Form::submit('Create',['class'=> 'btn btn-success btn-create'])}}
