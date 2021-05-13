@@ -108,12 +108,14 @@ class PlaceController extends Controller
      * @param array $options
      * @return LengthAwarePaginator
      */
-    public function paginate($items, $perPage = 5, $page = null, $options = [])
+    public function paginate($items, $perPage, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
         $items = $items instanceof Collection ? $items : Collection::make($items);
 
-        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+        return new LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+        ]);
     }
 
     /**
