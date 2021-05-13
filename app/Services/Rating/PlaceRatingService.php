@@ -20,7 +20,7 @@ class PlaceRatingService
     public function updatePlaceRatingAndReviewsCount(Review $review)
     {
         $reviews = Review::where('place_id', $review->place_id)->get();
-        $place = Place::findOrFail($review->place_id)->first();
+        $place = Place::findOrFail($review->place_id);
 
         $count = count($reviews) == 0 ? 1 : count($reviews);
         $summaryRating = array_sum(array_column(json_decode($reviews), 'rating'));
@@ -28,7 +28,7 @@ class PlaceRatingService
 
         $place->update([
             'rating' => $rating,
-            'reviewsCount' => count($reviews),
+            'reviewsCount' => $count,
         ]);
     }
 }
