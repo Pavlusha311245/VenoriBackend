@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AppInfo;
+use Illuminate\Http\Request;
 
 /**
  * Class AppInfoController
@@ -38,5 +39,33 @@ class AppInfoController extends Controller
     public function getInfo()
     {
         return AppInfo::all();
+    }
+
+    public function addInfo(Request $request)
+    {
+        $validateAppInfoData = $request->validate([
+            'about' => 'required|string',
+            'contact' => 'required|string',
+            'terms' => 'required|string',
+            'privacy_policy' => 'required|string'
+        ]);
+
+        $appInfo = AppInfo::create($validateAppInfoData);
+
+        return response()->json($appInfo, 201);
+    }
+
+    public function update(Request $request, AppInfo $appInfo)
+    {
+        $request->validate([
+            'about' => 'required|string',
+            'contact' => 'required|string',
+            'terms' => 'required|string',
+            'privacy_policy' => 'required|string'
+        ]);
+
+        $appInfo->update($request->all());
+
+        return response()->json($appInfo);
     }
 }
