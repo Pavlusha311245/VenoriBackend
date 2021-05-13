@@ -241,12 +241,12 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        $request->validate([
+        $validateCommentData = $request->validate([
             'title' => 'string|min:1',
             'description' => 'string|min:1',
         ]);
 
-        $comment->update($request->all());
+        $comment->update($validateCommentData);
 
         return response()->json($comment);
     }
