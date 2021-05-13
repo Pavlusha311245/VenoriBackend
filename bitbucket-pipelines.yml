@@ -1,0 +1,22 @@
+image: php:7.3
+
+pipelines:
+  branches:
+    develop:
+      - step:
+          name: Staging
+          caches:
+            - composer
+          script:
+            - apt-get update && apt-get install -y unzip
+            - apt-get install -y openssh-client
+            - ssh root@dev2.cogniteq.com -p2110 'bash -s' < ./deploy.sh
+    master:
+      - step:
+          name: Production
+          caches:
+            - composer
+          script:
+            - apt-get update && apt-get install -y unzip
+            - apt-get install -y openssh-client
+            - ssh root@dev2.cogniteq.com -p 22110 'bash -s' < ./deploy_production.sh

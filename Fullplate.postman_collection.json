@@ -1,0 +1,1974 @@
+{
+	"info": {
+		"_postman_id": "ee000654-d3b8-4789-8c8e-1838d9fcc7a3",
+		"name": "MainApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Paul",
+									"type": "text"
+								},
+								{
+									"key": "second_name",
+									"value": "Zavadski",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234567890",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "1234567890",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/register",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234567890",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/login",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "zavadskiy.pavel2002@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/forgot",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"forgot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "$2y$10$Nudp/JBbNkMz.WVOQvxDxeO5Sx2HlTYv6N8i/J.pZaExHYpLha0jq",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/reset",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset password (Auth user)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/user/resetPassword",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/logout",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Places",
+			"item": [
+				{
+					"name": "Get all place",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places"
+							],
+							"query": [
+								{
+									"key": "distance",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "KF",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get place",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get place menu",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1/menu",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get place schedule",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1/schedule",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"schedule"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get place reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1/reviews",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create place",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "MC Doner",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "Turkish cuisine",
+									"type": "text"
+								},
+								{
+									"key": "capacity",
+									"value": "100",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "+375(152)442266",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Turkish cuisine",
+									"type": "text"
+								},
+								{
+									"key": "table_price",
+									"value": "200.00",
+									"type": "text"
+								},
+								{
+									"key": "address_full",
+									"value": "Belarus,Hrodno region,Hrodno,st. Dubko 17",
+									"type": "text"
+								},
+								{
+									"key": "address_lat",
+									"value": "53.70168384779328",
+									"type": "text"
+								},
+								{
+									"key": "address_lon",
+									"value": "23.8340952561924",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/pavlusha/Загрузки/maxresdefault3.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/places",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update place image",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/home/pavlusha/Загрузки/sleek--themes-master/coffee-png-11552953340zk1jjnd7x0.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1/uploadImage",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"uploadImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update place info",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"capacity\" : 80\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete place",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/places/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api80}}/orders?active&history",
+							"host": [
+								"{{api80}}"
+							],
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "active",
+									"value": null
+								},
+								{
+									"key": "history",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/orders/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"orders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get all reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/reviews",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get review",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/reviews/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get reviews comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/reviews/1/comments",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews",
+								"1",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add review by auth user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Great food",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Very good place. Recommend!",
+									"type": "text"
+								},
+								{
+									"key": "place_id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/reviews",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update review",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": \"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/reviews/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove review",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/reviews/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Schedules",
+			"item": [
+				{
+					"name": "Get all schedules",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/schedules",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show schedule day",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devApi}}/schedules/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"schedules",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add day to schedule",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "place_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "work_start",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "work_end",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/schedules",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"schedules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update schedule",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"work_start\": \"8:00\",\n    \"work_end\": \"18:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/schedules/7",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"schedules",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get all comments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/comments",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add comment by authorized user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "WoWoW",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "NiceNice",
+									"type": "text"
+								},
+								{
+									"key": "review_id",
+									"value": "2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/comments",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update comment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\" : \"Hiw\",\n    \"description\" : \"afhajfka\",\n    \"review_id\" : \"3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/comments/4",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"comments",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove comment",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/comments/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"comments",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favourites",
+			"item": [
+				{
+					"name": "Show user favourites",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/user/favourites",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"favourites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add place to user favourites",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "user_id",
+									"value": "2",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "place_id",
+									"value": "1",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/user/favourites?place=2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"favourites"
+							],
+							"query": [
+								{
+									"key": "place",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove place to user favourites",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/user/favourites?place=2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"favourites"
+							],
+							"query": [
+								{
+									"key": "place",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "ShowAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/users",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/users/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLocation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzE1NjY1ZC1jNTYwLTRkODMtOTEzZi1lNmMyNDA4MGUwM2EiLCJqdGkiOiIwYWQ3MDdjNjg3OTg3MjhjMWQ0MWI0ZGY2MjFhZTMwZWUwMmI5ZDBiZmZlZDZlZjcxYmQwNWJiODRmOGNjNzNiYWFiMjA3NjczYTFjYjg5OSIsImlhdCI6MTYxNzYyMTgxOC4wMzE3NDYsIm5iZiI6MTYxNzYyMTgxOC4wMzE3NTIsImV4cCI6MTY0OTE1NzgxNy45NzU2OTQsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.mATJXEQ1k2z1XUx5enTj7kpEOAKiC3x5KEp_R97CouA_8PaJffnTS4cHK1pZFVPkaj1jztg45xAtiyVQr732lDHEs2QdFNwIImU5f9vmFlRnhPahKGB0mJKV6cwKjfLFzWRg4o3pFV-dinyQ6KGZUOj35dqFc1ip2TjdXAJwy41pjJB8UHHXZnwiUuUL5r_9rslvz0CYAQ8XcURxxS0Xg5k6RSX6r6v-snCI4fbWT_3aoCOTjqp-p6wD8fuMLghkNWmNybCPbvrq5yPDgefWA5rUwKliqrPe5MtM9fNpNYW3NBWEDaKpv3yWChRFfNFBFhx-7AFBQUksNh-NjR8_9TccUBUOsf5pL4PTfLwT0P4RuGJjUbg2W42eNKLXqrDnqwFOrlzmPFg-h0633rEN68V-aKpqwG5ZyuYZS923MhcrVhJgRwpVuUAnl__DxsFkobQ3hrkkM0XEmWfWcdTy0HTD9Qvq-cJwiXcduVKY9b79J9OctALKUQHds49K5gK4mLZDEM8xpF6djKnM2B1Xcd6AsN-Gy6RuVLQ06p6u36WMkcH7sIM7zA7wXowkJTcIylfTWNHIjoIKIOd_0PWkcygPlB0gOqc3XQES5PiAt-LkIG2dFKEuBGfVqQo2b6p1X3gvX8fFpJyYjh79T33YsADtx-AXYYZ7nzqGXy_JhQc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "address_full",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_lat",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "address_lon",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/user/location",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all reviews",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{devApi}}/reviews",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "sdghsdh",
+									"type": "text"
+								},
+								{
+									"key": "second_name",
+									"value": "sdghsdgsd",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "sdhg@mail.ru",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "swedgsdgsdg",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/users/",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload avatar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/users/1/uploadAvatar",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"uploadAvatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\" : \"Anton\",\n    \"second_name\" : \"Yulbarysau\",\n    \"email\" : \"asd@mail.ru\",\n    \"password\" : \"sjgosjgo\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/users/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Location",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/user/location",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"user",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/users/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Show all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{devApi}}/categories/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get places",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/2/places",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2",
+								"places"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Pizza",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/categories",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add places in selected category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/1/place/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"1",
+								"place",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Drinks\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{devApi}}/categories/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove place from category",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/categories/1/places/2",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"categories",
+								"1",
+								"places",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reservation",
+			"item": [
+				{
+					"name": "Reserve table",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "date",
+									"value": "2021-05-02",
+									"type": "text"
+								},
+								{
+									"key": "people",
+									"value": "90",
+									"type": "text"
+								},
+								{
+									"key": "staying",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "3:00 PM",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1/reserve",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"reserve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Available time",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "date",
+									"value": "2021-05-01",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "people",
+									"value": "50",
+									"type": "text"
+								},
+								{
+									"key": "staying",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{devApi}}/places/1/reservation",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"places",
+								"1",
+								"reservation"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Infos",
+			"item": [
+				{
+					"name": "Get infos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/get_info",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"get_info"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/api/products",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/products/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Americano",
+									"type": "text"
+								},
+								{
+									"key": "weight",
+									"value": "250ml",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "5",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api80}}/products",
+							"host": [
+								"{{api80}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api80}}/products/4",
+							"host": [
+								"{{api80}}"
+							],
+							"path": [
+								"products",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{devApi}}/products/1",
+							"host": [
+								"{{devApi}}"
+							],
+							"path": [
+								"products",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MzZiNWM3Yi05Njg3LTQwZGItOWNkZS0wY2FmZDYwOWM4NGUiLCJqdGkiOiI5ZDk1ZTlkMWQzZmU4N2Q1NzQyZDIxNDgwOWU1NDk0Nzc3OTU5YzA0NzBjN2RhOWFjZjcyYzI1NTViMDJmYjc4NDgxMmM2ZTY3YWNlNWUyZCIsImlhdCI6MTYyMDg5NDUyMi44NTU2MDksIm5iZiI6MTYyMDg5NDUyMi44NTU2MTQsImV4cCI6MTY1MjQzMDUyMi43NjM4MzcsInN1YiI6IjMiLCJzY29wZXMiOltdfQ.bYBbeWaPqvNdFXuY2GDGV03W2Rj3BBDO2oKc5hRBjTLOYaQB1DOhm3K7Ur-Ue77ZAQYHshx4BD41d0_rRQexPC44HG5-ROxVJE2uAFAx4UdJiZd6WeeMHGQmXXwHnzQHCzrZZhPNI11Bkg5ig-LIlnEB1j6cPZz8DFVwnXu6eikSiNCP_b-kwKFOCUU7H_BtZzV4-txQ21NuTcvVpB6fbRDV-sn-NAFiFzO2m1ZMFll20YRU8ofAg5KB8I1z4QWBDqeuevjJyX-QaNUSi35evkJZ85CEUABCsIyuqFTl8cqZ-yd_s1QdM3nyEfXRIll_Ne_CwDpw8Vb8slYKa_YgYOVIaJBeaDpC0gh-JFykTQjSytg_OXIm4nW-muytq1g5zZLDiZGbfADGCxSv8tASu3lvlaMtx8DGOGcqGuQDrTK52oj492lJZO7jAjnJqrl31yhpHiTa_xFI4hc2JtBGEC8WuVLyYvo9BkSfluYCwHh3pt6YHaYt-p-ZoSlxJSiZBkdNKh6m3W1WOXQJCBZ8LdvFcQvRnevOi0KarYRoRuldnETfdto0seCb-0bugUMhD_uhzvYWDQ3wta2bPV4KCeQtW54vL3YfVZhKm74WuhPaROVZ-JEyVrtOqUMWnZaaqoekocbDmeZ5OeglqTHFsYpPevlK_LUcE43IPpGjlB4",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "http://localhost:8000/api"
+		},
+		{
+			"key": "devApi",
+			"value": "http://dev2.cogniteq.com:3110/api"
+		},
+		{
+			"key": "api80",
+			"value": "http://localhost/api"
+		}
+	]
+}
