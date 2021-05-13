@@ -26,9 +26,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/users">Users</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/admin/managersConfirmation">Managers confirmation</a>
-                        </li>
                     @endif
                     @if(auth()->user()->hasRole('Manager'))
                         <li class="nav-item">
@@ -89,6 +86,7 @@
             }, 5000);
         });
     });
+
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
