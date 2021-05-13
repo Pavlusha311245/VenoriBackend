@@ -78,6 +78,7 @@ class UserController extends Controller
             'password' => 'required|min:8',
             'role' => 'required|string'
         ]);
+        $validData['password'] = bcrypt($validData['password']);
 
         $roleName = $request->get('role');
         $user = User::create($validData);
