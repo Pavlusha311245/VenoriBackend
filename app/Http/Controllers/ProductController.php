@@ -286,15 +286,20 @@ class ProductController extends Controller
             'name' => 'required',
             'weight' => 'required',
             'price' => 'required',
+            'place_id' => 'required',
             'category_id' => 'required',
             'image' => 'mimes:png,jpg',
         ]);
+
+        $place = Place::findOrFail($request->get('place_id'));
 
         $url = $this->imageService->upload($request->file('image'), 'ProductImages');
 
         $validateProductData['image_url'] = $url;
 
         $product = Product::create($validateProductData);
+
+        $place->products()->attach($product->id);
 
         return response($product, 201);
     }
@@ -465,6 +470,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $product->places()->detach();
         $product->delete();
 
         $this->imageService->delete($product->image_url);

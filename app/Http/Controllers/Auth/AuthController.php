@@ -50,8 +50,27 @@ class AuthController extends Controller
      *              @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
      *              @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
      *              @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
-     *              @OA\Property(property="id", type="integer", example=1)
-     *          )
+     *              @OA\Property(property="id", type="integer", example=1),
+     *              @OA\Property(
+     *                  property="roles",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="id", type="integer", example=1),
+     *                      @OA\Property(property="name", type="string", example="User"),
+     *                      @OA\Property(property="guard_name", type="string", example="web"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time", example="2019-02-25 12:59:20"),
+     *                      @OA\Property(
+     *                          property="pivot",
+     *                          type="object",
+     *                          @OA\Property(property="model_id", type="integer", example=3),
+     *                          @OA\Property(property="role_id", type="string", example=1),
+     *                          @OA\Property(property="model_type", type="string", example="App\\Models\\User"),
+     *                      ),
+     *                  ),
+     *              ),
+     *          ),
      *     ),
      *     @OA\Response(
      *          response=422,
@@ -232,7 +251,7 @@ class AuthController extends Controller
 
         SendEmailJob::dispatch(['user' => $user, 'mail' => new VenoriMail(['view' => 'mail.forgot', 'token' => $token])]);
 
-        return response()->json($email);
+        return response()->json(['email' => $email]);
     }
 
     /**

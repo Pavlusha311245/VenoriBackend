@@ -126,4 +126,12 @@ class Place extends Model
     {
         return $this->belongsToMany(Category::class, 'categories_of_places');
     }
+
+    /**
+     * @return HasMany
+     */
+    public function infos()
+    {
+        return $this->hasMany(AppInfo::class);
+    }
 }

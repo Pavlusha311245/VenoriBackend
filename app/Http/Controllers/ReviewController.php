@@ -68,12 +68,28 @@ class ReviewController extends Controller
      *     @OA\RequestBody(
      *          required=true,
      *          description="Pass data to add a new review",
-     *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
+     *          @OA\JsonContent(
+     *              @OA\Property(property="id", type="integer", readOnly=true, example=1),
+     *              @OA\Property(property="title", type="string", description="Review title", example="Gread place!!!"),
+     *              @OA\Property(property="rating", type="number", description="User rating", example=5),
+     *              @OA\Property(property="description", type="string", description="The main text of the review", example="Very cool restaurant, I liked everything"),
+     *              @OA\Property(property="like", type="integer", description="The number of likes under the review from other users", example=1, readOnly=true),
+     *              @OA\Property(property="place_id", type="integer", description="Id of the place for which the review is left", example=1),
+     *              @OA\Property(property="created_at", type="string", format="date-time", description="Initial creation timestamp", readOnly=true),
+     *              @OA\Property(property="updated_at", type="string", format="date-time", description="Last update timestamp", readOnly=true)
+     *          )
      *     ),
      *     @OA\Response(
      *          response=201,
      *          description="Success storing a new review",
      *          @OA\JsonContent(type="object", ref="#/components/schemas/Review")
+     *     ),
+     *     @OA\Response(
+     *          response=400,
+     *          description="Review already exists",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Review already exists")
+     *          )
      *     ),
      *     @OA\Response(
      *          response=401,

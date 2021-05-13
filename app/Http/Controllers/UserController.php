@@ -516,7 +516,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $user->favoutirePlaces()->detach();
-        $user->orders()->detach();
         $user->delete();
 
         if ($user->avatar !== 'storage/UserAvatars/defaultAvatar.png')
