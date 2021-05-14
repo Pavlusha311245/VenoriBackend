@@ -38,9 +38,7 @@ class AppInfoController extends Controller
      */
     public function index()
     {
-        $appInfo = AppInfo::orderBy('id', 'DESC')->cacheFor(60)->first();
-
-        return response()->json($appInfo);
+        return AppInfo::cacheFor(60)->get();
     }
 
     /**
@@ -77,7 +75,7 @@ class AppInfoController extends Controller
         ]);
 
         $checkAppInfo = AppInfo::orderBy('id', 'DESC')->first();
-        $id = !$checkAppInfo ? 0: $checkAppInfo->id;
+        $id = $checkAppInfo ? $checkAppInfo->id : 0;
 
         $appInfo = AppInfo::updateOrCreate(
             ['id' => $id],
