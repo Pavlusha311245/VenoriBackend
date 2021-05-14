@@ -14,7 +14,7 @@ class AppInfoController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/get_info",
+     *     path="/api/appInfo",
      *     summary="App info",
      *     description="Getting all infos",
      *     operationId="appInfoGetInfo",
@@ -22,7 +22,7 @@ class AppInfoController extends Controller
      *     security={ {"bearer": {} }},
      *     @OA\Response(
      *          response=200,
-     *          description="Success getting a list of infos",
+     *          description="Success getting app info",
      *          @OA\JsonContent(
      *             @OA\Items(type="object", ref="#/components/schemas/AppInfo")
      *          )
@@ -36,35 +36,58 @@ class AppInfoController extends Controller
      *     )
      * )
      */
-    public function getInfo()
+    public function index()
     {
-        return AppInfo::all();
+        $appInfo = AppInfo::orderBy('id', 'DESC')->cacheFor(60)->first();
+
+        return response()->json($appInfo);
     }
 
-    public function addInfo(Request $request)
+    /**
+     * @OA\Post(
+     *     path="/api/appInfo",
+     *     summary="App info",
+     *     description="Add app info",
+     *     operationId="appInfoAddInfo",
+     *     tags={"app info"},
+     *     security={ {"bearer": {} }},
+     *     @OA\Response(
+     *          response=200,
+     *          description="Success adding app info",
+     *          @OA\JsonContent(
+     *             @OA\Items(type="object", ref="#/components/schemas/AppInfo")
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
+     *     )
+     * )
+     */
+    public function store(Request $request)
     {
-        $validateAppInfoData = $request->validate([
+        $validateAppInfo = $request->validate([
             'about' => 'required|string',
             'contact' => 'required|string',
             'terms' => 'required|string',
             'privacy_policy' => 'required|string'
         ]);
 
-        $appInfo = AppInfo::create($validateAppInfoData);
+        $checkAppInfo = AppInfo::orderBy('id', 'DESC')->first();
+        $id = !$checkAppInfo ? 0: $checkAppInfo->id;
 
-        return response()->json($appInfo, 201);
-    }
-
-    public function update(Request $request, AppInfo $appInfo)
-    {
-        $request->validate([
-            'about' => 'required|string',
-            'contact' => 'required|string',
-            'terms' => 'required|string',
-            'privacy_policy' => 'required|string'
-        ]);
-
-        $appInfo->update($request->all());
+        $appInfo = AppInfo::updateOrCreate(
+            ['id' => $id],
+            [
+                'about' => $validateAppInfo['about'],
+                'contact' => $validateAppInfo['contact'],
+                'terms' => $validateAppInfo['terms'],
+                'privacy_policy' => $validateAppInfo['privacy_policy']
+            ]
+        );
 
         return response()->json($appInfo);
     }

@@ -26,7 +26,7 @@ class AppInfo extends Model
 {
     use HasFactory, QueryCacheable;
 
-    protected $cacheFor = 180;
+    //protected $cacheFor = 180;
 
     /**
      * The attributes that are mass assignable.
