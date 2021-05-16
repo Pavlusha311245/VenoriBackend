@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\AppInfoController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
@@ -29,10 +29,10 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::apiResource('reviews', ReviewController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('schedules', ScheduleController::class, ['except' => ['create', 'edit', 'remove']]);
     Route::apiResource('comments', CommentController::class, ['except' => ['create', 'edit', 'remove']]);
+    Route::apiResource('appInfo', AppInfoController::class, ['except' => ['create', 'edit', 'remove']]);
 
     Route::get('/user/details', 'App\Http\Controllers\UserController@showProfile');
     Route::get('/user/favourites', 'App\Http\Controllers\FavouriteController@index');
-    Route::get('/get_info', 'App\Http\Controllers\AppInfoController@getInfo');
     Route::get('/orders', 'App\Http\Controllers\OrderController@getOrders');
     Route::get('/places/{id}/reviewsCount', 'App\Http\Controllers\PlaceController@reviewsCount');
     Route::get('/places/{id}/menu', 'App\Http\Controllers\PlaceController@menu');

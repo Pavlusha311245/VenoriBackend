@@ -19,8 +19,6 @@ class CreateAppInfosTable extends Migration
             $table->text('contact');
             $table->text('terms');
             $table->text('privacy_policy');
-            $table->unsignedBigInteger('place_id');
-            $table->foreign('place_id')->references('id')->on('places');
             $table->timestamps();
         });
     }
