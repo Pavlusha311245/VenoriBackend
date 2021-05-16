@@ -101,12 +101,11 @@ class ReservationController extends Controller
 
         $dayOfTheWeek = $date->dayOfWeekIso;
 
-
         $schedule = Place::findOrFail($place_id)->schedules()->get('id');
 
         $scheduleDay = null;
         foreach ($schedule as $day)
-            if ($day->id % 7)
+            if ($day->id % 7 == $dayOfTheWeek % 7)
                 $scheduleDay = $day->id;
 
         $work_start = Schedule::findOrFail($scheduleDay)->value('work_start');
@@ -206,8 +205,8 @@ class ReservationController extends Controller
     {
         $time = Carbon::createFromTimeString($request->get('time'));
 
-        $staying_start = $time->format('g:i A');
-        $staying_end = $time->addMinutes($request->get('staying') * 60)->format('g:i A');
+        $staying_start = $time->format('H:i');
+        $staying_end = $time->addMinutes($request->get('staying') * 60)->format('H:i');
         $tablePrice = Place::findOrFail($place_id)->value('table_price');
 
         $price = (int)($request->people * $tablePrice);
@@ -222,6 +221,9 @@ class ReservationController extends Controller
             'user_id' => auth()->user()->id,
             'place_id' => $place_id,
         ]);
+
+        $order['time'] = Carbon::parse($staying_start)->format('g:i A');
+        $order['staying_end'] = Carbon::parse($staying_end)->format('g:i A');
 
         SendEmailJob::dispatch(['user' => $request->user(), 'mail' => new VenoriMail(['order' => $order, 'view' => 'mail.confirmOrder'])]);
 
