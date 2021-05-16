@@ -6,13 +6,11 @@ use App\Models\Category;
 use App\Models\Favourite;
 use App\Models\Place;
 use App\Services\ImageService;
+use App\Services\PaginateArrayService;
 use App\Services\RadiusAroundLocationService;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
@@ -25,10 +23,12 @@ use Throwable;
 class PlaceController extends Controller
 {
     protected $imageService;
+    protected $arrayPaginator;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, PaginateArrayService $paginateArrayService)
     {
         $this->imageService = $imageService;
+        $this->arrayPaginator = $paginateArrayService;
     }
 
     /**
@@ -96,25 +96,7 @@ class PlaceController extends Controller
         foreach ($places as $place)
             $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
 
-        return $this->paginate($places, Config::get('constants.pagination.count'));
-    }
-
-    /**
-     * Array pagination
-     * @param $items
-     * @param int $perPage
-     * @param null $page
-     * @param array $options
-     * @return LengthAwarePaginator
-     */
-    public function paginate($items, $perPage, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-
-        return new LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-        ]);
+        return $this->arrayPaginator->paginate($places, Config::get('constants.pagination.count'));
     }
 
     /**
