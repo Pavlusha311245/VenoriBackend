@@ -101,8 +101,16 @@ class ReservationController extends Controller
 
         $dayOfTheWeek = $date->dayOfWeekIso;
 
-        $work_start = Schedule::findOrFail($place_id)->where('id', $dayOfTheWeek % 7)->value('work_start');
-        $work_end = Schedule::findOrFail($place_id)->where('id', $dayOfTheWeek % 7)->value('work_end');
+
+        $schedule = Place::findOrFail($place_id)->schedules()->get('id');
+
+        $scheduleDay = null;
+        foreach ($schedule as $day)
+            if ($day->id % 7)
+                $scheduleDay = $day->id;
+
+        $work_start = Schedule::findOrFail($scheduleDay)->value('work_start');
+        $work_end = Schedule::findOrFail($scheduleDay)->value('work_end');
         if ($work_start == null)
             return response()->json(['message' => 'It\'s Day off']);
 

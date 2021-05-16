@@ -54,6 +54,7 @@ class ReservationService
                 ->where('time', '<=', Carbon::parse($time)->format('g:i A'))
                 ->where('staying_end', '>', Carbon::parse($time)->format('g:i A'))
                 ->get('people');
+
             $capacity = $peoples->sum('people');
             if (($capacity + $people) > $capacityOnPlace)
                 $bad_times[] = $times[array_search($time, $times)];
