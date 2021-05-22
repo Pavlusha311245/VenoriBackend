@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Order;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
-use Illuminate\Http\JsonResponse;
 
 /**
  * Class ReservationService for Reservation logic
@@ -42,20 +41,20 @@ class ReservationService
      * @param $times
      * @param $capacityOnPlace
      * @param $date
-     * @return array|JsonResponse
+     * @return array
      */
-    public function getBadTimes($place_id, $people, $times, $capacityOnPlace, $date)
+    public function getBadTimes($place_id, int $people, $times, $capacityOnPlace, $date)
     {
         $bad_times = [];
 
         foreach ($times as $time) {
             $peoples = Order::where('place_id', $place_id)
                 ->where('date', $date)
-                ->where('time', '<=', Carbon::parse($time)->format('g:i A'))
-                ->where('staying_end', '>', Carbon::parse($time)->format('g:i A'))
-                ->get('people');
-            $capacity = $peoples->sum('people');
-            if (($capacity + $people) > $capacityOnPlace)
+                ->where('time', '<=', Carbon::parse($time)->format('H:i'))
+                ->where('staying_end', '>', Carbon::parse($time)->format('H:i'))
+                ->sum('people');
+
+            if (($peoples + $people) > $capacityOnPlace)
                 $bad_times[] = $times[array_search($time, $times)];
         }
 

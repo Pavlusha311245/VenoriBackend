@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\PaginateArrayService;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Http\Request;
 
@@ -17,6 +15,13 @@ use Illuminate\Http\Request;
  */
 class OrderController extends Controller
 {
+    protected $arrayPaginator;
+
+    public function __construct(PaginateArrayService $paginateArrayService)
+    {
+        $this->arrayPaginator = $paginateArrayService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/orders",
@@ -78,28 +83,12 @@ class OrderController extends Controller
         foreach ($orders as $order) {
             $place = $order->place;
             $place['favourite'] = auth()->user()->favoutirePlaces()->find($place->id) !== null;
+            $order['time'] = Carbon::parse($order['time'])->format('g:i A');
+            $order['staying_end'] = Carbon::parse($order['staying_end'])->format('g:i A');
             $order['place'] = $place;
         }
 
-        return $this->paginate($orders, Config::get('constants.pagination.count'));
-    }
-
-    /**
-     * Array pagination
-     * @param $items
-     * @param int $perPage
-     * @param null $page
-     * @param array $options
-     * @return LengthAwarePaginator
-     */
-    public function paginate($items, $perPage, $page = null, $options = [])
-    {
-        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof Collection ? $items : Collection::make($items);
-
-        return new LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, [
-            'path' => Paginator::resolveCurrentPath(),
-        ]);
+        return $this->arrayPaginator->paginate($orders, Config::get('constants.pagination.count'));
     }
 
     /**
@@ -154,8 +143,8 @@ class OrderController extends Controller
 
     private function updateOrders()
     {
-        return Order::where('date', '<=', Carbon::now()->toDateString())
-            ->where('staying_end', '<', Carbon::now()->format('g:i A'))
+        return Order::whereDate('date', '<=', Carbon::now()->toDateString())
+            ->where('staying_end', '<', Carbon::now()->format('H:i'))
             ->where('status', 'In Progress')
             ->update(['status' => 'Confirmed']);
     }
