@@ -2,6 +2,7 @@
 
 <h1 align="center">Venori</h1>
 <h2 align="center">Backend application developed together with the team as part of an internship at Cogniteq</h2>
+<h3 align="center"><a href="https://github.com/hellovidev/Venori">Link to the mobile client repository</a></h3>
 
 ## Installation
 
