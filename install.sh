@@ -1,7 +1,7 @@
 #!/bin/bash
 
 rm -r /var/www/html
-cd /var/www/fullplate
+cd /var/www/venori
 
 apt update && apt install -y \
     apache2 \
@@ -33,7 +33,7 @@ apt update && apt install -y \
 
 apt clean && rm -rf /var/lib/apt/lists/*
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-chown -R www-data:www-data /var/www/fullplate
+chown -R www-data:www-data /var/www/venori
 
 composer install
 echo "=====MIGRATING====="
