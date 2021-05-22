@@ -1,8 +1,11 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
+<h1 align="center">Venori</h1>
+<h2 align="center">Backend application developed together with the team as part of an internship at Cogniteq</h2>
+
 ## Installation
 
-###Server installation. Follow everything step by step
+### Server installation. Follow everything step by step
 
 #### Step 1: 
 _Go to directory_
@@ -52,7 +55,7 @@ MAIL_FROM_ADDRESS=null
 MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-####Step 4:
+#### Step 4:
 _Start bash script_
 
 **DANGER: This script should only be executed last after all actions have been completed**
